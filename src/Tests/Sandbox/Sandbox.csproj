@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\RecipeBook.Common\RecipeBook.Common.csproj" />
+    <ProjectReference Include="..\..\Data\RecipeBook.Data.Common\RecipeBook.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\RecipeBook.Data.Models\RecipeBook.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\RecipeBook.Data\RecipeBook.Data.csproj" />
+    <ProjectReference Include="..\..\Services\RecipeBook.Services.Data\RecipeBook.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Services\RecipeBook.Services.Mapping\RecipeBook.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Services\RecipeBook.Services.Messaging\RecipeBook.Services.Messaging.csproj" />
+    <ProjectReference Include="..\..\Services\RecipeBook.Services\RecipeBook.Services.csproj" />
+  </ItemGroup>
+
+</Project>
