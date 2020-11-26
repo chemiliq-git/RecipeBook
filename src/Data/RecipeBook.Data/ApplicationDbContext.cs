@@ -26,6 +26,20 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Recipe> Recipes { get; set; }
+
+        public DbSet<RecipeType> RecipeTypes { get; set; }
+
+        public DbSet<Ingredient> Ingredients { get; set; }
+
+        public DbSet<IngredientType> IngredientTypes { get; set; }
+
+        public DbSet<IngredientsSet> IngredientsSets { get; set; }
+
+        public DbSet<IngredientsSetItem> IngredientsSetItems { get; set; }
+
+        public DbSet<IngredientRecipeType> IngredientRecipeTypes { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -49,6 +63,13 @@
         {
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
+
+            builder.Entity<Recipe>()
+            .HasOne(r => r.IngredientSet)
+            .WithOne(r => r.Recipe)
+            .HasForeignKey<IngredientsSet>(ps => ps.RecipeID);
+
+            builder.Entity<IngredientsSetItem>().Property(obj => obj.QTY).HasPrecision(12, 10);
 
             this.ConfigureUserIdentityRelations(builder);
 

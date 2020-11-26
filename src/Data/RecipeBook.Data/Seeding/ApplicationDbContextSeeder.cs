@@ -27,6 +27,8 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
+                              new RecipeTypesSeeder(),
+                              new IngredientRecipeTypesSeeder(),
                           };
 
             foreach (var seeder in seeders)

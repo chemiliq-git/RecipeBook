@@ -3,36 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecipeBook.Data;
 
 namespace RecipeBook.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201125164054_RecipeAndProdcutsAdded")]
+    partial class RecipeAndProdcutsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
-
-            modelBuilder.Entity("IngredientRecipeTypeRecipe", b =>
-                {
-                    b.Property<string>("IngredientRecipeTypesId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RecipesId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("IngredientRecipeTypesId", "RecipesId");
-
-                    b.HasIndex("RecipesId");
-
-                    b.ToTable("IngredientRecipeTypeRecipe");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -258,42 +245,7 @@ namespace RecipeBook.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("RecipeBook.Data.Models.Ingredient", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IngredientTypeID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IngredientTypeID");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Ingredients");
-                });
-
-            modelBuilder.Entity("RecipeBook.Data.Models.IngredientRecipeType", b =>
+            modelBuilder.Entity("RecipeBook.Data.Models.Product", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -316,44 +268,19 @@ namespace RecipeBook.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("IngredientRecipeTypes");
-                });
-
-            modelBuilder.Entity("RecipeBook.Data.Models.IngredientType", b =>
-                {
-                    b.Property<string>("Id")
+                    b.Property<string>("ProductTypeID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("IngredientTypes");
+                    b.HasIndex("ProductTypeID");
+
+                    b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("RecipeBook.Data.Models.IngredientsSet", b =>
+            modelBuilder.Entity("RecipeBook.Data.Models.ProductSet", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -384,10 +311,10 @@ namespace RecipeBook.Data.Migrations
                         .IsUnique()
                         .HasFilter("[RecipeID] IS NOT NULL");
 
-                    b.ToTable("IngredientsSets");
+                    b.ToTable("ProductSets");
                 });
 
-            modelBuilder.Entity("RecipeBook.Data.Models.IngredientsSetItem", b =>
+            modelBuilder.Entity("RecipeBook.Data.Models.ProductSetItem", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -398,17 +325,20 @@ namespace RecipeBook.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("IngredientID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("IngredientsSetId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ProdcutID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProductSetId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("QTY")
                         .HasPrecision(12, 10)
@@ -416,13 +346,43 @@ namespace RecipeBook.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IngredientID");
+                    b.HasIndex("IsDeleted");
 
-                    b.HasIndex("IngredientsSetId");
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ProductSetId");
+
+                    b.ToTable("ProductSetItems");
+                });
+
+            modelBuilder.Entity("RecipeBook.Data.Models.ProductType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("IngredientsSetItems");
+                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("RecipeBook.Data.Models.Recipe", b =>
@@ -436,16 +396,7 @@ namespace RecipeBook.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EasyScaleIndex")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IngredientRecipeTypeId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IngredientSetID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -460,11 +411,11 @@ namespace RecipeBook.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProductSetID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RecipeTypeId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("TasteScaleIndex")
-                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
@@ -540,21 +491,6 @@ namespace RecipeBook.Data.Migrations
                     b.ToTable("Settings");
                 });
 
-            modelBuilder.Entity("IngredientRecipeTypeRecipe", b =>
-                {
-                    b.HasOne("RecipeBook.Data.Models.IngredientRecipeType", null)
-                        .WithMany()
-                        .HasForeignKey("IngredientRecipeTypesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("RecipeBook.Data.Models.Recipe", null)
-                        .WithMany()
-                        .HasForeignKey("RecipesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("RecipeBook.Data.Models.ApplicationRole", null)
@@ -606,35 +542,35 @@ namespace RecipeBook.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RecipeBook.Data.Models.Ingredient", b =>
+            modelBuilder.Entity("RecipeBook.Data.Models.Product", b =>
                 {
-                    b.HasOne("RecipeBook.Data.Models.IngredientType", "IngredientType")
-                        .WithMany("Ingredients")
-                        .HasForeignKey("IngredientTypeID");
+                    b.HasOne("RecipeBook.Data.Models.ProductType", "ProductType")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductTypeID");
 
-                    b.Navigation("IngredientType");
+                    b.Navigation("ProductType");
                 });
 
-            modelBuilder.Entity("RecipeBook.Data.Models.IngredientsSet", b =>
+            modelBuilder.Entity("RecipeBook.Data.Models.ProductSet", b =>
                 {
                     b.HasOne("RecipeBook.Data.Models.Recipe", "Recipe")
-                        .WithOne("IngredientSet")
-                        .HasForeignKey("RecipeBook.Data.Models.IngredientsSet", "RecipeID");
+                        .WithOne("ProductSet")
+                        .HasForeignKey("RecipeBook.Data.Models.ProductSet", "RecipeID");
 
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("RecipeBook.Data.Models.IngredientsSetItem", b =>
+            modelBuilder.Entity("RecipeBook.Data.Models.ProductSetItem", b =>
                 {
-                    b.HasOne("RecipeBook.Data.Models.Ingredient", "Ingredient")
-                        .WithMany("IngredientSetItems")
-                        .HasForeignKey("IngredientID");
+                    b.HasOne("RecipeBook.Data.Models.Product", "Product")
+                        .WithMany("ProductSetItems")
+                        .HasForeignKey("ProductId");
 
-                    b.HasOne("RecipeBook.Data.Models.IngredientsSet", null)
-                        .WithMany("IngredientSetItems")
-                        .HasForeignKey("IngredientsSetId");
+                    b.HasOne("RecipeBook.Data.Models.ProductSet", null)
+                        .WithMany("ProductSetItems")
+                        .HasForeignKey("ProductSetId");
 
-                    b.Navigation("Ingredient");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("RecipeBook.Data.Models.Recipe", b =>
@@ -655,24 +591,24 @@ namespace RecipeBook.Data.Migrations
                     b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("RecipeBook.Data.Models.Ingredient", b =>
+            modelBuilder.Entity("RecipeBook.Data.Models.Product", b =>
                 {
-                    b.Navigation("IngredientSetItems");
+                    b.Navigation("ProductSetItems");
                 });
 
-            modelBuilder.Entity("RecipeBook.Data.Models.IngredientType", b =>
+            modelBuilder.Entity("RecipeBook.Data.Models.ProductSet", b =>
                 {
-                    b.Navigation("Ingredients");
+                    b.Navigation("ProductSetItems");
                 });
 
-            modelBuilder.Entity("RecipeBook.Data.Models.IngredientsSet", b =>
+            modelBuilder.Entity("RecipeBook.Data.Models.ProductType", b =>
                 {
-                    b.Navigation("IngredientSetItems");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("RecipeBook.Data.Models.Recipe", b =>
                 {
-                    b.Navigation("IngredientSet");
+                    b.Navigation("ProductSet");
                 });
 
             modelBuilder.Entity("RecipeBook.Data.Models.RecipeType", b =>
