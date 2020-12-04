@@ -1,9 +1,152 @@
-﻿@using RecipeBook.Common
-@{
-    this.ViewData["Title"] = "Home Page";
-}
+﻿@model RecipeBook.Web.ViewModels.Home.IndexViewModel
+@using RecipeBook.Common
+@{ this.ViewData["Title"] = "Home Page"; }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="row justify-content-center ">
+   
+    <div class="ui-widget">
+        <input placeholder="Search..." id="searchresult">
+        @*<input type="submit" value="Search"><i class="fas fa-search"></i>*@
+        @*<button type="button" class="btn btn-default" aria-label="Left Align">*@
+            <span class="fas fa-search" aria-hidden="true"></span>
+        @*</button>*@
+    </div>
+   
+
 </div>
+
+@*<div class="ui-widget">
+    <label for="tags">Tags: </label>
+    <input id="tags">
+</div>*@
+
+
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-4">Welcome to Recipe Book</h1>
+    </div>
+    <div class="row">
+        @foreach (var item in Model.RecipeTypes)
+        {
+            var currentImageSource = item.ImagePath;
+<div class="col-sm-4">
+    <div class="card">
+
+        <img class="img" src=@currentImageSource asp-append-version="true "
+             style="width:100%" title=@item.Name>
+        <div class="text-center">
+            <p>@item.Name</p>
+        </div>
+
+    </div>
+</div>}
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        //function showResults(input) {
+        //    if (input.length == 0) {
+        //        document.getElementById("livesearch").innerHTML = "";
+        //        document.getElementById("livesearch").style.border = "0px";
+        //        return;
+        //    }
+        //    else {
+        //        let xhr = new XMLHttpRequest();
+        //        xhr.onreadystatechange = function () {
+        //            if (this.readyState == 4 && this.status == 200) {
+        //                document.getElementById("liveSearch").innerHTML = this.responseText;
+
+        //            }
+        //        }
+        //        xhr.open("GET", "/api/LiveSearchs/" + input, true);
+        //        xhr.send();
+        //    }
+        //}
+
+        //$(document).ready(function () {
+           // $('#searchresult').keyup(function (event) {
+                //    input = $('#searchresult').val();
+                //    $('#searchresult').autocomplete(
+                //        {
+                //            scroll: true,
+                //            selectFirst: false,
+                //            autoFocus: false,
+                //            source: function (request, response) {
+                //                $.ajax(
+                //                    {
+                //                        type: "GET",
+                //                        contentType: "application/json; charset=utf-8",
+                //                        //url: "/api/LiveSearchs/" + input,
+                //                        url: "/api/LiveSearchs",
+                //                        data: "{'input':'" + input + "'}",
+                //                        dataType: "json",
+                //                        success: function (data) {
+                //                            response($.map(data.d, function (item) {
+                //                                return availableTags
+                //                            }));
+                //                        },
+                //                        error: function (result) { }
+                //                    });
+                //            },
+                //            minLength: 2,
+                //            select: function (event, ui) {
+                //                var vll = ui.item.val;
+                //                var sts = "no";
+                //                var url = 'Productlist.aspx?prefix=' + ptxt; // ur own conditions
+                //                $(location).attr('href', url);
+                //            }                        
+                //        });
+                //    if (event.keyCode == 13) { // this event fired when enter is pressed
+                //        url = 'Productlist.aspx?prefix=' + ptxt; // ur own conditions
+                //        $(location).attr('href', url);
+                //        return false;
+                //    }
+                //});
+                //$('#sch').click(function () { //  this event fired on button click
+                //    ptxt = $('#searchresult').val();
+                //    url = 'Productlist.aspx?prefix=' + ptxt; // ur own conditions
+                //    $(location).attr('href', url);
+                //});
+                //});
+                
+        $(document).ready(function () {
+            $('#searchresult').keyup(function (event) {
+                input = $('#searchresult').val();
+                $("#searchresult").autocomplete({
+                    scroll: true,
+                    selectFirst: false,
+                    autoFocus: false,
+                    source: function (request, response) {
+                        $.ajax(
+                            {
+                                type: "GET",
+                                contentType: "application/json; charset=utf-8",
+                                url: "/api/LiveSearchs",
+                                data: "input=" + input,
+                                dataType: "json",
+                                success: function (data) {
+                                    response($.map(data, function (item) {
+                                        return {                                            
+                                            label: item.split(';')[1],
+                                            val: item.split(';')[0]
+                                        }
+                                    }));  
+                                },
+                                error: function (result) { }
+                            });
+                    },
+                    minLength: 2,
+                    select: function (event, ui) {
+                        var value = ui.item.val;
+
+                        //var sts = "no";
+                        //var url = 'Productlist.aspx?prefix=' + ptxt; // ur own conditions
+                        //$(location).attr('href', url);
+                    }
+                });
+            });
+        });
+    </script>
+}

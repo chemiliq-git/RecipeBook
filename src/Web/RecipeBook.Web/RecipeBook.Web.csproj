@@ -36,4 +36,8 @@
     <ProjectReference Include="..\RecipeBook.Web.Infrastructure\RecipeBook.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\RecipeBook.Web.ViewModels\RecipeBook.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
 </Project>

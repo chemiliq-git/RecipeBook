@@ -2,15 +2,25 @@
 {
     using System.Diagnostics;
 
-    using RecipeBook.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
+    using RecipeBook.Services.Data;
+    using RecipeBook.Web.ViewModels;
+    using RecipeBook.Web.ViewModels.Home;
 
     public class HomeController : BaseController
     {
+        private readonly IRecipeTypeService recipeTypeService;
+
+        public HomeController(IRecipeTypeService recipeTypeService)
+        {
+            this.recipeTypeService = recipeTypeService;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var indexViewModel = new IndexViewModel();
+            indexViewModel.RecipeTypes = this.recipeTypeService.GetAllTypes<IndexRecipeTypeViewModel>();
+            return this.View(indexViewModel);
         }
 
         public IActionResult Privacy()

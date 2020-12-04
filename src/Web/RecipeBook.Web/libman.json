@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0",
   "defaultProvider": "jsdelivr",
   "libraries": [
@@ -8,6 +8,17 @@
       "files": [
         "dist/jquery.min.js",
         "dist/jquery.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "popper.js@2.5.4",
+      "destination": "wwwroot/lib/popper.js/",
+      "files": [
+        "umd/popper.min.js",
+        "umd/popper.js",
+        "umd/popper-base.js",
+        "umd/popper-lite.js"
       ]
     },
     {
@@ -35,6 +46,17 @@
         "dist/jquery.validate.unobtrusive.js",
         "dist/jquery.validate.unobtrusive.min.js"
       ]
-    }
-  ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "font-awesome@5.15.1",
+      "destination": "wwwroot/lib/font-awesome/"
+    }   
+  ,
+{
+  "provider": "cdnjs",
+  "library": "jqueryui@1.12.1",
+  "destination": "wwwroot/lib/jqueryui/"
+}
+]
 }
