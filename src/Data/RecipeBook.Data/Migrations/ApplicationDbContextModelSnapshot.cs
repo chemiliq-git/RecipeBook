@@ -439,6 +439,9 @@ namespace RecipeBook.Data.Migrations
                     b.Property<int>("EasyScaleIndex")
                         .HasColumnType("int");
 
+                    b.Property<int>("EasyScaleVotesNum")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
@@ -464,6 +467,9 @@ namespace RecipeBook.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("TasteScaleIndex")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TasteScaleVotesNum")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")

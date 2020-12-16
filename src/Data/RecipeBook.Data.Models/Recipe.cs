@@ -32,7 +32,11 @@
 
         public int EasyScaleIndex { get; set; }
 
+        public int EasyScaleVotesNum { get; set; }
+
         public int TasteScaleIndex { get; set; }
+
+        public int TasteScaleVotesNum { get; set; }
 
         public DateTime LastCooked { get; set; }
     }

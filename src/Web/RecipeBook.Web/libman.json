@@ -11,17 +11,6 @@
       ]
     },
     {
-      "provider": "cdnjs",
-      "library": "popper.js@2.5.4",
-      "destination": "wwwroot/lib/popper.js/",
-      "files": [
-        "umd/popper.min.js",
-        "umd/popper.js",
-        "umd/popper-base.js",
-        "umd/popper-lite.js"
-      ]
-    },
-    {
       "library": "bootstrap@4.5.3",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
@@ -51,12 +40,26 @@
       "provider": "cdnjs",
       "library": "font-awesome@5.15.1",
       "destination": "wwwroot/lib/font-awesome/"
-    }   
-  ,
-{
-  "provider": "cdnjs",
-  "library": "jqueryui@1.12.1",
-  "destination": "wwwroot/lib/jqueryui/"
-}
-]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jqueryui@1.12.1",
+      "destination": "wwwroot/lib/jqueryui/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "tinymce@5.6.1",
+      "destination": "wwwroot/lib/tinymce/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "sanitize-html@1.27.5",
+      "destination": "wwwroot/lib/sanitize-html/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "popper.js@1.9.9",
+      "destination": "wwwroot/lib/popper.js/"
+    }
+  ]
 }
