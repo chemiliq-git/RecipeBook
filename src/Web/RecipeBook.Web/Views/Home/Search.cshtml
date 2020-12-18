@@ -4,9 +4,9 @@
 
 
 
-<div class="container">    
+<div class="container">
     <div class="row">
-        <div class="col-3">            
+        <div class="col-3">
             <div class="card">
                 <article class="card-group-item">
                     <header class="card-header">
@@ -45,7 +45,7 @@
                                 @foreach (var item in Model.IngredientTypes)
                                 {
                                     <label class="form-check" data-toggle="collapse" data-target="#@item.Id" aria-expanded="true" aria-controls=@item.Id>
-                                        <input class="form-check-input" type="checkbox" value="" id='ingr_type_checkbox_ + @item.Id'>
+                                        <input class="form-check-input" type="checkbox" value="" id='Ingr_Type_checkbox_ + @item.Id'>
                                         <span class="form-check-label">
                                             @item.Name
                                         </span>
@@ -54,7 +54,7 @@
                                         @foreach (var ingr in item.Ingredients)
                                         {
                                             <label class="form-check ml-2">
-                                                <input class="form-check-input" type="checkbox" value="" onclick="" id='ingr_checkbox_ + @ingr.Id' name=@ingr.Name>
+                                                <input class="form-check-input" type="checkbox" value="" onclick="" id='Ingr_checkbox_ + @ingr.Id' name=@ingr.Name>
                                                 <span class="form-check-label">
                                                     @ingr.Name
                                                 </span>
@@ -77,137 +77,6 @@
 
 
 
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-
-            /* 1. Visualizing things on Hover - See next part for action on click */
-            $('#stars li').on('mouseover', function () {
-                var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
-
-                // Now highlight all the stars that's not after the current hovered star
-                $(this).parent().children('li.star').each(function (e) {
-                    if (e < onStar) {
-                        $(this).addClass('hover');
-                    }
-                    else {
-                        $(this).removeClass('hover');
-                    }
-                });
-
-            }).on('mouseout', function () {
-                $(this).parent().children('li.star').each(function (e) {
-                    $(this).removeClass('hover');
-                });
-            });
-
-
-            /* 2. Action to perform on click */
-            $('#stars li').on('click', function () {
-                var onStar = parseInt($(this).data('value'), 10); // The star currently selected
-                var stars = $(this).parent().children('li.star');
-
-                for (i = 0; i < stars.length; i++) {
-                    $(stars[i]).removeClass('selected');
-                }
-
-                for (i = 0; i < onStar; i++) {
-                    $(stars[i]).addClass('selected');
-                }
-
-                //POST
-                $.ajax(
-                    {
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        url: "/api/RateRecipe",
-                        data: "input=" + onStar,
-                        dataType: "json",
-                        success: function (data) {
-
-                        },
-                        error: function (result) { }
-                    });
-
-            });
-
-
-
-            $('#searchresult').keyup(function (event) {
-                input = $('#searchresult').val();
-                $("#searchresult").autocomplete({
-                    scroll: true,
-                    selectFirst: false,
-                    autoFocus: false,
-                    source: function (request, response) {
-                        $.ajax(
-                            {
-                                type: "GET",
-                                contentType: "application/json; charset=utf-8",
-                                url: "/api/LiveSearchs",
-                                data: "input=" + input,
-                                dataType: "json",
-                                success: function (data) {
-                                    response($.map(data, function (item) {
-                                        return {
-                                            label: item.split(';')[1],
-                                            val: item.split(';')[0]
-                                        }
-                                    }));
-                                },
-                                error: function (result) { }
-                            });
-                    },
-                    minLength: 2,
-                    select: function (event, ui) {
-                        var value = ui.item.val;
-
-                        //var sts = "no";
-                        //var url = 'Productlist.aspx?prefix=' + ptxt; // ur own conditions
-                        //$(location).attr('href', url);
-                    }
-                });
-            });
-
-            $('input[type="checkbox"]').change(function (e) {
-              
-                if (e.target.id.startsWith('ingr_type_checkbox_ ') && !e.target.checked) {
-                    $("input[id^='ingr_checkbox']").prop("checked", false)
-                }
-               
-
-                var checkedElements = $("input[id^='ingr_checkbox']:checked")
-                var checkedElementsNames = ''
-                if (checkedElements.length > 0) {
-
-                    for (var i = 0; i < checkedElements.length; i++) {
-                        checkedElementsNames += checkedElements[i].name + ','
-                    }
-
-                    var len = checkedElementsNames.length;
-                    checkedElementsNames = checkedElementsNames.substr(0, len - 1)
-                }
-                var url = '@Url.Action("SearchPartial", "Home")';
-                var formData = new FormData();
-                var data = checkedElementsNames;
-                formData.append("inputText", data);
-                var token = $("#keyForm input[name=__RequestVerificationToken]").val();
-                $.ajax({
-                    url: url,
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    type: "POST",
-                    headers: { 'X-CSRF-TOKEN': token },
-                    success: function (view) {
-                        $('#partialView').html(view)
-                    },
-                    error: function (result) {
-                        var error = result;
-                    }
-                });
-
-            });
-        });
-    </script>
+@section Scripts {  
+    <script src="~/js/searchView.js" asp-append-version="true"></script>
 }

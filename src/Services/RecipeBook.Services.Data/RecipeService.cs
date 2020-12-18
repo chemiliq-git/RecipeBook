@@ -29,7 +29,7 @@
         {
             IQueryable<Recipe> query =
                this.recipeRepository.All()
-                .Where(r => r.Name.Contains(input) || r.Text.Contains(input))
+                .Where(r => r.Name.Contains(input))
                 .OrderBy(x => x.Name);
 
             var result = query.To<T>().ToList();
@@ -43,7 +43,7 @@
             foreach (var input in inputList)
             {
                 query = query
-                .Where(r => r.Name.Contains(input) || r.Text.Contains(input))
+                .Where(r => r.Name.Contains(input))
                 .OrderBy(x => x.Name);
             }
 
