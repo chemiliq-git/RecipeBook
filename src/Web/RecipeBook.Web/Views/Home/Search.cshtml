@@ -2,71 +2,10 @@
 
 <form id="keyForm" method="Post"></form>
 
-
-
 <div class="container">
     <div class="row">
         <div class="col-3">
-            <div class="card">
-                <article class="card-group-item">
-                    <header class="card-header">
-                        <h6 class="title">Choose recipe type </h6>
-                    </header>
-                    <div class="filter-content">
-                        <div class="card-body">
-                            <form>
-                                <label class="form-check" data-toggle="collapse" data-target="#RecipeType" aria-expanded="true" aria-controls=RecipeType>
-                                    <input class="form-check-input" type="checkbox" value="" id='Recipe_Type_checkbox'>
-                                    <span class="form-check-label">
-                                        RecipeType
-                                    </span>
-                                </label>
-                                <div class="collapse" id=RecipeType>
-                                    @foreach (var item in Model.RecipeTypes)
-                                    {
-                                        <label class="form-check ml-2">
-                                            <input class="form-check-input" type="checkbox" name="exampleRadio" value="" id='Recipe_Type_checkbox_ + @item.Id'>
-                                            <span class="form-check-label">
-                                                @item.Name
-                                            </span>
-                                        </label>
-                                    }
-                                </div>
-                            </form>
-                        </div>
-                </article>
-                <article class="card-group-item">
-                    <header class="card-header">
-                        <h6 class="title">Filter by ingredients</h6>
-                    </header>
-                    <div class="filter-content">
-                        <div class="card-body">
-                            <form>
-                                @foreach (var item in Model.IngredientTypes)
-                                {
-                                    <label class="form-check" data-toggle="collapse" data-target="#@item.Id" aria-expanded="true" aria-controls=@item.Id>
-                                        <input class="form-check-input" type="checkbox" value="" id='Ingr_Type_checkbox_ + @item.Id'>
-                                        <span class="form-check-label">
-                                            @item.Name
-                                        </span>
-                                    </label>
-                                    <div class="collapse" id=@item.Id>
-                                        @foreach (var ingr in item.Ingredients)
-                                        {
-                                            <label class="form-check ml-2">
-                                                <input class="form-check-input" type="checkbox" value="" onclick="" id='Ingr_checkbox_ + @ingr.Id' name=@ingr.Name>
-                                                <span class="form-check-label">
-                                                    @ingr.Name
-                                                </span>
-                                            </label>
-                                        }
-                                    </div>
-                                }
-                            </form>
-                        </div>
-                    </div>
-                </article>
-            </div>
+            @await Component.InvokeAsync("SideBarFilter", new { searchData = Model.SearchData })
         </div>
         <div class="col-9" id="partialView">
             <partial name="ResultList" model="@Model" data="@Model" />
@@ -77,6 +16,7 @@
 
 
 
-@section Scripts {  
+@section Scripts {
     <script src="~/js/searchView.js" asp-append-version="true"></script>
+    <script src="~/js/sideBarView.js" asp-append-version="true"></script>
 }

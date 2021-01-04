@@ -1,11 +1,12 @@
 ﻿namespace RecipeBook.Services.Data
 {
-    using RecipeBook.Data.Common.Repositories;
-    using RecipeBook.Data.Models;
-    using RecipeBook.Services.Mapping;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    using RecipeBook.Data.Common.Repositories;
+    using RecipeBook.Data.Models;
+    using RecipeBook.Services.Mapping;
 
     public class IngredientService : IIngredientService
     {
@@ -24,7 +25,7 @@
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetByInput<T>(string input)
+        public IEnumerable<T> GetByName<T>(string input)
         {
             IQueryable<Ingredient> query =
                this.ingredientRepository.All()
@@ -33,19 +34,28 @@
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetByInputList<T>(List<string> inputList)
+        public IEnumerable<T> GetByNamesList<T>(string inputList)
         {
-            IQueryable<Ingredient> query = this.ingredientRepository.All();
-            foreach (var input in inputList)
-            {
-                query = query
-                .Where(r => r.Name.Contains(input))
-                .OrderBy(x => x.Name);
-            }
+            List<string> inputArray = new List<string>();
+            var result = new List<T>();
 
-            var result = query.To<T>().ToList();
+            if (!string.IsNullOrEmpty(inputList))
+            {
+                inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                IQueryable<Ingredient> query = this.ingredientRepository.All();
+                foreach (string input in inputArray)
+                {
+                    query = query
+                    .Where(ingr => ingr.Name.Contains(input))
+                    .OrderBy(ingr => ingr.Name);
+                }
+
+                result = query.To<T>().ToList();
+            }
 
             return result;
         }
+       
     }
 }

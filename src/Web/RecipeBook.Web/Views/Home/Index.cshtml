@@ -2,86 +2,46 @@
 @using RecipeBook.Common
 @{ this.ViewData["Title"] = "Home Page"; }
 
-<form asp-action="Search" method="post">
-    <div class="row justify-content-center ">
-        <div class="ui-widget">
-            <input placeholder="Search..." id="searchresult" type="text" name="inputText">
+<form id="keyForm" method="Post"></form>
+
+<div class="container">
+    <form class="form-inline justify-content-center" asp-action="Search" method="post">
+            <input asp-for=@Model.SearchData.Text class="search-form form-control" placeholder="Search..." id="searchBox" type="text">
             <button type="submit" class="btn btn-default" aria-label="Left Align">
                 <span class="fas fa-search" aria-hidden="true"></span>
             </button>
-            <a asp-action="Search/?inputText=value">
-            </a>
-        </div>
-    </div>
-</form>
+        
+    </form>
 
-    <div class="container">
-        <div class="text-center">
-            <h1 class="display-4">Welcome to Recipe Book</h1>
-        </div>
-        <div class="row">
-            @foreach (var item in Model.RecipeTypes)
-            {
-                var currentImageSource = item.ImagePath.Substring(1);
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <form method="post" >
-                                <input type="image" src=@currentImageSource asp-append-version="true"
-                                         style="width:100%" title="@item.Name" asp-action="Search" asp-route-inputText="@item.Name">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-link text-center" asp-action="Search" asp-route-inputText="@item.Name">
-                                        @item.Name
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome to Recipe Book</h1>
+    </div>
+    <div class="row">
+        @foreach (var item in Model.RecipeTypes)
+        {
+            var currentImageSource = item.ImagePath.Substring(1);
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <form asp-action="Search" method="post">
+                            <input asp-for=@Model.SearchData.RecipeTypes type="hidden" value="@item.Id"/>
+                            <input src=@currentImageSource type ="image" style="width:100%"  asp-append-version="true" title="@item.Name">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-link text-center">
+                                    @item.Name
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
+</div>
 
 
-    @section Scripts {
-        <script>
-
-            $(document).ready(function () {
-                $('#searchresult').keyup(function (event) {
-                    input = $('#searchresult').val();
-                    $("#searchresult").autocomplete({
-                        scroll: true,
-                        selectFirst: false,
-                        autoFocus: false,
-                        source: function (request, response) {
-                            $.ajax(
-                                {
-                                    type: "GET",
-                                    contentType: "application/json; charset=utf-8",
-                                    url: "/api/LiveSearchs",
-                                    data: "input=" + input,
-                                    dataType: "json",
-                                    success: function (data) {
-                                        response($.map(data, function (item) {
-                                            return {
-                                                label: item.split(';')[1],
-                                                val: item.split(';')[0]
-                                            }
-                                        }));
-                                    },
-                                    error: function (result) { }
-                                });
-                        },
-                        minLength: 2,
-                        select: function (event, ui) {
-                            var value = ui.item.val;
-
-                            //var sts = "no";
-                            //var url = 'Productlist.aspx?prefix=' + ptxt; // ur own conditions
-                            //$(location).attr('href', url);
-                        }
-                    });
-                });
-            });
-        </script>
-    }
+@section Scripts {
+    <script src="~/js/indexView.js" asp-append-version="true"></script>
+}

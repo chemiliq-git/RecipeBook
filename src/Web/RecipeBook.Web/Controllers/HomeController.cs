@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+
     using Microsoft.AspNetCore.Mvc;
-    using RecipeBook.Data;
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Data;
     using RecipeBook.Web.ViewModels;
@@ -34,55 +34,152 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Search(string inputText)
+        public IActionResult Search(SearchDataModel searchData)
         {
             var searchViewModel = new SearchViewModel();
-            var searchRecipesResultItems = this.recipeService.GetByInput<SearchItemViewModel>(inputText);
-            foreach (var item in searchRecipesResultItems)
-            {
-                item.Type = typeof(Recipe).ToString();
-            }
 
-            var searchIngredientsResultItems = this.ingredientsService.GetByInput<SearchItemViewModel>(inputText);
-            foreach (var item in searchIngredientsResultItems)
-            {
-                item.Type = typeof(Ingredient).ToString();
-            }
+            searchViewModel.SearchData = searchData;
 
-            searchViewModel.ResultItems = searchIngredientsResultItems.Concat(searchRecipesResultItems);
-            searchViewModel.RecipeTypes = this.recipeTypeService.GetAll<SearchRecipeTypeViewModel>();
-            searchViewModel.IngredientTypes = this.ingredientTypeService.GetAll<SearchIngredientTypeViewModel>();
+            if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
+            {
+                var searchRecipesByNameResultItems = this.recipeService.GetByName<SearchResultItemViewModel>(searchData.Text);
+                foreach (var item in searchRecipesByNameResultItems)
+                {
+                    item.Type = typeof(Recipe).ToString();
+                }
+
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
+                foreach (var item in searchRecipesByIngredientsResultItems)
+                {
+                    item.Type = typeof(Recipe).ToString();
+                }
+
+                searchViewModel.ResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems);
+            }
+            else if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
+            {
+                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<SearchResultItemViewModel>(searchData.RecipeTypes);
+                searchViewModel.ResultItems = searchRecipesByTypesResultItems;
+            }
+            else
+            {
+                searchViewModel.ResultItems = this.recipeService.GetAll<SearchResultItemViewModel>();
+            }
 
             return this.View(searchViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ActionName("SearchPartial")]
-        public IActionResult SearchPartial(string inputText)
+        [ActionName("SideBarSearch")]
+        public IActionResult SideBarSearch(SearchDataModel searchData)
         {
-            List<string> inputArray = new List<string>();
-            if (!string.IsNullOrEmpty(inputText))
-            {
-                inputArray = inputText.Split(',', System.StringSplitOptions.RemoveEmptyEntries).ToList();
-            }
-
             var searchViewModel = new SearchViewModel();
-            var searchRecipesResultItems = this.recipeService.GetByInputList<SearchItemViewModel>(inputArray);
-            foreach (var item in searchRecipesResultItems)
+
+            searchViewModel.SearchData = searchData;
+
+            List<SearchResultItemViewModel> varResultItems = this.recipeService.GetAll<SearchResultItemViewModel>().ToList();
+            bool isPrevFiltered = false;
+            if (searchData.Mode == SearchDataModeEnum.Recipe)
             {
-                item.Type = typeof(Recipe).ToString();
+                if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
+                {
+                    isPrevFiltered = true;
+                    var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
+                    foreach (var item in searchRecipesByNameResultItems)
+                    {
+                        item.Type = typeof(Recipe).ToString();
+                    }
+
+                    var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
+                    foreach (var item in searchRecipesByIngredientsResultItems)
+                    {
+                        item.Type = typeof(Recipe).ToString();
+                    }
+
+                    varResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems).ToList();
+                }
+
+                if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
+                {
+                    var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<SearchResultItemViewModel>(searchData.RecipeTypes);
+                    foreach (var item in searchRecipesByTypesResultItems)
+                    {
+                        item.Type = typeof(Recipe).ToString();
+                    }
+
+                    if (isPrevFiltered)
+                    {
+                        varResultItems = (from objA in varResultItems
+                                         join objB in searchRecipesByTypesResultItems on objA.Id equals objB.Id
+                                         select objA).ToList();
+                    }
+                    else
+                    {
+                        varResultItems = searchRecipesByTypesResultItems.ToList();
+                    }
+
+                    isPrevFiltered = true;
+                }
+
+                if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
+                {
+                    var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Ingredients);
+                    foreach (var item in searchRecipesByIngredientsResultItems)
+                    {
+                        item.Type = typeof(Recipe).ToString();
+                    }
+
+                    if (isPrevFiltered)
+                    {
+                        varResultItems = (from objA in varResultItems
+                                          join objB in searchRecipesByIngredientsResultItems on objA.Id equals objB.Id
+                                          select objA).ToList();
+                    }
+                    else
+                    {
+                        varResultItems = searchRecipesByIngredientsResultItems.ToList();
+                    }
+                }
+            }
+            else
+            {
+                if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
+                {
+                    isPrevFiltered = true;
+                    var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
+                    foreach (var item in searchIngredientByNameResultItems)
+                    {
+                        item.Type = typeof(Ingredient).ToString();
+                    }
+
+                    varResultItems = searchIngredientByNameResultItems.ToList();
+                }
+
+                if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
+                {
+                    var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<SearchResultItemViewModel>(searchData.Ingredients);
+                    foreach (var item in searchIngredientByNameResultItems)
+                    {
+                        item.Type = typeof(Ingredient).ToString();
+                    }
+
+                    if (isPrevFiltered)
+                    {
+                        varResultItems = (from objA in varResultItems
+                                          join objB in searchIngredientByNameResultItems on objA.Id equals objB.Id
+                                          select objA).ToList();
+                    }
+                    else
+                    {
+                        varResultItems = searchIngredientByNameResultItems.ToList();
+                    }
+                }
             }
 
-            var searchIngredientsResultItems = this.ingredientsService.GetByInputList<SearchItemViewModel>(inputArray);
-            foreach (var item in searchIngredientsResultItems)
-            {
-                item.Type = typeof(Ingredient).ToString();
-            }
-
-            searchViewModel.ResultItems = searchIngredientsResultItems.Concat(searchRecipesResultItems);
-
-            return this.PartialView("ResultList", searchViewModel);
+            searchViewModel.ResultItems = varResultItems;
+            var parView = this.PartialView("ResultList", searchViewModel);
+            return parView;
         }
 
         public IActionResult Privacy()

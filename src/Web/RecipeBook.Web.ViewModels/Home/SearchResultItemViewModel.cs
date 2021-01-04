@@ -7,7 +7,7 @@
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Mapping;
 
-    public class SearchItemViewModel : IMapFrom<Recipe>, IMapFrom<Ingredient>
+    public class SearchResultItemViewModel : IMapFrom<Recipe>, IMapFrom<Ingredient>
     {
         public string Id { get; set; }
 

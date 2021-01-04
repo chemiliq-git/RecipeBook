@@ -1,95 +1,30 @@
-﻿$('input[type="checkbox"]').change(function (e) {
-    let currentElement = <HTMLInputElement>e.target
-    if (currentElement.id.indexOf('Ingr_Type_checkbox_ ') == 0 && !currentElement.checked) {
-        $("input[id^='Ingr_checkbox']").prop("checked", false)
-    }
+﻿$(document).ready(function () {
+    let searchViewSideBar = new sideBar(onSideBarChange);
+    searchViewSideBar.startListenOnSideBarChange();
 
+    function onSideBarChange(data: any) {
 
-    let checkedElements = $("input[id^='Ingr_checkbox']:checked")
-    let checkedElementsNames = '';
-    if (checkedElements.length > 0) {
+        var token = $("#keyForm input[name=__RequestVerificationToken]").val();
 
-        for (var i = 0; i < checkedElements.length; i++) {
-            let vCheckedElements = <HTMLInputElement>checkedElements[i];
-            checkedElementsNames += vCheckedElements.name + ','
-        }
-
-        checkedElementsNames = checkedElementsNames.substr(0, checkedElementsNames.length - 1);
-    }
-    var url = '@Url.Action("SearchPartial", "Home")';
-    var formData = new FormData();
-    var data = checkedElementsNames;
-    formData.append("inputText", data);
-    var token = $("#keyForm input[name=__RequestVerificationToken]").val();
-    $.ajax({
-        url: url,
-        data: formData,
-        processData: false,
-        contentType: false,
-        type: "POST",
-        headers: { 'X-CSRF-TOKEN': token.toString() },
-        success: function (view) {
-            $('#partialView').html(view)
-        },
-        error: function (result) {
-            var error = result;
-        }
-    });
-
-});
-
-interface ResultData {
-    id: string;
-    name: string;
-}
-
-$('#searchresult').keyup(function (event) {
-    let input = $('#searchresult').val().toString();
-
-    var url = '@Url.Action("SearchPartial", "Home")';
-    var formData = new FormData();    
-    formData.append("inputText", input);
-    var token = $("#keyForm input[name=__RequestVerificationToken]").val();
-
-    $.ajax(
-        {
-            //type: "GET",
-            //contentType: "application/json; charset=utf-8",
-            //url: "/api/LiveSearchs",
-            //data: "input=" + input,
-            //dataType: "json",
-            url: url,
-            data: formData,
+        $.ajax({
+            url: "/Home/SideBarSearch",
+            data: data,
             processData: false,
             contentType: false,
             type: "POST",
             headers: { 'X-CSRF-TOKEN': token.toString() },
-
-            success: function (data: Array<ResultData>) {
-                var availableData = [];
-                data.forEach((element) => {
-                    availableData.push({ id: element.id, label: element.name });
-                });
-
-                $("#searchresult").autocomplete({                    
-                    source: availableData,
-                    minLength: 2,
-                    select: function (event, ui) {
-                        var value = ui.item.val;
-
-                        //var sts = "no";
-                        //var url = 'Productlist.aspx?prefix=' + ptxt; // ur own conditions
-                        //$(location).attr('href', url);
-                    }
-                });
+            success: function (result) {
+                $('#partialView').html(result);
             },
-            error: function (result) { }
+            error: function (result) {
+                //TODO 
+                var error = result;
+            }
         });
-
-    
-});
-
-$(document).ready(function () {
+    }
+     
+       
+  
 
     /* 1. Visualizing things on Hover - See next part for action on click */
     $('#stars li').on('mouseover', function () {

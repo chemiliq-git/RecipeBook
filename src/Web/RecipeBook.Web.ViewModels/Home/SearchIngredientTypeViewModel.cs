@@ -13,6 +13,8 @@
 
         public string Name { get; set; }
 
+        public bool Checked { get; set; }
+
         public virtual ICollection<SearchIngredientViewModel> Ingredients { get; set; }
     }
 }

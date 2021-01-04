@@ -7,8 +7,13 @@
     {
         IEnumerable<T> GetAll<T>();
 
-        IEnumerable<T> GetByInput<T>(string input);
+        IEnumerable<T> GetByName<T>(string input);
 
-        IEnumerable<T> GetByInputList<T>(List<string> input);
+        IEnumerable<T> GetByNamesList<T>(string inputList);
+
+        IEnumerable<T> GetByRecipeTypes<T>(string inputList);
+
+        IEnumerable<T> GetByIngredients<T>(string inputList);
+
     }
 }
