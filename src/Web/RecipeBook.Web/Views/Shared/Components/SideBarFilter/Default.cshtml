@@ -1,0 +1,73 @@
+﻿@model RecipeBook.Web.ViewModels.Home.SideBarFilterViewModel
+
+<div class="card">
+    <article class="card-group-item">
+        <header class="card-header">
+            <h6 class="title">Filter by recipe name</h6>
+        </header>
+        <div class="filter-content">
+            <div class="card-body">
+                    @if (!string.IsNullOrEmpty(Model.SearchedText))
+                    {
+                        <input class="search-form form-control" placeholder="@Model.SearchedText" id="searchBox" type="text" value="@Model.SearchedText">
+                    }
+                    else
+                    {
+                        <input class="search-form form-control" placeholder="Search..." id="searchBox" type="text">
+                    }
+            </div>
+        </div>
+    </article>
+    <article class="card-group-item">
+        <header class="card-header">
+            <h6 class="title">Filter by recipe type </h6>
+        </header>
+        <div class="filter-content">
+            <div class="card-body">
+                <form>
+                    <div class='collapse show' @*id=RecipeTypes*@>
+                        @foreach (var item in Model.RecipeTypes)
+                        {
+                            <label class="form-check ml-2">
+                                <input class="form-check-input" type="checkbox" value="" id= '@item.Id' checked="@item.Checked"  name='Recipe_Type_Checkbox_ +@item.Name'>
+                                <span class="form-check-label">
+                                    @item.Name
+                                </span>
+                            </label>
+                        }
+                    </div>
+                </form>
+            </div>
+    </article>
+    <article class="card-group-item">
+        <header class="card-header">
+            <h6 class="title">Filter by ingredients</h6>
+        </header>
+        <div class="filter-content">
+            <div class="card-body">
+                <form>
+                    @foreach (var item in Model.IngredientTypes)
+                    {
+                        <label class="form-check" data-toggle="collapse" data-target="#@item.Id" aria-expanded="true" aria-controls=@item.Id>
+                            <input class="form-check-input" type="checkbox" value="" name="Ingr_Type_Checkbox_+ @item.Name">
+                            <span class="form-check-label">
+                                @item.Name
+                            </span>
+                        </label>
+                        <div class="collapse" id=@item.Id>
+                            @foreach (var ingr in item.Ingredients)
+                            {
+                                <label class="form-check ml-2">
+                                    <input class="form-check-input" type="checkbox" value="" onclick="" id='@ingr.Id' name='Ingr_Checkbox_+ @ingr.Name'>
+                                    <span class="form-check-label">
+                                        @ingr.Name
+                                    </span>
+                                </label>
+                            }
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </article>
+</div>
