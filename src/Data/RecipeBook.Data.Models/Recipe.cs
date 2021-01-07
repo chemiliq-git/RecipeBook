@@ -10,6 +10,7 @@
         {
             this.Id = Guid.NewGuid().ToString();
             this.IngredientRecipeTypes = new HashSet<IngredientRecipeType>();
+            this.Votes = new HashSet<Vote>();
         }
 
         public string Name { get; set; }
@@ -30,14 +31,7 @@
 
         public virtual IngredientsSet IngredientSet { get; set; }
 
-        public int EasyScaleIndex { get; set; }
-
-        public int EasyScaleVotesNum { get; set; }
-
-        public int TasteScaleIndex { get; set; }
-
-        public int TasteScaleVotesNum { get; set; }
-
+        public virtual ICollection<Vote> Votes { get; set; }
         public DateTime LastCooked { get; set; }
     }
 }

@@ -436,12 +436,6 @@ namespace RecipeBook.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EasyScaleIndex")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EasyScaleVotesNum")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
@@ -465,12 +459,6 @@ namespace RecipeBook.Data.Migrations
 
                     b.Property<string>("RecipeTypeId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("TasteScaleIndex")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TasteScaleVotesNum")
-                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
@@ -544,6 +532,39 @@ namespace RecipeBook.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("RecipeBook.Data.Models.Vote", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RecipeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("IngredientRecipeTypeRecipe", b =>
@@ -650,6 +671,23 @@ namespace RecipeBook.Data.Migrations
                         .HasForeignKey("RecipeTypeId");
 
                     b.Navigation("RecipeType");
+                });
+
+            modelBuilder.Entity("RecipeBook.Data.Models.Vote", b =>
+                {
+                    b.HasOne("RecipeBook.Data.Models.Recipe", "Recipe")
+                        .WithMany()
+                        .HasForeignKey("RecipeId");
+
+                    b.HasOne("RecipeBook.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RecipeBook.Data.Models.ApplicationUser", b =>

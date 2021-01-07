@@ -16,13 +16,16 @@
         private readonly IRecipeService recipeService;
         private readonly IIngredientService ingredientsService;
         private readonly IIngredientTypeService ingredientTypeService;
+        private readonly IVoteService voteService;
 
-        public HomeController(IRecipeTypeService recipeTypeService, IRecipeService recipeService, IIngredientService ingredientsService, IIngredientTypeService ingredientTypeService)
+        public HomeController(IRecipeTypeService recipeTypeService, IRecipeService recipeService, IIngredientService ingredientsService, 
+            IIngredientTypeService ingredientTypeService, IVoteService voteService)
         {
             this.recipeTypeService = recipeTypeService;
             this.recipeService = recipeService;
             this.ingredientsService = ingredientsService;
             this.ingredientTypeService = ingredientTypeService;
+            this.voteService = voteService;
         }
 
         public IActionResult Index()
@@ -42,17 +45,8 @@
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
             {
-                var searchRecipesByNameResultItems = this.recipeService.GetByName<SearchResultItemViewModel>(searchData.Text);
-                foreach (var item in searchRecipesByNameResultItems)
-                {
-                    item.Type = typeof(Recipe).ToString();
-                }
-
+                var searchRecipesByNameResultItems = this.recipeService.GetByName<SearchResultItemViewModel>(searchData.Text); 
                 var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
-                foreach (var item in searchRecipesByIngredientsResultItems)
-                {
-                    item.Type = typeof(Recipe).ToString();
-                }
 
                 searchViewModel.ResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems);
             }
@@ -86,16 +80,8 @@
                 {
                     isPrevFiltered = true;
                     var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
-                    foreach (var item in searchRecipesByNameResultItems)
-                    {
-                        item.Type = typeof(Recipe).ToString();
-                    }
 
                     var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
-                    foreach (var item in searchRecipesByIngredientsResultItems)
-                    {
-                        item.Type = typeof(Recipe).ToString();
-                    }
 
                     varResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems).ToList();
                 }
@@ -103,10 +89,6 @@
                 if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
                 {
                     var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<SearchResultItemViewModel>(searchData.RecipeTypes);
-                    foreach (var item in searchRecipesByTypesResultItems)
-                    {
-                        item.Type = typeof(Recipe).ToString();
-                    }
 
                     if (isPrevFiltered)
                     {
@@ -125,10 +107,6 @@
                 if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
                 {
                     var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Ingredients);
-                    foreach (var item in searchRecipesByIngredientsResultItems)
-                    {
-                        item.Type = typeof(Recipe).ToString();
-                    }
 
                     if (isPrevFiltered)
                     {
@@ -148,10 +126,6 @@
                 {
                     isPrevFiltered = true;
                     var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
-                    foreach (var item in searchIngredientByNameResultItems)
-                    {
-                        item.Type = typeof(Ingredient).ToString();
-                    }
 
                     varResultItems = searchIngredientByNameResultItems.ToList();
                 }
@@ -159,10 +133,6 @@
                 if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
                 {
                     var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<SearchResultItemViewModel>(searchData.Ingredients);
-                    foreach (var item in searchIngredientByNameResultItems)
-                    {
-                        item.Type = typeof(Ingredient).ToString();
-                    }
 
                     if (isPrevFiltered)
                     {

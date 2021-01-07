@@ -70,6 +70,7 @@
             services.AddScoped<IRecipeService, RecipeService>();
             services.AddScoped<IIngredientService, IngredientService>();
             services.AddScoped<IIngredientTypeService, IngredientTypeService>();
+            services.AddScoped<IVoteService, VoteService>();
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
