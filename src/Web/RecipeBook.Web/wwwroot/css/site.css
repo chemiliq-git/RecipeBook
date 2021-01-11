@@ -101,3 +101,14 @@ body {
         .rating-stars ul > li.star.selected > i.fa {
             color: #FF912C;
         }
+/*------------------------------------------------------*/
+/* Readonly Input Style */
+textarea[readonly].form-control {
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    box-shadow: none;
+    font-size: 1em;
+}
+
+

@@ -14,10 +14,6 @@
   <ItemGroup>
     <Compile Remove="Controllers\SideBarController.cs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="TScripts\site.ts" />
-  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>

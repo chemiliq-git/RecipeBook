@@ -5,38 +5,41 @@
 
     public class Recipe : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(int recipeId)
         {
-            return View();
+            return this.View();
         }
 
-        
+        public ActionResult Create(int recipeId)
+        {
+            return this.View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return this.RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return this.View();
             }
         }
 
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return this.RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return this.View();
             }
         }
 
@@ -46,11 +49,11 @@
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return this.RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return this.View();
             }
         }
     }

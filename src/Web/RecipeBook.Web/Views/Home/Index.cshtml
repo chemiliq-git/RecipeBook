@@ -24,7 +24,7 @@
         @foreach (var item in Model.RecipeTypes)
         {
             var currentImageSource = item.ImagePath.Substring(1);
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
                         <form asp-action="Search" method="post">
@@ -45,5 +45,5 @@
 
 
 @section Scripts {
-    <script src="~/js/indexView.js" asp-append-version="true"></script>
+    <script src="~/js/homeIndexView.js" asp-append-version="true"></script>
 }
