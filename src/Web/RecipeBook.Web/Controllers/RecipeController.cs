@@ -2,17 +2,30 @@
 {
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using RecipeBook.Services.Data;
+    using RecipeBook.Web.ViewModels.Recipe;
+    using System;
 
-    public class Recipe : Controller
+    public class RecipeController : Controller
     {
-        public ActionResult Index(int recipeId)
+        private readonly IRecipeService recipeService;
+
+        public RecipeController(IRecipeService recipeService)
         {
-            return this.View();
+            this.recipeService = recipeService;
+        }
+        public ActionResult Index(string recipeId)
+        {
+            RecipeViewModel data = this.recipeService.GetById<RecipeViewModel>(recipeId);
+            return this.View(data);
         }
 
         public ActionResult Create(int recipeId)
         {
-            return this.View();
+            RecipeViewModel data = new RecipeViewModel();
+            data.Id = Guid.NewGuid().ToString();
+
+            return this.View(data);
         }
 
         [HttpPost]

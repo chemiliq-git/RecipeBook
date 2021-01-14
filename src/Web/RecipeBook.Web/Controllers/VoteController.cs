@@ -32,5 +32,6 @@
             var votesValue = this.voteService.GetValue(input.RecipeId, VoteTypeEnm.Taste);
             return this.Json(votesValue);
         }
+
     }
 }

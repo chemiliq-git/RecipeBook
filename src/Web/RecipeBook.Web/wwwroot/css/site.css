@@ -103,12 +103,24 @@ body {
         }
 /*------------------------------------------------------*/
 /* Readonly Input Style */
-textarea[readonly].form-control {
+/*textarea[readonly].form-control {
     background-color: transparent;
     border: 0;
     overflow: hidden;
     box-shadow: none;
     font-size: 1em;
+}*/
+/*------------------------------------------------------*/
+/* Crop Image Style */
+.preview {
+    overflow: hidden;
+    width: 160px;
+    height: 160px;
+    margin: 10px;
+    border: 1px solid red;
 }
 
+.modal-lg {
+    max-width: 1000px !important;
+}
 

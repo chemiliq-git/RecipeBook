@@ -37,6 +37,17 @@
             return result;
         }
 
+        public T GetById<T>(string input)
+        {
+            IQueryable<Recipe> query =
+               this.recipeRepository.All()
+                .Where(r => r.Id.Equals(input));
+
+            var result = query.To<T>().ToList();
+
+            return result[0];
+        }
+
         public IEnumerable<T> GetByNamesList<T>(string inputList)
         {
             List<string> inputArray = new List<string>();

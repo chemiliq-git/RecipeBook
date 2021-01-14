@@ -1,0 +1,74 @@
+﻿@model RecipeBook.Web.ViewModels.Recipe.RecipeViewModel
+
+<form id="keyForm" method="Post"></form>
+
+<div class="container">
+    <form>
+        <div class="row">
+            <div class="col-md-8 col-lg-7 pb-4">
+                <div class="card card-inverse card-primary" id="image_box">
+                    <img class="img-fluid" src="@Model.ImagePath" alt="Responsive image" draggable="true">
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-5">
+                <div class="row h-100">
+                    <div class="col-md-12 col-lg-12 h-100 pb-4">
+                        <div class="card card-inverse bg-transparent h-100">
+                            <div class="row h-75">
+                                <div class="col-md-12 h-100 p-4">
+                                    <h3>
+                                        Title:<br />@Model.Name
+                                    </h3>
+                                    <h6>
+                                        Recipe Type: @Model.RecipeType.Name
+                                    </h6>
+                                    <p>
+                                        Last cooked: @Model.LastCooked
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row h-15">
+                                <div class="col-sm-6  col-lg-12 p-4">
+                                    <i class="far fa-clock"></i>60 min preparation time
+                                </div>
+                            </div>
+                            <div class="row h-5">
+                                <div class="col-sm-6  col-lg-12 pl-4 pr-4">
+                                    <button type="button" class="btn btn-sm btn-secondary rounded-pill"><i class="fas fa-edit"></i>Edit</button>
+                                </div>
+                                <div class="col-sm-6  col-lg-12 pl-4 pr-4">
+                                    <button type="button" class="btn btn-sm btn-success rounded-pill"><i class="fas fa-check-circle"></i>Cooked Today</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row pb-4">
+            <div class="col">
+                <div class="card card-inverse card-success p-4">
+                    <p>Ingredients:</p>
+                    @foreach (var item in Model.IngredientSet.IngredientSetItems)
+                    {
+                        <p>.@item.QTY @item.Ingredient.Name</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row pb-4">
+            <div class="col">
+                <div class="card card-inverse card-success p-4">
+                    <p>Description:</p>
+                    @Model.Text
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/recipeIndexView.js" asp-append-version="true"></script>
+}
