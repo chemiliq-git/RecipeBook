@@ -18,6 +18,8 @@
 
         public RecipeType RecipeType { get; set; }
 
+        public IEnumerable<RecipeTypeViewModel> AllRecipeTypes { get; set; }
+
         public ICollection<IngredientRecipeType> IngredientRecipeTypes { get; set; }
 
         public IngredientsSet IngredientSet { get; set; }

@@ -31,7 +31,7 @@
                 .ForMember(vm => vm.Type, options => options.MapFrom(r => "Recipe"))
                 .ForMember(vm => vm.TasteRate, options =>
                 {
-                    options.MapFrom(r => (int)r.Votes.Average(v => v.Value));
+                    options.MapFrom(r => (r.Votes.Count > 0) ? (int)r.Votes.Average(v => v.Value) : 0);
                 });
         }
     }

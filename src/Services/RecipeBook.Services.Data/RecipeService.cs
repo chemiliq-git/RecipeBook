@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Threading.Tasks;
     using RecipeBook.Data.Common.Repositories;
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Mapping;
@@ -107,6 +107,33 @@
             }
 
             return result;
+        }
+
+        public async Task<bool> CreateAsync(CreateRecipeDataModel inputRecipe)
+        {
+            try
+            {
+                Recipe recipe = new Recipe();
+                recipe.Id = inputRecipe.Id;
+                recipe.ImagePath = inputRecipe.ImagePath;
+                recipe.Name = inputRecipe.Name;
+                recipe.Text = inputRecipe.Text;
+                recipe.RecipeTypeId = inputRecipe.RecipeTypeId;
+                //recipe.IngredientRecipeTypeId = inputRecipe.;
+                recipe.IngredientSetId = inputRecipe.IngredientSetId;
+                recipe.LastCooked = inputRecipe.LastCooked;
+                DateTime vNow = DateTime.Now;
+                recipe.CreatedOn = vNow;
+                recipe.ModifiedOn = vNow;
+                recipe.IsDeleted = false;
+                await this.recipeRepository.AddAsync(recipe);
+                await this.recipeRepository.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

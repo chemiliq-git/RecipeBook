@@ -4,7 +4,13 @@
 <form id="keyForm" method="Post"></form>
 
 <div class="container">
-    <form>
+    <form asp-controller="Recipe" asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <input asp-for=@Model.Id class="form-control" type="hidden" />
+        <input asp-for=@Model.AllRecipeTypes class="form-control" type="hidden" />
+        <input asp-for=@Model.ImagePath class="form-control" type="hidden" id="image_Path"/>
+
         <div class="row">
             <div class="col-md-8 col-lg-7 pb-4">
                 <div class="card card-inverse card-primary" id="image_box" data-value="@Model.Id">
@@ -17,15 +23,35 @@
                         <div class="card card-inverse bg-transparent h-100">
                             <div class="row h-75">
                                 <div class="col-md-12 h-100 p-4">
-                                    <h3>
-                                        Title:<br />Greek White Bean Soup With Garlic & Lemon
-                                    </h3>
-                                    <h6>
-                                        Recipe Type: Soup
-                                    </h6>
-                                    <p>
-                                        Last cooked: 12.01.2021
-                                    </p>
+                                    <div class="form-group">
+                                        <label asp-for="@Model.Name" class="control-label">
+                                            Title:
+                                        </label>
+                                        <input asp-for="@Model.Name" class="form-control" />
+                                        <span asp-validation-for=@Model.Name class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="@Model.RecipeType.Id" class="control-label">
+                                            Recipe Type:
+                                        </label>
+                                        <select asp-for="@Model.RecipeType.Id" class="form-control">
+                                            @{
+                                                foreach (var item in @Model.AllRecipeTypes)
+                                                {
+                                                    <option value=@item.Id>@item.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="@Model.RecipeType.Id" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-inline">
+                                        <label asp-for="@Model.LastCooked" class="control-label">
+                                            Last cooked:
+                                        </label>
+                                        <input asp-for="@Model.LastCooked" class="form-control" />
+                                        <span asp-validation-for="@Model.LastCooked" class="text-danger"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row h-15">
@@ -35,10 +61,10 @@
                             </div>
                             <div class="row h-5">
                                 <div class="col-sm-6  col-lg-12 pl-4 pr-4">
-                                    <button type="button" class="btn btn-sm btn-secondary rounded-pill"><i class="fas fa-edit"></i>Edit</button>
+                                    <button type="button" class="btn btn-sm btn-secondary rounded-pill disabled"><i class="fas fa-edit"></i>Edit</button>
                                 </div>
                                 <div class="col-sm-6  col-lg-12 pl-4 pr-4">
-                                    <button type="button" class="btn btn-sm btn-success rounded-pill"><i class="fas fa-check-circle"></i>Cooked Today</button>
+                                    <button type="button" class="btn btn-sm btn-success rounded-pill disabled"><i class="fas fa-check-circle"></i>Cooked Today</button>
                                 </div>
                             </div>
                         </div>
@@ -50,42 +76,19 @@
         <div class="row pb-4">
             <div class="col">
                 <div class="card card-inverse card-success p-4">
-                    Ingredients<br />
-                    .250 grams / 8.8 oz cannellini beans (or other small white beans) soaked in water overnight<br />
-                    .6 tablespoons olive oil extra virgin<br />
-                    .½ onion minced<br />
-                    .3 garlic cloves chopped<br />
-                    .1 carrot cut into very thin slices<br />
-                    .1 stick of celery finely chopped<br />
-                    .1 lemon zest + juice<br />
-                    .kosher salt + freshly ground pepper<br />
-                    .OPTIONAL: 500 ml vegetable stock<br />
+                    <p>Ingredients:</p>
+                    <textarea class="form-control">Write ingredients here...</textarea>
                 </div>
             </div>
         </div>
         <div class="row pb-4">
             <div class="col">
                 <div class="card card-inverse card-success p-4">
-                    Instructions<br />
-                    Prepare The Beans:<br />
-                    1.  Drain the beans from the water they've soaked in overnight.<br />
-                    2.  Half fill a cooking pot with water and add the beans. Bring to a boil over high heat. Cook for 3-4 minutes and then drain beans in a strainer.<br />
-                    <br />
-                    TO MAKE THIS SOUP ON THE STOVETOP:<br />
-                    1.  In a medium-sized cooking pot add the olive oil and heat over medium-high heat. Add the onion and garlic and cook until softened and golden in color.<br />
-                    2.  Add the beans along with 1.5 liters of water (or 1 liter of water + 500 ml vegetable stock) and bring to a boil. Then reduce heat to medium-low and with the lid on partly open on the side, simmer for about 2 hours or until beans are completely soft and tender (cooking time may depend of the variety and quality of the beans).<br />
-                    3.  Add the celery and carrot and season with salt and pepper. Continue simmering, stirring occasionally until the soup gets nice and thick. Then add the lemon juice and zest and cook for 2 minutes more. Remove from heat and serve with freshly ground pepper on top and an extra squeeze of fresh lemon if you like.<br />
-                    <br />
-                    TO MAKE THIS SOUP USING AN INSTANT POT/PRESSURE COOKER:<br />
-                    1.  Using the saute function, add the olive oil and cook the onion and garlic until softened and golden in color.<br />
-                    2.  Add the remaining ingredients along with 1,5 liters of water (or 1 liter of water +500 ml vegetable stock) and close the lid. Cook on manual for 20 minutes. Let the pot sit for 5-10 minutes and then turn the valve to venting. Once it releases the steam open the lid. Finish off with the lemon juice + zest.<br />
-                    <br />
-                    TO MAKE THIS SOUP USING A SLOW COOKER:<br />
-                    1.  If using a slow cooker, take the time to separately saute the garlic and onion in olive oil until golden using a separate skillet as it will make a huge difference to flavor instead of adding everything in at once. Add the sauteed ingredients in your slow cooker along with the remaining ingredients except for the lemon juice + zest, and 1,5 liters of water (or 1 liter of water +500 ml vegetable stock) and cook either on low for 8 hours or on high for 4 hours. Add the lemon juice and zest and cook for 5 minutes more.<br />
-                    <br />
-                    TO MAKE THIS SOUP USING THE SLOW COOK FUNCTION ON INSTANT POT:<br />
-                    1.  Using the saute function, add the olive oil and cook the onion and garlic until softened and golden in color.
-                    2.  Add the remaining ingredients along with 1,5 liters of water (or 1 liter of water +500 ml vegetable stock) except for the lemon juice+ zest. Put the lead on and switching on the slow cooker function to normal, cook for 8 hours or for 4 hours on high. Finish with the lemon juice + zest.<br />
+                    <label asp-for="@Model.Text" class="control-label">
+                        Description:
+                    </label>
+                    <input asp-for="@Model.Text" class="form-control" />
+                    <span asp-validation-for="@Model.Text" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -117,6 +120,9 @@
                 </div>
             </div>
         </div>
+        <button type="submit" class="btn btn-sm btn-success rounded-pill">
+            <i class="fas fa-check-circle"></i>Save
+        </button>
     </form>
 </div>
 

@@ -20,6 +20,7 @@
     stop(data: any) {        
         (<any>this.$modal).modal('hide');
         $('#uploaded_image').attr('src', data);
+        document.getElementById("image_Path").setAttribute("value", data);
     }
 
     initCropper(context) {

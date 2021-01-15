@@ -27,7 +27,7 @@
 
         public virtual ICollection<IngredientRecipeType> IngredientRecipeTypes { get; set; }
 
-        public string IngredientSetID { get; set; }
+        public string IngredientSetId { get; set; }
 
         public virtual IngredientsSet IngredientSet { get; set; }
 
