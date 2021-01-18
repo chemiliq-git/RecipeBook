@@ -13,22 +13,22 @@
                 <img class="align-self-center mr-3" src=@currentImageSource asp-append-version="true"
                      title=@item.Name width="100" height="100">
                 <div class="media-body mr-3">
-                    <h5 class="mt-0 mb-1">@item.Name</h5>
+                    <h5 class="mt-0 mb-1"><a asp-controller="Recipe" asp-action="Index" asp-route-id="@item.Id">@item.Name</a></h5>
                     <div class='rating-stars mb-0'title="Taste:">
                         <ul id='stars' data-value='@item.Id,@item.TasteRate'>
-                            <li class='star' title='Poor' data-value='1' onmouseover="onStartMouseOver(this)" onmouseout="onStartMouseOut(this)" onclick="onStarClick(this)">
+                            <li class='star' title='Poor' data-value='1'>
                                 <i class='fa fa-star fa-fw'></i>
                             </li>
-                            <li class='star' title='Fair' data-value='2' onmouseover="onStartMouseOver(this)" onmouseout="onStartMouseOut(this)" onclick="onStarClick(this)">
+                            <li class='star' title='Fair' data-value='2'>
                                 <i class='fa fa-star fa-fw'></i>
                             </li>
-                            <li class='star' title='Good' data-value='3' onmouseover="onStartMouseOver(this)" onmouseout="onStartMouseOut(this)" onclick="onStarClick(this)">
+                            <li class='star' title='Good' data-value='3'>
                                 <i class='fa fa-star fa-fw'></i>
                             </li>
-                            <li class='star' title='Excellent' data-value='4' onmouseover="onStartMouseOver(this)" onmouseout="onStartMouseOut(this)" onclick="onStarClick(this)">
+                            <li class='star' title='Excellent' data-value='4'>
                                 <i class='fa fa-star fa-fw'></i>
                             </li>
-                            <li class='star' title='WOW!!!' data-value='5' onmouseover="onStartMouseOver(this)" onmouseout="onStartMouseOut(this)" onclick="onStarClick(this)">
+                            <li class='star' title='WOW!!!' data-value='5'>
                                 <i class='fa fa-star fa-fw'></i>
                             </li>
                             <li class="list-inline-item"><p class="text-muted" id="taste_rate"></p></li>

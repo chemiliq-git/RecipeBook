@@ -109,7 +109,7 @@
             return result;
         }
 
-        public async Task<bool> CreateAsync(CreateRecipeDataModel inputRecipe)
+        public async Task<bool> CreateAsync(RecipeDataModel inputRecipe)
         {
             try
             {
@@ -122,13 +122,64 @@
                 //recipe.IngredientRecipeTypeId = inputRecipe.;
                 recipe.IngredientSetId = inputRecipe.IngredientSetId;
                 recipe.LastCooked = inputRecipe.LastCooked;
-                DateTime vNow = DateTime.Now;
+                DateTime vNow = DateTime.UtcNow;
                 recipe.CreatedOn = vNow;
                 recipe.ModifiedOn = vNow;
                 recipe.IsDeleted = false;
                 await this.recipeRepository.AddAsync(recipe);
                 await this.recipeRepository.SaveChangesAsync();
                 return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateAsync(RecipeDataModel inputRecipe)
+        {
+            try
+            {
+                Recipe recipe = new Recipe();
+                recipe.Id = inputRecipe.Id;
+                recipe.ImagePath = inputRecipe.ImagePath;
+                recipe.Name = inputRecipe.Name;
+                recipe.Text = inputRecipe.Text;
+                recipe.RecipeTypeId = inputRecipe.RecipeTypeId;
+                //recipe.IngredientRecipeTypeId = inputRecipe.;
+                recipe.IngredientSetId = inputRecipe.IngredientSetId;
+                recipe.LastCooked = inputRecipe.LastCooked;
+                DateTime vNow = DateTime.UtcNow;
+                recipe.CreatedOn = vNow;
+                recipe.ModifiedOn = vNow;
+                recipe.IsDeleted = false;
+                this.recipeRepository.Update(recipe);
+                await this.recipeRepository.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateLastCookedDate(string inputId, DateTime currentDateTime)
+        {
+            try
+            {
+                var recipes = this.recipeRepository.All()
+                .Where(r => r.Id == inputId)
+                .ToList();
+
+                if (recipes.Count > 0)
+                {
+                    recipes[0].LastCooked = currentDateTime;
+                    this.recipeRepository.Update(recipes[0]);
+                    await this.recipeRepository.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
             }
             catch
             {

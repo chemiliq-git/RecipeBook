@@ -1,5 +1,6 @@
 ﻿namespace RecipeBook.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using RecipeBook.Services.Data;
@@ -17,9 +18,10 @@
             this.recipeService = recipeService;
             this.recipeTypeService = recipeTypeService;
         }
-        public ActionResult Index(string recipeId)
+
+        public ActionResult Index(string Id)
         {
-            RecipeViewModel data = this.recipeService.GetById<RecipeViewModel>(recipeId);
+            RecipeViewModel data = this.recipeService.GetById<RecipeViewModel>(Id);
             return this.View(data);
         }
 
@@ -29,7 +31,6 @@
             data.Id = Guid.NewGuid().ToString();
             data.AllRecipeTypes = this.recipeTypeService.GetAll<RecipeTypeViewModel>();
             data.IngredientSet = new Data.Models.IngredientsSet();
-
 
             return this.View(data);
         }
@@ -42,7 +43,7 @@
             {
                 if (this.ModelState.IsValid)
                 {
-                    await this.recipeService.CreateAsync(new CreateRecipeDataModel()
+                    await this.recipeService.CreateAsync(new RecipeDataModel()
                     {
                         Id = inputData.Id,
                         ImagePath = inputData.ImagePath,
@@ -56,7 +57,7 @@
                 }
 
                 // redirect to next view
-                return this.RedirectToAction(nameof(Index), inputData.Id);
+                return this.RedirectToAction(nameof(this.Index), "Recipe", new { @id = inputData.Id });
             }
             catch
             {
@@ -64,13 +65,37 @@
             }
         }
 
+        public ActionResult Edit(string Id)
+        {
+            RecipeViewModel data = this.recipeService.GetById<RecipeViewModel>(Id);
+            data.AllRecipeTypes = this.recipeTypeService.GetAll<RecipeTypeViewModel>();
+            data.IngredientSet = new Data.Models.IngredientsSet();
+            return this.View(data);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(RecipeViewModel inputData)
         {
             try
             {
-                return this.RedirectToAction(nameof(Index));
+
+                if (this.ModelState.IsValid)
+                {
+                    await this.recipeService.UpdateAsync(new RecipeDataModel()
+                    {
+                        Id = inputData.Id,
+                        ImagePath = inputData.ImagePath,
+                        Name = inputData.Name,
+                        Text = inputData.Text,
+                        RecipeTypeId = inputData.RecipeType.Id,
+                        //IngredientRecipeTypes = inputData.IngredientRecipeTypes,
+                        //IngredientSetId = inputData.IngredientSet.Id,
+                        LastCooked = inputData.LastCooked,
+                    });
+                }
+
+                return this.RedirectToAction(nameof(this.Index), "Recipe", new { @id = inputData.Id });
             }
             catch
             {
@@ -90,6 +115,18 @@
             {
                 return this.View();
             }
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UpdateLastCookedDate(string id)
+        {
+            DateTime vDateTimeNow = DateTime.UtcNow;
+            await this.recipeService.UpdateLastCookedDate(id, vDateTimeNow);
+
+            return this.Json(vDateTimeNow.ToString("s"));
+
         }
     }
 }

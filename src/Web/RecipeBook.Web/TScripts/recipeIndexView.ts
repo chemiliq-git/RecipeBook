@@ -1,25 +1,26 @@
-﻿//$(document).ready(function () {
-//    let item = document.getElementById("image_box");
-//    item.addEventListener('dragenter', handleEnter, false);
-//    item.addEventListener('dragover', handleOver, false);
-//    item.addEventListener('drop', handleDrop, false);
-//});
+﻿$(document).ready(function () {
+    let fStarsVote = new fiveStarsVote();
+});
 
-//function handleEnter(e) {
-//    e.preventDefault();
-//}
+function OnCookedTodayClick(Id: string) {
+    let token = $("#keyForm input[name=__RequestVerificationToken]").val();
+    let data = new FormData();
+    data.append("id", Id);
 
-//function handleOver(e) {
-//    e.preventDefault();
-//}
+    $.ajax({
+        url: "/recipe/UpdateLastCookedDate",
+        processData: false,
+        contentType: false,
+        data: data,
+        type: "POST",
+        headers: { 'X-CSRF-TOKEN': token.toString() },
+        success: function (result) {
+            $('#LastCookedDate').html('Last cooked: ' + result);
 
-//function handleDrop(e) {
-//    e.stopPropagation(); 
-//    e.preventDefault();
-
-//    var files = e.dataTransfer.files;
-//    for (var i = 0, f; f = files[i]; i++) {
-//        // Read the File objects in this FileList.
-//    }
-//}
-
+        },
+        error: function (result) {
+            //TODO 
+            var error = result;
+        }
+    });
+}

@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+    let fStarsVote = new fiveStarsVote();
+
     let crImg = new cropImage(onImageCroped);
 
     let dragDropImg = new dragDropImage('image_box', onImageDroped, onError);

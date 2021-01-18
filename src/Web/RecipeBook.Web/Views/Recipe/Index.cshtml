@@ -20,11 +20,32 @@
                                         Title:<br />@Model.Name
                                     </h3>
                                     <h6>
-                                        Recipe Type: @Model.RecipeType.Name
+                                        Recipe Type:<br />@Model.RecipeType.Name
                                     </h6>
-                                    <p>
-                                        Last cooked: @Model.LastCooked
-                                    </p>
+                                    <div class='rating-stars mb-0' title="Taste:">
+                                        <ul id='stars' data-value='@Model.Id,3'>
+                                            <li class='star' title='Poor' data-value='1'>
+                                                <i class='fa fa-star fa-fw'></i>
+                                            </li>
+                                            <li class='star' title='Fair' data-value='2'>
+                                                <i class='fa fa-star fa-fw'></i>
+                                            </li>
+                                            <li class='star' title='Good' data-value='3'>
+                                                <i class='fa fa-star fa-fw'></i>
+                                            </li>
+                                            <li class='star' title='Excellent' data-value='4'>
+                                                <i class='fa fa-star fa-fw'></i>
+                                            </li>
+                                            <li class='star' title='WOW!!!' data-value='5'>
+                                                <i class='fa fa-star fa-fw'></i>
+                                            </li>
+                                            <li class="list-inline-item"><p class="text-muted" id="taste_rate"></p></li>
+                                        </ul>
+                                    </div>
+                                    <label asp-for="@Model.LastCooked" class="control-label">
+                                        Last cooked:
+                                    </label>
+                                    <input asp-for="@Model.LastCooked" class="form-control" readonly value="@Model.LastCooked.ToString("s")" />
                                 </div>
                             </div>
                             <div class="row h-15">
@@ -34,10 +55,10 @@
                             </div>
                             <div class="row h-5">
                                 <div class="col-sm-6  col-lg-12 pl-4 pr-4">
-                                    <button type="button" class="btn btn-sm btn-secondary rounded-pill"><i class="fas fa-edit"></i>Edit</button>
+                                    <button type="submit" asp-action="Edit" method="Post" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary rounded-pill"><i class="fas fa-edit"></i>Edit</button>
                                 </div>
                                 <div class="col-sm-6  col-lg-12 pl-4 pr-4">
-                                    <button type="button" class="btn btn-sm btn-success rounded-pill"><i class="fas fa-check-circle"></i>Cooked Today</button>
+                                    <button type="button" class="btn btn-sm btn-success rounded-pill" onclick="OnCookedTodayClick('@Model.Id')"><i class="fas fa-check-circle"></i>Cooked Today</button>
                                 </div>
                             </div>
                         </div>
@@ -50,10 +71,10 @@
             <div class="col">
                 <div class="card card-inverse card-success p-4">
                     <p>Ingredients:</p>
-                    @foreach (var item in Model.IngredientSet.IngredientSetItems)
-                    {
-                        <p>.@item.QTY @item.Ingredient.Name</p>
-                    }
+                    @*@foreach (var item in Model.IngredientSet.IngredientSetItems)
+                        {
+                            <p>.@item.QTY @item.Ingredient.Name</p>
+                        }*@
                 </div>
             </div>
         </div>
@@ -62,7 +83,7 @@
             <div class="col">
                 <div class="card card-inverse card-success p-4">
                     <p>Description:</p>
-                    @Model.Text
+                    <p style="white-space: pre-wrap">@Model.Text</p>
                 </div>
             </div>
         </div>
@@ -71,4 +92,5 @@
 
 @section Scripts {
     <script src="~/js/recipeIndexView.js" asp-append-version="true"></script>
+    <script src="~/js/fiveStarsVote.js" asp-append-version="true"></script>
 }

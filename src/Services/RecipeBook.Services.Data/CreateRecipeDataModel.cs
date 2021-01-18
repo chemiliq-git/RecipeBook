@@ -6,7 +6,7 @@
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Mapping;
 
-    public class CreateRecipeDataModel : IMapFrom<RecipeBook.Data.Models.Recipe>
+    public class RecipeDataModel : IMapFrom<RecipeBook.Data.Models.Recipe>
     {
         public string Id { get; set; }
 

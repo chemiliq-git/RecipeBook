@@ -110,6 +110,10 @@ body {
     box-shadow: none;
     font-size: 1em;
 }*/
+
+input[readonly].form-control {
+    background-color: transparent;
+}
 /*------------------------------------------------------*/
 /* Crop Image Style */
 .preview {
@@ -123,4 +127,3 @@ body {
 .modal-lg {
     max-width: 1000px !important;
 }
-
