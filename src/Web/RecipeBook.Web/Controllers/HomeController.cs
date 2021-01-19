@@ -5,7 +5,6 @@
     using System.Linq;
 
     using Microsoft.AspNetCore.Mvc;
-    using RecipeBook.Data.Models;
     using RecipeBook.Services.Data;
     using RecipeBook.Web.ViewModels;
     using RecipeBook.Web.ViewModels.Home;
@@ -45,7 +44,7 @@
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
             {
-                var searchRecipesByNameResultItems = this.recipeService.GetByName<SearchResultItemViewModel>(searchData.Text); 
+                var searchRecipesByNameResultItems = this.recipeService.GetByName<SearchResultItemViewModel>(searchData.Text);
                 var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
 
                 searchViewModel.ResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems);

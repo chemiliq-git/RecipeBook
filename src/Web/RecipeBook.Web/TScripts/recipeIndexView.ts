@@ -14,9 +14,8 @@ function OnCookedTodayClick(Id: string) {
         data: data,
         type: "POST",
         headers: { 'X-CSRF-TOKEN': token.toString() },
-        success: function (result) {
-            $('#LastCookedDate').html('Last cooked: ' + result);
-
+        success: function (result) {            
+            document.getElementById("LastCooked").setAttribute("value", result)
         },
         error: function (result) {
             //TODO 
