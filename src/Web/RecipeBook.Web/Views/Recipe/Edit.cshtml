@@ -103,7 +103,16 @@
             <div class="col">
                 <div class="card card-inverse card-success p-4">
                     <p>Ingredients:</p>
-                    <textarea class="form-control">Write ingredients here...</textarea>
+                    @if (Model.IngredientSet != null)
+                    {
+                        foreach (var item in Model.IngredientSet.IngredientSetItems)
+                        {
+                            <p>.@item.QTY @item.Ingredient.Name</p>
+                        }
+                    }
+                    <div class="col-4 pl-4 pr-4">
+                        <button type="submit" asp-controller="IngredientsSet" asp-action="Index" asp-route-id="@Model.Id" class ="btn btn-sm btn-success rounded-pill"><i class="fas fa-plus-circle"></i>Add / Edit</button>
+                    </div>
                 </div>
             </div>
         </div>

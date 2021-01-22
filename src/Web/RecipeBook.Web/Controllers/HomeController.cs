@@ -17,7 +17,7 @@
         private readonly IIngredientTypeService ingredientTypeService;
         private readonly IVoteService voteService;
 
-        public HomeController(IRecipeTypeService recipeTypeService, IRecipeService recipeService, IIngredientService ingredientsService, 
+        public HomeController(IRecipeTypeService recipeTypeService, IRecipeService recipeService, IIngredientService ingredientsService,
             IIngredientTypeService ingredientTypeService, IVoteService voteService)
         {
             this.recipeTypeService = recipeTypeService;
@@ -39,7 +39,6 @@
         public IActionResult Search(SearchDataModel searchData)
         {
             var searchViewModel = new SearchViewModel();
-
             searchViewModel.SearchData = searchData;
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
@@ -73,78 +72,51 @@
 
             List<SearchResultItemViewModel> varResultItems = this.recipeService.GetAll<SearchResultItemViewModel>().ToList();
             bool isPrevFiltered = false;
-            if (searchData.Mode == SearchDataModeEnum.Recipe)
+
+            if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
             {
-                if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
+                isPrevFiltered = true;
+                var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
+
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
+
+                varResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems).ToList();
+            }
+
+            if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
+            {
+                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<SearchResultItemViewModel>(searchData.RecipeTypes);
+
+                if (isPrevFiltered)
                 {
-                    isPrevFiltered = true;
-                    var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
-
-                    var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
-
-                    varResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems).ToList();
+                    varResultItems = (from objA in varResultItems
+                                      join objB in searchRecipesByTypesResultItems on objA.Id equals objB.Id
+                                      select objA).ToList();
+                }
+                else
+                {
+                    varResultItems = searchRecipesByTypesResultItems.ToList();
                 }
 
-                if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
+                isPrevFiltered = true;
+            }
+
+            if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
+            {
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Ingredients);
+
+                if (isPrevFiltered)
                 {
-                    var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<SearchResultItemViewModel>(searchData.RecipeTypes);
-
-                    if (isPrevFiltered)
-                    {
-                        varResultItems = (from objA in varResultItems
-                                         join objB in searchRecipesByTypesResultItems on objA.Id equals objB.Id
-                                         select objA).ToList();
-                    }
-                    else
-                    {
-                        varResultItems = searchRecipesByTypesResultItems.ToList();
-                    }
-
-                    isPrevFiltered = true;
+                    varResultItems = (from objA in varResultItems
+                                      join objB in searchRecipesByIngredientsResultItems on objA.Id equals objB.Id
+                                      select objA).ToList();
                 }
-
-                if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
+                else
                 {
-                    var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Ingredients);
-
-                    if (isPrevFiltered)
-                    {
-                        varResultItems = (from objA in varResultItems
-                                          join objB in searchRecipesByIngredientsResultItems on objA.Id equals objB.Id
-                                          select objA).ToList();
-                    }
-                    else
-                    {
-                        varResultItems = searchRecipesByIngredientsResultItems.ToList();
-                    }
+                    varResultItems = searchRecipesByIngredientsResultItems.ToList();
                 }
             }
-            else
-            {
-                if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
-                {
-                    isPrevFiltered = true;
-                    var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
 
-                    varResultItems = searchIngredientByNameResultItems.ToList();
-                }
-
-                if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
-                {
-                    var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<SearchResultItemViewModel>(searchData.Ingredients);
-
-                    if (isPrevFiltered)
-                    {
-                        varResultItems = (from objA in varResultItems
-                                          join objB in searchIngredientByNameResultItems on objA.Id equals objB.Id
-                                          select objA).ToList();
-                    }
-                    else
-                    {
-                        varResultItems = searchIngredientByNameResultItems.ToList();
-                    }
-                }
-            }
 
             searchViewModel.ResultItems = varResultItems;
             var parView = this.PartialView("ResultList", searchViewModel);

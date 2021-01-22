@@ -13,6 +13,6 @@
 
         public bool Checked { get; set; }
 
-        public virtual ICollection<SearchRecipeViewModel> Recipes { get; set; }
+        public ICollection<SearchRecipeViewModel> Recipes { get; set; }
     }
 }

@@ -15,6 +15,6 @@
 
         public bool Checked { get; set; }
 
-        public virtual ICollection<SearchIngredientViewModel> Ingredients { get; set; }
+        public ICollection<SearchIngredientViewModel> Ingredients { get; set; }
     }
 }

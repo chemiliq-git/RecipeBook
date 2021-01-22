@@ -6,6 +6,6 @@ namespace RecipeBook.Services.Data
 {
     public interface IRecipeTypeService
     {
-        IEnumerable<T> GetAll<T>();
+        List<T> GetAll<T>();
     }
 }

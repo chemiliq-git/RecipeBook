@@ -9,6 +9,7 @@
 
         <input asp-for=@Model.Id class="form-control" type="hidden" />
         <input asp-for=@Model.AllRecipeTypes class="form-control" type="hidden" />
+
         <input asp-for=@Model.ImagePath class="form-control" type="hidden" id="image_Path" />
 
         <div class="row">
@@ -80,10 +81,10 @@
                             </div>
                             <div class="row h-5">
                                 <div class="col-sm-6  col-lg-12 pl-4 pr-4">
-                                    <button type="button" class="btn btn-sm btn-secondary rounded-pill disabled"><i class="fas fa-edit"></i>Edit</button>
+                                    <button type="button" class="btn btn-sm btn-secondary rounded-pill" disabled><i class="fas fa-edit"></i>Edit</button>
                                 </div>
                                 <div class="col-sm-6  col-lg-12 pl-4 pr-4">
-                                    <button type="button" class="btn btn-sm btn-success rounded-pill disabled"><i class="fas fa-check-circle"></i>Cooked Today</button>
+                                    <button type="button" class="btn btn-sm btn-success rounded-pill" disabled><i class="fas fa-check-circle"></i>Cooked Today</button>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +97,9 @@
             <div class="col">
                 <div class="card card-inverse card-success p-4">
                     <p>Ingredients:</p>
-                    <textarea class="form-control">Write ingredients here...</textarea>
+                    <div class="col-4 pl-4 pr-4">
+                        <button type="button" class="btn btn-sm btn-success rounded-pill" disabled><i class="fas fa-plus-circle"></i>Add</button>
+                    </div>
                 </div>
             </div>
         </div>

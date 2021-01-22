@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using RecipeBook.Data.Models;
     using RecipeBook.Services.Data;
     using RecipeBook.Web.ViewModels.Recipe;
     using System;
@@ -58,7 +59,7 @@
                 }
 
                 // redirect to next view
-                return this.RedirectToAction(nameof(this.Index), "Recipe", new { @id = inputData.Id });
+                return this.RedirectToAction(nameof(this.Edit), "Recipe", new { @id = inputData.Id });
             }
             catch
             {

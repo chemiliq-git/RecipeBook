@@ -9,5 +9,7 @@
         public IEnumerable<SearchRecipeTypeViewModel> RecipeTypes { get; set; }
 
         public IEnumerable<SearchIngredientTypeViewModel> IngredientTypes { get; set; }
+
+        public SearchDataModeEnum Mode { get; set; }
     }
 }

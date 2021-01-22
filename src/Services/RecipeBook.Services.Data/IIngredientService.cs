@@ -7,6 +7,8 @@
     {
         IEnumerable<T> GetAll<T>();
 
+        IEnumerable<T> GetById<T>(string input);
+
         IEnumerable<T> GetByName<T>(string input);
 
         IEnumerable<T> GetByNamesList<T>(string input);

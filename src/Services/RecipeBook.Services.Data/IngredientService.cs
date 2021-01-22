@@ -25,6 +25,14 @@
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetById<T>(string input)
+        {
+            IQueryable<Ingredient> query =
+               this.ingredientRepository.All()
+                .Where(r => r.Id.Equals(input))
+                .OrderBy(x => x.Name);
+            return query.To<T>().ToList();
+        }
         public IEnumerable<T> GetByName<T>(string input)
         {
             IQueryable<Ingredient> query =

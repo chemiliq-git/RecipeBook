@@ -16,12 +16,13 @@
             this.recipeTypeRepository = recipeTypeRepository;
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public List<T> GetAll<T>()
         {
             IQueryable<RecipeType> query =
                 this.recipeTypeRepository.All().OrderBy(x => x.Name);
 
             return query.To<T>().ToList();
         }
+
     }
 }

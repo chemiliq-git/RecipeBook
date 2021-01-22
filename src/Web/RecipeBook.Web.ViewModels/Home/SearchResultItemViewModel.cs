@@ -10,6 +10,10 @@
 
     public class SearchResultItemViewModel : IMapFrom<Recipe>, IMapFrom<Ingredient>, IMapTo<Recipe>, IMapTo<Ingredient>, IHaveCustomMappings
     {
+        public SearchResultItemViewModel()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
         public string Id { get; set; }
 
         public string Name { get; set; }

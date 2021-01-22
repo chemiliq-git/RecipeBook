@@ -71,6 +71,8 @@
             services.AddScoped<IIngredientService, IngredientService>();
             services.AddScoped<IIngredientTypeService, IngredientTypeService>();
             services.AddScoped<IVoteService, VoteService>();
+            services.AddScoped<IIngredientsSetService, IngredientsSetService>();
+            services.AddScoped<IIngredientsSetItemService, IngredientsSetItemService>();
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
