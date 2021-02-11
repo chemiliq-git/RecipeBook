@@ -31,7 +31,12 @@
                 crImg.stop(data);
             },
             error: function (error) {
-                var er = error;
+                if (error.status == 401) {
+                    window.location.href = '/Identity/Account/Login';
+                }
+                else {
+                    //TODO show custom error msg
+                }
             }
         });
     };

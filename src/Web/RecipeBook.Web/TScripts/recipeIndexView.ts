@@ -17,9 +17,13 @@ function OnCookedTodayClick(Id: string) {
         success: function (result) {            
             document.getElementById("LastCooked").setAttribute("value", result)
         },
-        error: function (result) {
-            //TODO 
-            var error = result;
+        error: function (error) {
+            if (error.status == 401) {
+                window.location.href = '/Identity/Account/Login';
+            }
+            else {
+                //TODO show custom error msg
+            }
         }
     });
 }

@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text.Json;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using RecipeBook.Data.Models;
@@ -52,6 +52,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(IngredientsSetScreenViewModel inputData)
         {
@@ -121,6 +122,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(IngredientsSetScreenViewModel inputData)
         {
