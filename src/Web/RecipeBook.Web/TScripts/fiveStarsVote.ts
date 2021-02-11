@@ -93,8 +93,8 @@
             headers: { 'X-CSRF-TOKEN': token.toString() },
             success: function (result) {
                 var stars = $(starElement).parent().children('li.star');
-
-                $('#taste_rate').html(result);
+                var starsValueItem = $(starElement).parent().children('li.list-inline-item')
+                starsValueItem.html('(Taste rate:' + result+ ')');
 
                 for (let i = 0; i < stars.length; i++) {
                     if (i < parseInt(result)) {

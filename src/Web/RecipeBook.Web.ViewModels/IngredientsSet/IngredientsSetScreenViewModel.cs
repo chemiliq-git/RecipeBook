@@ -8,16 +8,23 @@
     {
         public IngredientsSetScreenViewModel()
         {
-            SearchResultItems = new List<SearchResultItemViewModel>();
-            SearchData = new SearchDataModel();
-            IngredientsSet = new IngredientsSetViewModel();
+            this.SearchResultItems = new List<SearchResultItemViewModel>();
+            this.SearchData = new SearchDataModel();
+            this.IngredientsSetItems = new List<IngredientsSetItemViewModel>();
         }
 
-        
-        public IEnumerable<SearchResultItemViewModel> SearchResultItems { get; set; }
+        public List<SearchResultItemViewModel> SearchResultItems { get; set; }
 
         public SearchDataModel SearchData { get; set; }
 
-        public IngredientsSetViewModel IngredientsSet { get; set; }
+        public string IngredientsSetId { get; set; }
+
+        public string IngredientsSetName { get; set; }
+
+        public List<IngredientsSetItemViewModel> IngredientsSetItems { get; set; }
+        
+        public string RecipeId { get; set; }
+
+        public string Mode { get; set; }
     }
 }

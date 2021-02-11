@@ -48,9 +48,7 @@ namespace RecipeBook.Web.Controllers
         {
             IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
 
-            ViewEngineResult viewResult = null;
-
-            viewResult = viewEngine.FindView(controller.ControllerContext, viewNamePath, false);
+            ViewEngineResult viewResult = viewEngine.FindView(controller.ControllerContext, viewNamePath, false);
 
             if (!viewResult.Success)
             {

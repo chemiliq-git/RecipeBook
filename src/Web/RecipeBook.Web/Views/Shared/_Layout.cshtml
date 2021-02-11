@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/cropperjs/cropper.css" asp-append-version="true" />
-</head>
+    <link rel="stylesheet" href="~/lib/bootstrap-toggle/css/bootstrap-toggle.css" asp-append-version="true" />
+ </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -31,6 +32,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Ingredients" asp-action="Index">Ingredients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Ingredients" asp-action="Create"><span class="badge rounded-pill badge-secondary p-1">New</span>Ingredient</a>
                         </li>
                     </ul>
                 </div>
@@ -58,6 +62,7 @@
     <script src="~/lib/popper.js/umd/popper.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/lib/tinymce/tinymce.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-toggle/js/bootstrap-toggle.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/autoCompleteSearch.js" asp-append-version="true"></script>
     <script src="~/lib/cropperjs/cropper.js" asp-append-version="true"></script>

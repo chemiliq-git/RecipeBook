@@ -1,0 +1,104 @@
+﻿@model RecipeBook.Web.ViewModels.Ingredeint.IngredientViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form id="keyForm" method="Post"></form>
+
+<div class="container">
+    <form asp-controller="Ingredients">
+        <input asp-for=@Model.ImagePath class="form-control" type="hidden" id="image_Path" />
+
+        <div class="row">
+            <div class="col-md-8 col-lg-7 pb-4">
+                <div class="card card-inverse card-primary" id="image_box" data-value="@Model.Id">
+                    <img id="uploaded_image" class="img-fluid text-center" src="~/images/PlaceHolder680x680.jpg" alt="Image" width="680" height="680" draggable="true">
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-5">
+                <div class="row h-100">
+                    <div class="col-md-12 col-lg-12 h-100 pb-4">
+                        <div class="card card-inverse h-100">
+                            <div class="row h-75">
+                                <div class="col-md-12 h-100 p-4">
+                                    <div class="form-group">
+                                        <label asp-for="@Model.Name" class="control-label">
+                                            Name:
+                                        </label>
+                                        <input asp-for="@Model.Name" class="form-control" value="@Model.Name" />
+                                        <span asp-validation-for=@Model.Name class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="@Model.IngredientTypeID" class="control-label">
+                                            Ingredient Type:
+                                        </label>
+                                        <select asp-for="@Model.IngredientTypeID" class="form-control def">
+                                            @{
+                                                foreach (var item in @Model.AllIngredientType)
+                                                {
+                                                    if (item.Id == Model.IngredientTypeID)
+                                                    {
+                                                        <option value=@item.Id selected="selected">@item.Name</option>
+                                                    }
+                                                    {
+                                                        <option value=@item.Id>@item.Name</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="@Model.IngredientTypeID" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row h-25">
+                                <div class="col-sm-12  col-lg-12 pl-4 pr-4">
+                                    <button type="submit" asp-action="Create" method="Post" class="btn btn-sm btn-success rounded-pill"><i class="fas fa-check-circle"></i>Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Crop Image Before Upload</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="img-container">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <img src="" id="sample_image" />
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="preview"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="crop" class="btn btn-primary">Crop</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/js/ingredientCreateView.js" asp-append-version="true"></script>
+    <script src="~/js/cropImage.js" asp-append-version="true"></script>
+    <script src="~/js/dragDropImage.js" asp-append-version="true"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

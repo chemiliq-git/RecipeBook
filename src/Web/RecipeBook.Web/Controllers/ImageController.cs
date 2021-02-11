@@ -33,9 +33,9 @@
                     {
                         path += "Recipes";
                     }
-                    else if (data.Type == "Products")
+                    else if (data.Type == "Ingredients")
                     {
-                        path += "Products";
+                        path += "Ingredients";
                     }
 
                     string fileName = data.LinkedId + "_Img" + ".png";

@@ -25,6 +25,8 @@
         {
             SideBarFilterViewModel sideBarFilterViewModel = new SideBarFilterViewModel();
 
+            sideBarFilterViewModel.Mode = searchData.Mode;
+
             if (searchData.Mode == SearchDataModeEnum.Recipe)
             {
                 sideBarFilterViewModel.RecipeTypes = this.recipeTypeService.GetAll<SearchRecipeTypeViewModel>();

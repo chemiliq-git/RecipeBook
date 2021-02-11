@@ -1,0 +1,27 @@
+﻿@model RecipeBook.Web.ViewModels.IngredientsSet.IngredientsSetScreenViewModel;
+
+<form id="keyForm" asp-controller="IngredientsSet" method="Post"></form>
+
+@{ 
+    Model.Mode = "Edit";
+}
+<div class="container">
+    <div type="hidden" id="model_data" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model, Newtonsoft.Json.Formatting.Indented,
+        new Newtonsoft.Json.JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() })"></div>
+    <div class="row">
+        <div class="col-3">
+            @await Component.InvokeAsync("SideBarFilter", new { searchData = Model.SearchData })
+        </div>
+        <div class="col-3 border-right" id="SearchResultListPartialView">
+            <partial name="SearchResultList" model="@Model" data="@Model" />
+        </div>
+        <div class="col-6" id="IngredientsSetItemsListPartialView">
+            <partial name="IngredientsSetItemsList" model="@Model" data="@Model" />
+        </div>
+    </div>
+</div>
+
+    @section Scripts {
+        <script src="~/js/ingredientsSetView.js" asp-append-version="true"></script>
+        <script src="~/js/sideBarView.js" asp-append-version="true"></script>
+    }

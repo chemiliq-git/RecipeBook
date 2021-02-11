@@ -9,7 +9,6 @@
         public Recipe()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.IngredientRecipeTypes = new HashSet<IngredientRecipeType>();
             this.Votes = new HashSet<Vote>();
         }
 
@@ -24,8 +23,6 @@
         public virtual RecipeType RecipeType { get; set; }
 
         public string IngredientRecipeTypeId { get; set; }
-
-        public virtual ICollection<IngredientRecipeType> IngredientRecipeTypes { get; set; }
 
         public string IngredientSetId { get; set; }
 

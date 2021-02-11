@@ -1,11 +1,13 @@
 ﻿class sideBar {
 
-    onSideBarChange: any;  
+    onSideBarChange: any;
+    searchDataMode: string;
 
-    constructor(onSideBarChange: any) {
-        let myAutoCompleteSearch = new autoCompleteSearch("#searchBox"); 
+    constructor(onSideBarChange: any, searchDataMode) {
+        let myAutoCompleteSearch = new autoCompleteSearch("#searchBox", searchDataMode);
         myAutoCompleteSearch.startListenOnKeyUp();
-        this.onSideBarChange = onSideBarChange;        
+        this.onSideBarChange = onSideBarChange;
+        this.searchDataMode = searchDataMode;
     }
 
     startListenOnSideBarChange() {
@@ -52,6 +54,6 @@
         }
         formData.append("Ingredients", checkedElementsIds);
 
-        context.onSideBarChange(formData);    
+        context.onSideBarChange(formData);
     };
 }

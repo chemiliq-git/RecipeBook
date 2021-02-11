@@ -10,9 +10,18 @@
         {
             Id = Guid.NewGuid().ToString();
         }
-        public string Id { get; set; }
-        public IngredientViewModel Ingredient { get; set; }
 
-        public decimal QTY { get; set; }
+        public string Id { get; set; }
+
+        public string IngredientId { get; set; }
+
+        public string IngredientName { get; set; }
+
+        public string QTYData { get; set; }
+
+        public int Status { get; set; }
+
+        public bool IsMainItem { get; set; }
+
     }
 }

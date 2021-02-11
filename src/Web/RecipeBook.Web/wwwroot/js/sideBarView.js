@@ -1,8 +1,9 @@
 var sideBar = /** @class */ (function () {
-    function sideBar(onSideBarChange) {
-        var myAutoCompleteSearch = new autoCompleteSearch("#searchBox");
+    function sideBar(onSideBarChange, searchDataMode) {
+        var myAutoCompleteSearch = new autoCompleteSearch("#searchBox", searchDataMode);
         myAutoCompleteSearch.startListenOnKeyUp();
         this.onSideBarChange = onSideBarChange;
+        this.searchDataMode = searchDataMode;
     }
     sideBar.prototype.startListenOnSideBarChange = function () {
         var context = this;

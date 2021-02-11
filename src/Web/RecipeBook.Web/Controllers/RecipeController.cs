@@ -29,9 +29,8 @@
         public ActionResult Create()
         {
             RecipeViewModel data = new RecipeViewModel();
-            data.Id = Guid.NewGuid().ToString();
             data.AllRecipeTypes = this.recipeTypeService.GetAll<RecipeTypeViewModel>();
-            data.IngredientSet = new Data.Models.IngredientsSet();
+            data.IngredientSet = new ViewModels.IngredientsSet.IngredientsSetViewModel();
 
             return this.View(data);
         }
@@ -71,7 +70,7 @@
         {
             RecipeViewModel data = this.recipeService.GetById<RecipeViewModel>(Id);
             data.AllRecipeTypes = this.recipeTypeService.GetAll<RecipeTypeViewModel>();
-            data.IngredientSet = new Data.Models.IngredientsSet();
+            
             return this.View(data);
         }
 

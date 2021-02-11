@@ -9,6 +9,7 @@
     {
         public IngredientsSet()
         {
+            //TODO remove?
             this.Id = Guid.NewGuid().ToString();
             this.IngredientSetItems = new HashSet<IngredientsSetItem>();
         }
@@ -19,6 +20,6 @@
 
         public string RecipeID { get; set; }
 
-        public virtual Recipe Recipe { get; set; }
+        public virtual Recipe Recipe { get; set; }        
     }
 }

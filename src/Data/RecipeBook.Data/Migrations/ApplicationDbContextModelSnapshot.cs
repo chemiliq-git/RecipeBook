@@ -19,21 +19,6 @@ namespace RecipeBook.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("IngredientRecipeTypeRecipe", b =>
-                {
-                    b.Property<string>("IngredientRecipeTypesId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RecipesId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("IngredientRecipeTypesId", "RecipesId");
-
-                    b.HasIndex("RecipesId");
-
-                    b.ToTable("IngredientRecipeTypeRecipe");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -407,12 +392,14 @@ namespace RecipeBook.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsMainItem")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("QTY")
-                        .HasPrecision(12, 10)
-                        .HasColumnType("decimal(12,10)");
+                    b.Property<string>("QTYData")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -440,9 +427,9 @@ namespace RecipeBook.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IngredientRecipeTypeId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("IngredientSetID")
+                    b.Property<string>("IngredientSetId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -464,6 +451,8 @@ namespace RecipeBook.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IngredientRecipeTypeId");
 
                     b.HasIndex("IsDeleted");
 
@@ -567,21 +556,6 @@ namespace RecipeBook.Data.Migrations
                     b.ToTable("Votes");
                 });
 
-            modelBuilder.Entity("IngredientRecipeTypeRecipe", b =>
-                {
-                    b.HasOne("RecipeBook.Data.Models.IngredientRecipeType", null)
-                        .WithMany()
-                        .HasForeignKey("IngredientRecipeTypesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("RecipeBook.Data.Models.Recipe", null)
-                        .WithMany()
-                        .HasForeignKey("RecipesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("RecipeBook.Data.Models.ApplicationRole", null)
@@ -666,6 +640,10 @@ namespace RecipeBook.Data.Migrations
 
             modelBuilder.Entity("RecipeBook.Data.Models.Recipe", b =>
                 {
+                    b.HasOne("RecipeBook.Data.Models.IngredientRecipeType", null)
+                        .WithMany("Recipes")
+                        .HasForeignKey("IngredientRecipeTypeId");
+
                     b.HasOne("RecipeBook.Data.Models.RecipeType", "RecipeType")
                         .WithMany("Recipes")
                         .HasForeignKey("RecipeTypeId");
@@ -676,7 +654,7 @@ namespace RecipeBook.Data.Migrations
             modelBuilder.Entity("RecipeBook.Data.Models.Vote", b =>
                 {
                     b.HasOne("RecipeBook.Data.Models.Recipe", "Recipe")
-                        .WithMany()
+                        .WithMany("Votes")
                         .HasForeignKey("RecipeId");
 
                     b.HasOne("RecipeBook.Data.Models.ApplicationUser", "User")
@@ -704,6 +682,11 @@ namespace RecipeBook.Data.Migrations
                     b.Navigation("IngredientSetItems");
                 });
 
+            modelBuilder.Entity("RecipeBook.Data.Models.IngredientRecipeType", b =>
+                {
+                    b.Navigation("Recipes");
+                });
+
             modelBuilder.Entity("RecipeBook.Data.Models.IngredientType", b =>
                 {
                     b.Navigation("Ingredients");
@@ -717,6 +700,8 @@ namespace RecipeBook.Data.Migrations
             modelBuilder.Entity("RecipeBook.Data.Models.Recipe", b =>
                 {
                     b.Navigation("IngredientSet");
+
+                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("RecipeBook.Data.Models.RecipeType", b =>

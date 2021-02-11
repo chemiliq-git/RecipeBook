@@ -3,7 +3,14 @@
 <div class="card">
     <article class="card-group-item">
         <header class="card-header">
-            <h6 class="title">Filter by recipe name</h6>
+            @if (Model.Mode == RecipeBook.Web.ViewModels.Home.SearchDataModeEnum.Recipe)
+            {
+                <h6 class="title">Filter by recipe name</h6>
+            }
+            else
+            {
+                <h6 class="title">Filter by ingredient name</h6>
+            }
         </header>
         <div class="filter-content">
             <div class="card-body">
@@ -40,7 +47,9 @@
                         </div>
                     </form>
                 </div>
-        </article>}
+            </div>
+        </article>
+    }
     <article class="card-group-item">
         <header class="card-header">
             <h6 class="title">Filter by ingredients</h6>

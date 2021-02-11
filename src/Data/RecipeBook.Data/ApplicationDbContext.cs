@@ -71,7 +71,7 @@
             .WithOne(r => r.Recipe)
             .HasForeignKey<IngredientsSet>(ps => ps.RecipeID);
 
-            builder.Entity<IngredientsSetItem>().Property(obj => obj.QTY).HasPrecision(12, 10);
+            //builder.Entity<IngredientsSetItem>().Property(obj => obj.QTY).HasPrecision(12, 10);
 
             this.ConfigureUserIdentityRelations(builder);
 

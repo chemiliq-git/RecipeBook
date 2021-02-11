@@ -1,0 +1,53 @@
+﻿@model RecipeBook.Web.ViewModels.Ingredeint.IngredientViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <form>
+        <div class="row">
+            <div class="col-md-8 col-lg-7 pb-4">
+                <div class="card card-inverse card-primary" id="image_box">
+                    <img class="img-fluid text-center" src="@Model.ImagePath" alt="Image" width="680" height="680" draggable="true">
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-5">
+                <div class="row h-100">
+                    <div class="col-md-12 col-lg-12 h-100 pb-4">
+                        <div class="card card-inverse bg-transparent h-100">
+                            <div class="row h-75">
+                                <div class="col-md-12 h-100 p-4">
+                                    <h3>
+                                        Name:<br />@Model.Name
+                                    </h3>
+                                    <h6>
+                                        Ingredient Type:<br />@Model.IngredientType.Name
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="row h-25">
+                                <div class="col-sm-6  col-lg-12 pl-4 pr-4">
+                                    <button type="submit" asp-action="Edit" method="Post" asp-route-id="@Model.Id" class="btn btn-sm btn-secondary rounded-pill"><i class="fas fa-edit"></i>Edit</button>
+                                </div>
+                                @*TODO back*@
+                                @*<div class="col-sm-6  col-lg-12 pl-4 pr-4">
+                                        <button type="button" class="btn btn-sm btn-success rounded-pill" onclick="OnCookedTodayClick('@Model.Id')"><i class="fas fa-check-circle"></i>Cooked Today</button>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@*<div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>*@
+
+@section Scripts {
+    <script src="~/js/ingredientDetailsView.js" asp-append-version="true"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,7 +1,8 @@
 ﻿namespace RecipeBook.Data.Models
 {
-    using RecipeBook.Data.Common.Models;
     using System;
+
+    using RecipeBook.Data.Common.Models;
 
     public class IngredientsSetItem : BaseDeletableModel<string>
     {
@@ -14,6 +15,10 @@
 
         public virtual Ingredient Ingredient { get; set; }
 
-        public decimal QTY { get; set; }
+        public string IngredientsSetId { get; set; }
+
+        public string QTYData { get; set; }
+
+        public bool IsMainItem { get; set; }
     }
 }

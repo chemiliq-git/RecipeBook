@@ -26,12 +26,19 @@
         // [HttpGet("{input}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult<IEnumerable<string>> Post([FromForm]string inputText)
+        public ActionResult<IEnumerable<string>> Post([FromForm]string inputText, [FromForm] string searchDataMode)
         {
-            var searchRecipesResultItems = this.recipeService.GetByNamesList<SearchResultItemViewModel>(inputText);
-            //var searchIngredientsResultItems = this.ingredientsService.GetByInputList<SearchResultItemViewModel>(inputText);
+            var searchRecipesResultItems = new List<SearchResultItemViewModel>();
+            if (searchDataMode.ToUpper() == SearchDataModeEnum.Recipe.ToString().ToUpper())
+            {
+                searchRecipesResultItems = this.recipeService.GetByNamesList<SearchResultItemViewModel>(inputText).ToList();
+            }
+            else if (searchDataMode.ToUpper() == SearchDataModeEnum.Ingredient.ToString().ToUpper())
+            {
+                searchRecipesResultItems = this.ingredientsService.GetByNamesList<SearchResultItemViewModel>(inputText).ToList();
+            }
 
-            var resultItems = /*searchIngredientsResultItems.Concat(*/searchRecipesResultItems/*)*/;
+            var resultItems = searchRecipesResultItems;
 
             return this.Json(resultItems);
         }

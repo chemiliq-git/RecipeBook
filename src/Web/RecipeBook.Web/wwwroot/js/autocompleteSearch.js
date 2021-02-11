@@ -1,6 +1,7 @@
 var autoCompleteSearch = /** @class */ (function () {
-    function autoCompleteSearch(controlName) {
+    function autoCompleteSearch(controlName, searchDataMode) {
         this.controlName = controlName;
+        this.searchDataMode = searchDataMode;
     }
     autoCompleteSearch.prototype.startListenOnKeyUp = function () {
         var context = this;
@@ -8,6 +9,7 @@ var autoCompleteSearch = /** @class */ (function () {
             var input = $(context.controlName).val().toString();
             var formData = new FormData();
             formData.append("inputText", input);
+            formData.append("searchDataMode", context.searchDataMode);
             var token = $("#keyForm input[name=__RequestVerificationToken]").val();
             $.ajax({
                 url: "/api/AutocompleteSearch",

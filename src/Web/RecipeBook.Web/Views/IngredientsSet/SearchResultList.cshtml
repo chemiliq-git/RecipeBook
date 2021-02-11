@@ -1,0 +1,19 @@
+﻿@model RecipeBook.Web.ViewModels.IngredientsSet.IngredientsSetScreenViewModel;
+
+@{
+    var serializedModelData = Newtonsoft.Json.JsonConvert.SerializeObject(Model, Newtonsoft.Json.Formatting.Indented,
+        new Newtonsoft.Json.JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() });
+    int elCount = Model.SearchResultItems.Count();
+    if (elCount != 0)
+    {
+        <div class="list-group">
+            @foreach (var item in Model.SearchResultItems)
+            {
+                <button id='search_result_items_@item.Id' onclick="onSearchResultItemClick('@item.Id', @serializedModelData) " class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    @item.Name
+                    <i id='icon_search_result_items_@item.Id' class="fas fa-arrow-circle-right"></i>
+                </button>
+            }
+        </div>
+    }
+}

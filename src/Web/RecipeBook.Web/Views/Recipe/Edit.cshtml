@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-md-8 col-lg-7 pb-4">
                 <div class="card card-inverse card-primary" id="image_box" data-value="@Model.Id">
-                    <img id="uploaded_image" class="img-fluid" src="@Model.ImagePath" alt="Responsive image" draggable="true">
+                    <img id="uploaded_image" class="img-fluid" src="@Model.ImagePath" alt="Image" width="680" height="680" draggable="true">
                 </div>
             </div>
             <div class="col-md-4 col-lg-5">
@@ -52,7 +52,7 @@
                                         <span asp-validation-for="@Model.RecipeType.Id" class="text-danger"></span>
                                     </div>
                                     <div class='rating-stars mb-0' title="Taste:">
-                                        <ul id='stars' data-value='@Model.Id,3'>
+                                        <ul id='stars' data-value='@Model.Id,@Model.TasteRate'>
                                             <li class='star' title='Poor' data-value='1'>
                                                 <i class='fa fa-star fa-fw'></i>
                                             </li>
@@ -68,14 +68,14 @@
                                             <li class='star' title='WOW!!!' data-value='5'>
                                                 <i class='fa fa-star fa-fw'></i>
                                             </li>
-                                            <li class="list-inline-item"><p class="text-muted" id="taste_rate"></p></li>
+                                            <li class="list-inline-item"><p class="text-muted" id="taste_rate">(Taste rate:@Model.TasteRate)</p></li>
                                         </ul>
                                     </div>
                                     <div class="form-inline">
                                         <label asp-for="@Model.LastCooked" class="control-label">
                                             Last cooked:
                                         </label>
-                                        <input type="datetime-local"  asp-for="@Model.LastCooked" class="form-control" value="@Model.LastCooked.ToString("s")"/>
+                                        <input type="datetime-local" asp-for="@Model.LastCooked" class="form-control" value="@Model.LastCooked.ToString("s")" />
                                         <span asp-validation-for="@Model.LastCooked" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -103,16 +103,27 @@
             <div class="col">
                 <div class="card card-inverse card-success p-4">
                     <p>Ingredients:</p>
-                    @if (Model.IngredientSet != null)
+                    @if (Model.IngredientSet != null && Model.IngredientSet.IngredientSetItems != null && Model.IngredientSet.IngredientSetItems.Count > 0)
                     {
                         foreach (var item in Model.IngredientSet.IngredientSetItems)
                         {
-                            <p>.@item.QTY @item.Ingredient.Name</p>
+                            <p>.@item.QTYData @item.IngredientName</p>
                         }
+
+                        <div class="col-4 pl-4 pr-4">
+                            <a class="btn btn-sm btn-success rounded-pill" asp-controller="IngredientsSet" asp-action="Edit" asp-route-id="@Model.Id">
+                                <i class="fas fa-plus-circle"></i>Edit
+                            </a>
+                        </div>
                     }
-                    <div class="col-4 pl-4 pr-4">
-                        <button type="submit" asp-controller="IngredientsSet" asp-action="Index" asp-route-id="@Model.Id" class ="btn btn-sm btn-success rounded-pill"><i class="fas fa-plus-circle"></i>Add / Edit</button>
-                    </div>
+                    else
+                    {
+                        <div class="col-4 pl-4 pr-4">
+                            <a class="btn btn-sm btn-success rounded-pill" asp-controller="IngredientsSet" asp-action="Create" asp-route-id="@Model.Id">
+                                <i class="fas fa-plus-circle"></i>Edit
+                            </a>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -155,7 +166,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-inline">            
+        <div class="form-inline">
             <button type="submit" class="btn btn-sm btn-success rounded-pill">
                 <i class="fas fa-check-circle"></i>Save
             </button>
@@ -167,7 +178,7 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/recipeCreateView.js" asp-append-version="true"></script>
+    <script src="~/js/recipeEditView.js" asp-append-version="true"></script>
     <script src="~/js/cropImage.js" asp-append-version="true"></script>
     <script src="~/js/dragDropImage.js" asp-append-version="true"></script>
     <script src="~/js/fiveStarsVote.js" asp-append-version="true"></script>

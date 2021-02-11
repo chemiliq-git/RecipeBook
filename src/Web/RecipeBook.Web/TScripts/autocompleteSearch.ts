@@ -6,9 +6,11 @@
 class autoCompleteSearch {
 
     controlName: string;
+    searchDataMode: string;
 
-    constructor(controlName: string) {        
+    constructor(controlName: string, searchDataMode) {        
         this.controlName = controlName;
+        this.searchDataMode = searchDataMode;
     }
 
     startListenOnKeyUp() {
@@ -19,6 +21,7 @@ class autoCompleteSearch {
 
             var formData = new FormData();
             formData.append("inputText", input);
+            formData.append("searchDataMode", context.searchDataMode);
             var token = $("#keyForm input[name=__RequestVerificationToken]").val();
 
             $.ajax(

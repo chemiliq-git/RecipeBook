@@ -3,6 +3,6 @@
     public enum SearchDataModeEnum
     {
         Recipe,
-        Product,
+        Ingredient,
     }
 }
