@@ -35,6 +35,8 @@
 
         public int TasteRate { get; set; }
 
+        public int EasyRate { get; set; }
+
         public DateTime LastCooked { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
@@ -42,7 +44,11 @@
             configuration.CreateMap<Recipe, RecipeViewModel>()
                 .ForMember(vm => vm.TasteRate, options =>
                 {
-                    options.MapFrom(r => (r.Votes.Count > 0) ? (int)r.Votes.Average(v => v.Value) : 0);
+                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Taste).ToList().Count > 0) ? (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste).Average(v => v.Value) : 0);
+                })
+                .ForMember(vm => vm.EasyRate, options =>
+                {
+                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Easy).ToList().Count > 0) ? (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy).Average(v => v.Value) : 0);
                 });
         }
     }

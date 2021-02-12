@@ -1,5 +1,6 @@
 ﻿namespace RecipeBook.Web.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -57,6 +58,8 @@
             {
                 searchViewModel.ResultItems = this.recipeService.GetAll<SearchResultItemViewModel>();
             }
+
+            searchViewModel.ResultItems = searchViewModel.ResultItems.OrderByDescending(result => result.NextRecipeIndex);
 
             return this.View(searchViewModel);
         }
@@ -118,7 +121,7 @@
             }
 
 
-            searchViewModel.ResultItems = varResultItems;
+            searchViewModel.ResultItems = varResultItems.OrderByDescending(result => result.NextRecipeIndex);
             var parView = this.PartialView("ResultList", searchViewModel);
             return parView;
         }

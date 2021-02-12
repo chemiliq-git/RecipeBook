@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
-    let fStarsVote = new fiveStarsVote();
-    fStarsVote.startListenToVote();
+    let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+    fTasteStarsVote.startListenToVote();
+    let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+    fEasyStarsVote.startListenToVote();
 });

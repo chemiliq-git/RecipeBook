@@ -1,8 +1,10 @@
 ﻿$(document).ready(function () {
     let searchViewSideBar = new sideBar(onSideBarChange, "Recipe");
     searchViewSideBar.startListenOnSideBarChange();
-    let fStarsVote = new fiveStarsVote();
-    fStarsVote.startListenToVote();
+    let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+    fTasteStarsVote.startListenToVote();
+    let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+    fEasyStarsVote.startListenToVote();
 
     function onSideBarChange(data: any) {
 
@@ -17,8 +19,10 @@
             headers: { 'X-CSRF-TOKEN': token.toString() },
             success: function (result) {
                 $('#partialView').html(result);
-                let fStarsVote = new fiveStarsVote();
-                fStarsVote.startListenToVote();
+                let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                fTasteStarsVote.startListenToVote();
+                let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                fEasyStarsVote.startListenToVote();
 
             },
             error: function (result) {

@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
-    let fStarsVote = new fiveStarsVote();
+    let fTasteStarsVote = new fiveStarsVote("TasteRateStars");   
+    let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
 
     let crImg = new cropImage(onImageCroped);
 
