@@ -173,6 +173,12 @@
 
             indexViewModel.SearchData = searchData;
 
+            //TODO
+            //if (!this.ModelState.IsValid)
+            //{
+            //    return this.View(indexViewModel);
+            //}
+
             List<IngredientViewModel> varResultItems = this.ingredientsService.GetAll<IngredientViewModel>().ToList();
             bool isPrevFiltered = false;
 

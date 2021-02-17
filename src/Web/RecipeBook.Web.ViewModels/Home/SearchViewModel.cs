@@ -4,6 +4,11 @@
 
     public class SearchViewModel
     {
+        public SearchViewModel()
+        {
+            this.ResultItems = new List<SearchResultItemViewModel>();
+        }
+
         public IEnumerable<SearchResultItemViewModel> ResultItems { get; set; }
 
         public SearchDataModel SearchData { get; set; }

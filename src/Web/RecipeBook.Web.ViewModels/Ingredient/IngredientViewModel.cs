@@ -5,6 +5,7 @@
     using RecipeBook.Web.ViewModels.Ingredient;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class IngredientViewModel : IMapFrom<Ingredient>
     {
@@ -16,6 +17,9 @@
 
         public string Id { get; set; }
 
+        [Required]
+        [StringLength(100, ErrorMessage = "Name length can't be more than 100 symbols and less than 1 symbol.")]
+        [RegularExpression(@"^.*[^\d\W]", ErrorMessage = "Name can't contain digits.")]
         public string Name { get; set; }
 
         public string ImagePath { get; set; }

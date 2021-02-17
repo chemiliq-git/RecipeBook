@@ -31,21 +31,9 @@
             data.SearchData.Mode = SearchDataModeEnum.Ingredient;
 
             data.SearchResultItems = this.ingredientsService.GetAll<SearchResultItemViewModel>().ToList();
-
-            var ingredientsSets = this.ingredientsSetService.GetByRecipeId<IngredientsSetViewModel>(id);
-
-            if (ingredientsSets.Count() > 0)
-            {
-                data.IngredientsSetId = ingredientsSets.First().Id;
-                data.IngredientsSetName = ingredientsSets.First().Name;
-                data.IngredientsSetItems = ingredientsSets.First().IngredientSetItems.ToList();
-            }
-            else
-            {
-                data.IngredientsSetId = Guid.NewGuid().ToString();
-                data.IngredientsSetName = "Set";
-            }
-
+            data.IngredientsSetId = Guid.NewGuid().ToString();
+            // TODO change IngredientsSetName
+            data.IngredientsSetName = "Set";
             data.RecipeId = id;
 
             return this.View(data);
@@ -56,7 +44,7 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(IngredientsSetScreenViewModel inputData)
         {
-            try
+            if (this.ModelState.IsValid)
             {
                 List<IngredientsSetItem> ingredientsSetItems = new List<IngredientsSetItem>();
                 foreach (var item in inputData.IngredientsSetItems)
@@ -74,7 +62,7 @@
                 bool result = await this.ingredientsSetService.CreateAsync(new Data.Models.IngredientsSet
                 {
                     Id = inputData.IngredientsSetId,
-                    Name = inputData.IngredientsSetName,       
+                    Name = inputData.IngredientsSetName,
                     IngredientSetItems = ingredientsSetItems,
                     RecipeID = inputData.RecipeId,
                 });
@@ -83,14 +71,9 @@
                 {
                     return this.RedirectToAction(nameof(this.Edit), new { @id = inputData.RecipeId });
                 }
+            }
 
-                // TODO change it
-                return this.View();
-            }
-            catch
-            {
-                return this.View();
-            }
+            return this.View(inputData);
         }
 
         // GET: IngredientsSetController/Edit/5
@@ -126,8 +109,7 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(IngredientsSetScreenViewModel inputData)
         {
-
-            try
+            if (this.ModelState.IsValid)
             {
                 List<IngredientsSetItemDataModel> ingredientsSetItems = new List<IngredientsSetItemDataModel>();
                 foreach (var item in inputData.IngredientsSetItems)
@@ -145,29 +127,25 @@
 
                 bool result = await this.ingredientsSetService.UpdateAsync(
                     new Data.Models.IngredientsSet
-                {
-                    Id = inputData.IngredientsSetId,
-                    Name = inputData.IngredientsSetName,
-                    RecipeID = inputData.RecipeId,
-                }, ingredientsSetItems);
+                    {
+                        Id = inputData.IngredientsSetId,
+                        Name = inputData.IngredientsSetName,
+                        RecipeID = inputData.RecipeId,
+                    }, ingredientsSetItems);
 
                 if (result)
                 {
                     return this.RedirectToAction(nameof(this.Edit), new { @id = inputData.RecipeId });
                 }
+            }
 
-                // TODO change it
-                return this.View();
-            }
-            catch
-            {
-                return this.View();
-            }
+            return this.View(inputData);
         }
 
         // GET: IngredientsSetController/Delete/5
         public ActionResult Delete(int id)
         {
+            // TODO
             return View();
         }
 
@@ -176,14 +154,8 @@
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            // TODO
+            return View();
         }
 
         [HttpPost]

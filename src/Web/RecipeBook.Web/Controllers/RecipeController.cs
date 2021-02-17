@@ -40,37 +40,35 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(RecipeViewModel inputData)
         {
-            try
+            if (this.ModelState.IsValid)
             {
-                if (this.ModelState.IsValid)
+                bool result = await this.recipeService.CreateAsync(new RecipeDataModel()
                 {
-                    await this.recipeService.CreateAsync(new RecipeDataModel()
-                    {
-                        Id = inputData.Id,
-                        ImagePath = inputData.ImagePath,
-                        Name = inputData.Name,
-                        Text = inputData.Text,
-                        RecipeTypeId = inputData.RecipeType.Id,
-                        //IngredientRecipeTypes = inputData.IngredientRecipeTypes,
-                        //IngredientSetId = inputData.IngredientSet.Id,
-                        LastCooked = inputData.LastCooked,
-                    });
-                }
+                    Id = inputData.Id,
+                    ImagePath = inputData.ImagePath,
+                    Name = inputData.Name,
+                    Text = inputData.Text,
+                    RecipeTypeId = inputData.RecipeType.Id,
+                    //IngredientRecipeTypes = inputData.IngredientRecipeTypes,
+                    //IngredientSetId = inputData.IngredientSet.Id,
+                    LastCooked = inputData.LastCooked,
+                });
 
-                // redirect to next view
-                return this.RedirectToAction(nameof(this.Edit), "Recipe", new { @id = inputData.Id });
+                if (result)
+                {
+                    // redirect to next view
+                    return this.RedirectToAction(nameof(this.Edit), "Recipe", new { @id = inputData.Id });
+                }
             }
-            catch
-            {
-                return this.View();
-            }
+
+            return this.View(inputData);
         }
 
         public ActionResult Edit(string Id)
         {
             RecipeViewModel data = this.recipeService.GetById<RecipeViewModel>(Id);
             data.AllRecipeTypes = this.recipeTypeService.GetAll<RecipeTypeViewModel>();
-            
+
             return this.View(data);
         }
 
@@ -79,30 +77,27 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(RecipeViewModel inputData)
         {
-            try
+            if (this.ModelState.IsValid)
             {
-
-                if (this.ModelState.IsValid)
+                bool result = await this.recipeService.UpdateAsync(new RecipeDataModel()
                 {
-                    await this.recipeService.UpdateAsync(new RecipeDataModel()
-                    {
-                        Id = inputData.Id,
-                        ImagePath = inputData.ImagePath,
-                        Name = inputData.Name,
-                        Text = inputData.Text,
-                        RecipeTypeId = inputData.RecipeType.Id,
-                        //IngredientRecipeTypes = inputData.IngredientRecipeTypes,
-                        //IngredientSetId = inputData.IngredientSet.Id,
-                        LastCooked = inputData.LastCooked,
-                    });
-                }
+                    Id = inputData.Id,
+                    ImagePath = inputData.ImagePath,
+                    Name = inputData.Name,
+                    Text = inputData.Text,
+                    RecipeTypeId = inputData.RecipeType.Id,
+                    //IngredientRecipeTypes = inputData.IngredientRecipeTypes,
+                    //IngredientSetId = inputData.IngredientSet.Id,
+                    LastCooked = inputData.LastCooked,
+                });
 
-                return this.RedirectToAction(nameof(this.Index), "Recipe", new { @id = inputData.Id });
+                if (result)
+                {
+                    return this.RedirectToAction(nameof(this.Index), "Recipe", new { @id = inputData.Id });
+                }
             }
-            catch
-            {
-                return this.View();
-            }
+
+            return this.View(inputData);
         }
 
         [HttpPost]
@@ -110,14 +105,8 @@
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
-            try
-            {
-                return this.RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return this.View();
-            }
+            // TODO
+            return this.View();
         }
 
         [HttpPost]

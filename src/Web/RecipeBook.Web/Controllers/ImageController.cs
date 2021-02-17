@@ -21,7 +21,12 @@
         // [Route("Upload")]
         public IActionResult Post([FromForm] ImageDataModel data)
         {
-            if (!string.IsNullOrEmpty(data.Image))
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest();
+            }
+
+            if (data != null && !string.IsNullOrEmpty(data.Image))
             {
                 var imageBase64Str = data.Image.Split(',')[1];
                 if (!string.IsNullOrEmpty(imageBase64Str))

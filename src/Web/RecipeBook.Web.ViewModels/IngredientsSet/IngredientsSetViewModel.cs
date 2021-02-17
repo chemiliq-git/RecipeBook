@@ -19,7 +19,5 @@
         public string Name { get; set; }
 
         public ICollection<IngredientsSetItemViewModel> IngredientSetItems { get; set; }
-
-        public Recipe Recipe { get; set; }
     }
 }

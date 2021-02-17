@@ -42,6 +42,11 @@
             var searchViewModel = new SearchViewModel();
             searchViewModel.SearchData = searchData;
 
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(searchViewModel);
+            }
+
             if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
             {
                 var searchRecipesByNameResultItems = this.recipeService.GetByName<SearchResultItemViewModel>(searchData.Text);
@@ -60,7 +65,6 @@
             }
 
             searchViewModel.ResultItems = searchViewModel.ResultItems.OrderByDescending(result => result.NextRecipeIndex);
-
             return this.View(searchViewModel);
         }
 
@@ -72,6 +76,12 @@
             var searchViewModel = new SearchViewModel();
 
             searchViewModel.SearchData = searchData;
+
+            //TODO change it
+            //if (!this.ModelState.IsValid)
+            //{
+            //    return this.View("Search", searchViewModel);
+            //}
 
             List<SearchResultItemViewModel> varResultItems = this.recipeService.GetAll<SearchResultItemViewModel>().ToList();
             bool isPrevFiltered = false;

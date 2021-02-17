@@ -43,15 +43,17 @@
             height: 800
         });
 
-        canvas.toBlob(function (blob) {
-            let url = URL.createObjectURL(blob);
-            var reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onloadend =
-                function () {
-                    context.onImgCroped(reader);
-                }
+        if (canvas != null) {
+            canvas.toBlob(function (blob) {
+                let url = URL.createObjectURL(blob);
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend =
+                    function () {
+                        context.onImgCroped(reader);
+                    }
 
-        });
+            });
+        }
     };
 }

@@ -7,7 +7,8 @@
 
     constructor(elementId: string, handleImageDroped, handleError) {
         this.elementId = elementId;
-        this.handleImageDroped = handleImageDroped;     
+        this.handleImageDroped = handleImageDroped;
+        this.handleError = handleError;
     }
 
     startListen() {

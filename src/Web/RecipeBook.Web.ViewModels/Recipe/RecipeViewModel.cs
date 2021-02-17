@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using AutoMapper;
     using RecipeBook.Data.Models;
@@ -12,11 +13,13 @@
     {
         public RecipeViewModel()
         {
-            this.Id = Guid.NewGuid().ToString();            
+            this.Id = Guid.NewGuid().ToString();
         }
 
         public string Id { get; set; }
 
+        [Required]
+        [StringLength(100, ErrorMessage = "Name length can't be more than 100 symbols and less than 1 symbol.")]
         public string Name { get; set; }
 
         public string Text { get; set; }
@@ -30,8 +33,6 @@
         public ICollection<IngredientRecipeType> IngredientRecipeTypes { get; set; }
 
         public IngredientsSetViewModel IngredientSet { get; set; }
-
-        public ICollection<Vote> Votes { get; set; }
 
         public int TasteRate { get; set; }
 
