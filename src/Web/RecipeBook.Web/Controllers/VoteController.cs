@@ -28,8 +28,8 @@
         public async Task<ActionResult<int>> Post([FromForm]VoteInputModel input)
         {
             var userId = this.userManager.GetUserId(this.User);
-            await this.voteService.VoteAsync(input.RecipeId, userId, VoteTypeEnm.Taste, input.Value);
-            var votesValue = this.voteService.GetValue(input.RecipeId, VoteTypeEnm.Taste);
+            await this.voteService.VoteAsync(input.RecipeId, userId, input.Type, input.Value);
+            var votesValue = this.voteService.GetValue(input.RecipeId, input.Type);
             return this.Json(votesValue);
         }
 

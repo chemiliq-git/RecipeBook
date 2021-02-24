@@ -3,11 +3,16 @@
 <form id="keyForm" method="Post"></form>
 
 <div class="container">
+    @*<div class="row d-block d-sm-none">
+        <button type="button" class="btn btn-default">
+            <span class="fas fa-sort-down"></span>Filter
+        </button>
+    </div>*@
     <div class="row">
-        <div class="col-3">
+        <div class="col-sm-12 col-md-3 col-lg-3">
             @await Component.InvokeAsync("SideBarFilter", new { searchData = Model.SearchData })
         </div>
-        <div class="col-9" id="partialView">
+        <div class="col-sm-12 col-dm-9 col-lg-9" id="partialView">
             <partial name="ResultList" model="@Model" data="@Model" />
         </div>
     </div>
@@ -16,8 +21,8 @@
 
 
 
-@section Scripts {
-    <script src="~/js/homeSearchView.js" asp-append-version="true"></script>
-    <script src="~/js/sideBarView.js" asp-append-version="true"></script>
-    <script src="~/js/fiveStarsVote.js" asp-append-version="true"></script>
-}
+    @section Scripts {
+        <script src="~/js/homeSearchView.js" asp-append-version="true"></script>
+        <script src="~/js/sideBarView.js" asp-append-version="true"></script>
+        <script src="~/js/fiveStarsVote.js" asp-append-version="true"></script>
+    }

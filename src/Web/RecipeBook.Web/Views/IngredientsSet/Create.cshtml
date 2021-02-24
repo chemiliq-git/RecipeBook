@@ -9,16 +9,15 @@
 <div class="container">
     <div type="hidden" id="model_data" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model, Newtonsoft.Json.Formatting.Indented,
         new Newtonsoft.Json.JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() })">
-
     </div>
     <div class="row">
-        <div class="col-3">
+        <div class="col-sm-12 col-md-2 col-lg-2">
             @await Component.InvokeAsync("SideBarFilter", new { searchData = Model.SearchData })
         </div>
-        <div class="col-3 border-right" id="SearchResultListPartialView">
+        <div class="col-sm-12 col-md-5 col-lg-5" id="SearchResultListPartialView">
             <partial name="SearchResultList" model="@Model" data="@Model" />
         </div>
-        <div class="col-6" id="IngredientsSetItemsListPartialView">
+        <div class="col-sm-12 col-md-5 col-lg-5" id="IngredientsSetItemsListPartialView">
             <partial name="IngredientsSetItemsList" model="@Model" data="@Model" />
         </div>
     </div>
