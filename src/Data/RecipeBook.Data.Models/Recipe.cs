@@ -30,5 +30,7 @@
 
         public virtual ICollection<Vote> Votes { get; set; }
         public DateTime LastCooked { get; set; }
+
+        public bool IsInMenu { get; set; }
     }
 }

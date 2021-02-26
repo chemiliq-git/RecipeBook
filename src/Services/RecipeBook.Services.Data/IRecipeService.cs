@@ -20,10 +20,16 @@
 
         IEnumerable<T> GetByIngredients<T>(string inputList);
 
+        IEnumerable<T> GetByIsInMenu<T>();
+
         Task<bool> CreateAsync(RecipeDataModel input);
 
         Task<bool> UpdateAsync(RecipeDataModel input);
 
         Task<bool> UpdateLastCookedDate(string inputId, DateTime currentDateTime);
+
+        Task<bool> AddRecipeToMenu(string inputId);
+
+        Task<bool> RemoveRecipeFromMenu(string inputId);
     }
 }

@@ -91,6 +91,21 @@
             return result;
         }
 
+        public IEnumerable<T> GetByIsInMenu<T>()
+        {
+            List<string> inputArray = new List<string>();
+            var result = new List<T>();
+
+            var recipes = this.recipeRepository.All();
+            recipes = from recipe in recipes
+                          where recipe.IsInMenu == true
+                          select recipe;
+
+            result = recipes.To<T>().ToList();
+
+            return result;
+        }
+
         public IEnumerable<T> GetByIngredients<T>(string inputList)
         {
             List<string> inputArray = new List<string>();
@@ -174,6 +189,54 @@
                 if (recipes.Count > 0)
                 {
                     recipes[0].LastCooked = currentDateTime;
+                    this.recipeRepository.Update(recipes[0]);
+                    await this.recipeRepository.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> AddRecipeToMenu(string inputId)
+        {
+            try
+            {
+                var recipes = this.recipeRepository.All()
+                .Where(r => r.Id == inputId)
+                .ToList();
+
+                if (recipes.Count > 0)
+                {
+                    recipes[0].IsInMenu = true;
+                    this.recipeRepository.Update(recipes[0]);
+                    await this.recipeRepository.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> RemoveRecipeFromMenu(string inputId)
+        {
+            try
+            {
+                var recipes = this.recipeRepository.All()
+                .Where(r => r.Id == inputId)
+                .ToList();
+
+                if (recipes.Count > 0)
+                {
+                    recipes[0].IsInMenu = false;
                     this.recipeRepository.Update(recipes[0]);
                     await this.recipeRepository.SaveChangesAsync();
                     return true;

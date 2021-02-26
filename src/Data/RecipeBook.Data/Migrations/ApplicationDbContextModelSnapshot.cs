@@ -435,6 +435,9 @@ namespace RecipeBook.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsInMenu")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("LastCooked")
                         .HasColumnType("datetime2");
 

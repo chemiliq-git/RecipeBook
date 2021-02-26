@@ -29,12 +29,14 @@
 
         public int LastCookedDays { get; set; }
 
-        public decimal NextRecipeIndex
+        public decimal RecipeScore
         {
             get { return this.LastCookedDays + this.TasteRate + this.EasyRate; }
         }
 
         public string Type { get; set; }
+
+        public bool IsInMenu { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using RecipeBook.Services.Data;
     using RecipeBook.Web.ViewModels;
@@ -64,7 +65,7 @@
                 searchViewModel.ResultItems = this.recipeService.GetAll<SearchResultItemViewModel>();
             }
 
-            searchViewModel.ResultItems = searchViewModel.ResultItems.OrderByDescending(result => result.NextRecipeIndex);
+            searchViewModel.ResultItems = searchViewModel.ResultItems.OrderByDescending(result => result.RecipeScore);
             return this.View(searchViewModel);
         }
 
@@ -131,9 +132,29 @@
             }
 
 
-            searchViewModel.ResultItems = varResultItems.OrderByDescending(result => result.NextRecipeIndex);
+            searchViewModel.ResultItems = varResultItems.OrderByDescending(result => result.RecipeScore);
             var parView = this.PartialView("ResultList", searchViewModel);
             return parView;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddRecipeToMenu(string id)
+        {
+            bool result = await this.recipeService.AddRecipeToMenu(id);
+
+            return this.Json(new { @id = id, @result = result });
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveRecipeFromMenu(string id)
+        {
+            bool result = await this.recipeService.RemoveRecipeFromMenu(id);
+
+            return this.Json(new { @id = id, @result = result });
         }
 
         public IActionResult Privacy()
