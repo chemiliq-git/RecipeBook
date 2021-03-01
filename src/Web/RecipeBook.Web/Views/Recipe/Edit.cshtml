@@ -100,19 +100,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row h-15">
-                                <div class="col-sm-6  col-lg-12 p-4">
-                                    <i class="far fa-clock"></i>60 min preparation time
+                            <div class="row h-25">
+                                <div class="col-sm-6  col-lg-12 p-4 d-flex align-items-end">
+                                    <p><i class="far fa-clock"></i>60 min preparation time
+                                    </p>
                                 </div>
                             </div>
-                            <div class="row h-5">
+                            @*<div class="row h-5">
                                 <div class="col-sm-6  col-lg-12 pl-4 pr-4">
                                     <button type="button" class="btn btn-sm btn-secondary rounded-pill disabled"><i class="fas fa-edit"></i>Edit</button>
                                 </div>
                                 <div class="col-sm-6  col-lg-12 pl-4 pr-4">
                                     <button type="button" class="btn btn-sm btn-success rounded-pill disabled"><i class="fas fa-check-circle"></i>Cooked Today</button>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </div>
@@ -127,7 +128,7 @@
                     {
                         foreach (var item in Model.IngredientSet.IngredientSetItems)
                         {
-                            <p>.@item.QTYData @item.IngredientName</p>
+                            <p>. @item.QTYData @item.IngredientName</p>
                         }
 
                         <div class="col-4 pl-4 pr-4">

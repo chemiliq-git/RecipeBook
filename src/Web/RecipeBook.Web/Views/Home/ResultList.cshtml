@@ -16,6 +16,7 @@
 					<div class="row">
 						<div class="col-9">
 							<h5 class="mt-0 mb-1"><a asp-controller="Recipe" asp-action="Index" asp-route-id="@item.Id">@item.Name</a></h5>
+							<p class="mt-0 mb-1 text-muted">Last cooked: @item.LastCookedDays days</p>
 						</div>
 						@if (item.IsInMenu)
 						{
