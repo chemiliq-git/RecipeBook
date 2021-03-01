@@ -53,15 +53,13 @@
             {
                 inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                IQueryable<Ingredient> query = this.ingredientRepository.All();
-                foreach (string input in inputArray)
-                {
-                    query = query
-                    .Where(ingr => ingr.Name.Contains(input))
-                    .OrderBy(ingr => ingr.Name);
-                }
+                IQueryable<Ingredient> ingredients = this.ingredientRepository.All();
 
-                result = query.To<T>().ToList();
+                ingredients = from ingr in ingredients
+                              where inputArray.Any(input => ingr.Name.Contains(input))
+                              select ingr;
+
+                result = ingredients.To<T>().ToList();
             }
 
             return result;
@@ -76,15 +74,13 @@
             {
                 inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                IQueryable<Ingredient> query = this.ingredientRepository.All();
-                foreach (string input in inputArray)
-                {
-                    query = query
-                    .Where(ingr => ingr.Id.Equals(input))
-                    .OrderBy(ingr => ingr.Name);
-                }
+                IQueryable<Ingredient> ingredients = this.ingredientRepository.All();
 
-                result = query.To<T>().ToList();
+                ingredients = from ingr in ingredients
+                          where inputArray.Any(input => ingr.Id.Equals(input))
+                          select ingr;
+
+                result = ingredients.To<T>().ToList();
             }
 
             return result;

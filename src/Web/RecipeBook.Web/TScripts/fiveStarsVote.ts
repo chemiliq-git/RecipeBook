@@ -84,7 +84,7 @@
         let token = $("#keyForm input[name=__RequestVerificationToken]").val();
         let data = new FormData();
         data.append("RecipeId", recipeId);
-        if (context.itemName.indexOf('Taste')>0) {
+        if (context.itemName.indexOf('Taste')>=0) {
             data.append("Type", "Taste");
         }
         else {

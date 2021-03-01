@@ -1,14 +1,14 @@
 ﻿namespace RecipeBook.Web.Controllers
 {
-	using System.Linq;
-	using System.Threading.Tasks;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using RecipeBook.Services.Data;
-	using RecipeBook.Web.ViewModels.Menu;
+    using RecipeBook.Web.ViewModels.Menu;
 
-	public class MenuController : Controller
+    public class MenuController : Controller
     {
         private readonly IRecipeService recipeService;
 
@@ -26,8 +26,8 @@
 
         public ActionResult Details(string id)
         {
-
-            return View();
+            // TODO
+            return this.View();
         }
 
         [HttpPost]

@@ -2,6 +2,14 @@
 {
     using System.Reflection;
 
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using RecipeBook.Data;
     using RecipeBook.Data.Common;
     using RecipeBook.Data.Common.Repositories;
@@ -12,15 +20,6 @@
     using RecipeBook.Services.Mapping;
     using RecipeBook.Services.Messaging;
     using RecipeBook.Web.ViewModels;
-
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
 
     public class Startup
     {
@@ -73,15 +72,16 @@
             services.AddScoped<IVoteService, VoteService>();
             services.AddScoped<IIngredientsSetService, IngredientsSetService>();
             services.AddScoped<IIngredientsSetItemService, IngredientsSetItemService>();
+            services.AddScoped<ICookingHistoryService, CookingHistoryService>();
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
 
-            //services.Configure<IISOptions>(options =>
-            //{
+            // services.Configure<IISOptions>(options =>
+            // {
             //    options.AutomaticAuthentication = true;
-            //});
+            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

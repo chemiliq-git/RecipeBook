@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Data;
@@ -13,11 +14,15 @@
     {
         private readonly IRecipeService recipeService;
         private readonly IRecipeTypeService recipeTypeService;
+        private readonly ICookingHistoryService cookingHistoryService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public RecipeController(IRecipeService recipeService, IRecipeTypeService recipeTypeService)
+        public RecipeController(IRecipeService recipeService, IRecipeTypeService recipeTypeService, ICookingHistoryService cookingHistoryService, UserManager<ApplicationUser> userManager)
         {
             this.recipeService = recipeService;
             this.recipeTypeService = recipeTypeService;
+            this.cookingHistoryService = cookingHistoryService;
+            this.userManager = userManager;
         }
 
         public ActionResult Index(string Id)
@@ -56,6 +61,14 @@
 
                 if (result)
                 {
+                    CookingHistory cookingRecord = new CookingHistory();
+                    cookingRecord.RecipeId = inputData.Id;
+                    cookingRecord.LastCooked = inputData.LastCooked;
+                    cookingRecord.RecipeEasyRate = inputData.EasyRate;
+                    cookingRecord.RecipeTasteRate = inputData.TasteRate;
+                    cookingRecord.UserId = this.userManager.GetUserId(this.User);
+                    await this.cookingHistoryService.CreateAsync(cookingRecord);
+
                     // redirect to next view
                     return this.RedirectToAction(nameof(this.Edit), "Recipe", new { @id = inputData.Id });
                 }
@@ -93,6 +106,14 @@
 
                 if (result)
                 {
+                    CookingHistory cookingRecord = new CookingHistory();
+                    cookingRecord.RecipeId = inputData.Id;
+                    cookingRecord.LastCooked = inputData.LastCooked;
+                    cookingRecord.RecipeEasyRate = inputData.EasyRate;
+                    cookingRecord.RecipeTasteRate = inputData.TasteRate;
+                    cookingRecord.UserId = this.userManager.GetUserId(this.User);
+                    await this.cookingHistoryService.CreateAsync(cookingRecord);
+
                     return this.RedirectToAction(nameof(this.Index), "Recipe", new { @id = inputData.Id });
                 }
             }
@@ -114,10 +135,21 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateLastCookedDate(string id)
         {
-            DateTime vDateTimeNow = DateTime.UtcNow;
-            await this.recipeService.UpdateLastCookedDate(id, vDateTimeNow);
+            DateTime dateTimeNow = DateTime.UtcNow;
+            await this.recipeService.UpdateLastCookedDate(id, dateTimeNow);
 
-            return this.Json(vDateTimeNow.ToString("s"));
+            var currentRecipe = this.recipeService.GetById<RecipeViewModel>(id);
+
+            CookingHistory cookingRecord = new CookingHistory();
+            cookingRecord.RecipeId = currentRecipe.Id;
+            cookingRecord.LastCooked = dateTimeNow;
+            cookingRecord.RecipeEasyRate = currentRecipe.EasyRate;
+            cookingRecord.RecipeTasteRate = currentRecipe.TasteRate;
+            cookingRecord.UserId = this.userManager.GetUserId(this.User);
+
+            await this.cookingHistoryService.CreateAsync(cookingRecord);
+
+            return this.Json(dateTimeNow.ToString("s"));
 
         }
     }

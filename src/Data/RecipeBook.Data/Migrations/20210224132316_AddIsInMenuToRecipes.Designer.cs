@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecipeBook.Data;
 
 namespace RecipeBook.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210224132316_AddIsInMenuToRecipes")]
+    partial class AddIsInMenuToRecipes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -241,41 +243,6 @@ namespace RecipeBook.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("RecipeBook.Data.Models.CookingHistory", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("LastCooked")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RecipeEasyRate")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RecipeId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RecipeTasteRate")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipeId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CookingHistories");
                 });
 
             modelBuilder.Entity("RecipeBook.Data.Models.Ingredient", b =>
@@ -643,21 +610,6 @@ namespace RecipeBook.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("RecipeBook.Data.Models.CookingHistory", b =>
-                {
-                    b.HasOne("RecipeBook.Data.Models.Recipe", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeId");
-
-                    b.HasOne("RecipeBook.Data.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Recipe");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RecipeBook.Data.Models.Ingredient", b =>
