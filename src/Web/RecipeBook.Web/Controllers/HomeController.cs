@@ -169,19 +169,20 @@
         public async Task<ActionResult> UpdateLastCookedDate(string id, SearchDataModel searchData)
         {
             DateTime dateTimeNow = DateTime.UtcNow;
-            await this.recipeService.UpdateLastCookedDate(id, dateTimeNow);
+            var result = await this.recipeService.UpdateLastCookedDate(id, dateTimeNow);
+            if (result)
+            {
+                var currentRecipe = this.recipeService.GetById<SearchResultItemViewModel>(id);
 
-            var currentRecipe = this.recipeService.GetById<SearchResultItemViewModel>(id);
+                CookingHistory cookingRecord = new CookingHistory();
+                cookingRecord.RecipeId = currentRecipe.Id;
+                cookingRecord.LastCooked = dateTimeNow;
+                cookingRecord.RecipeEasyRate = currentRecipe.EasyRate;
+                cookingRecord.RecipeTasteRate = currentRecipe.TasteRate;
+                cookingRecord.UserId = this.userManager.GetUserId(this.User);
 
-            CookingHistory cookingRecord = new CookingHistory();
-            cookingRecord.RecipeId = currentRecipe.Id;
-            cookingRecord.LastCooked = dateTimeNow;
-            cookingRecord.RecipeEasyRate = currentRecipe.EasyRate;
-            cookingRecord.RecipeTasteRate = currentRecipe.TasteRate;
-            cookingRecord.UserId = this.userManager.GetUserId(this.User);
-
-            await this.cookingHistoryService.CreateAsync(cookingRecord);
-
+                await this.cookingHistoryService.CreateAsync(cookingRecord);
+            }
 
             var searchViewModel = new SearchViewModel();
 

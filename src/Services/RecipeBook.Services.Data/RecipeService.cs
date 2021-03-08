@@ -155,22 +155,29 @@
         {
             try
             {
-                Recipe recipe = new Recipe();
-                recipe.Id = inputRecipe.Id;
-                recipe.ImagePath = inputRecipe.ImagePath;
-                recipe.Name = inputRecipe.Name;
-                recipe.Text = inputRecipe.Text;
-                recipe.RecipeTypeId = inputRecipe.RecipeTypeId;
-                //recipe.IngredientRecipeTypeId = inputRecipe.;
-                recipe.IngredientSetId = inputRecipe.IngredientSetId;
-                recipe.LastCooked = inputRecipe.LastCooked;
-                DateTime vNow = DateTime.UtcNow;
-                recipe.CreatedOn = vNow;
-                recipe.ModifiedOn = vNow;
-                recipe.IsDeleted = false;
-                this.recipeRepository.Update(recipe);
-                await this.recipeRepository.SaveChangesAsync();
-                return true;
+                var recipes = this.recipeRepository.All()
+                .Where(r => r.Id == inputRecipe.Id)
+                .ToList();
+
+                if (recipes.Count > 0)
+                {
+                    recipes[0].Id = inputRecipe.Id;
+                    recipes[0].ImagePath = inputRecipe.ImagePath;
+                    recipes[0].Name = inputRecipe.Name;
+                    recipes[0].Text = inputRecipe.Text;
+                    recipes[0].RecipeTypeId = inputRecipe.RecipeTypeId;
+                    recipes[0].IngredientSetId = inputRecipe.IngredientSetId;
+                    recipes[0].LastCooked = inputRecipe.LastCooked;
+                    DateTime vNow = DateTime.UtcNow;
+                    recipes[0].ModifiedOn = vNow;
+                    this.recipeRepository.Update(recipes[0]);
+                    await this.recipeRepository.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch
             {
