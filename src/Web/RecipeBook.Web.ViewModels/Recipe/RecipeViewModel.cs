@@ -40,6 +40,8 @@
 
         public DateTime LastCooked { get; set; }
 
+        public TimeSpan PreparationTime { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Recipe, RecipeViewModel>()

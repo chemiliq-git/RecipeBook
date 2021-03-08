@@ -167,6 +167,7 @@
                     recipes[0].Text = inputRecipe.Text;
                     recipes[0].RecipeTypeId = inputRecipe.RecipeTypeId;
                     recipes[0].IngredientSetId = inputRecipe.IngredientSetId;
+                    recipes[0].PreparationTime = inputRecipe.PreparationTime;
                     recipes[0].LastCooked = inputRecipe.LastCooked;
                     DateTime vNow = DateTime.UtcNow;
                     recipes[0].ModifiedOn = vNow;

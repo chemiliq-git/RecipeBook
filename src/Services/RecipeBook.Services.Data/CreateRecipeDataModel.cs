@@ -23,6 +23,8 @@
         public string IngredientSetId { get; set; }
 
         public DateTime LastCooked { get; set; }
+
+        public TimeSpan PreparationTime { get; set; }
     }
 }
 

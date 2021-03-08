@@ -482,6 +482,9 @@ namespace RecipeBook.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<TimeSpan>("PreparationTime")
+                        .HasColumnType("time");
+
                     b.Property<string>("RecipeTypeId")
                         .HasColumnType("nvarchar(450)");
 

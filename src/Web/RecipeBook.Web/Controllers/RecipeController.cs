@@ -99,6 +99,7 @@
                     Name = inputData.Name,
                     Text = inputData.Text,
                     RecipeTypeId = inputData.RecipeType.Id,
+                    PreparationTime = inputData.PreparationTime,
                     //IngredientRecipeTypes = inputData.IngredientRecipeTypes,
                     //IngredientSetId = inputData.IngredientSet.Id,
                     LastCooked = inputData.LastCooked,

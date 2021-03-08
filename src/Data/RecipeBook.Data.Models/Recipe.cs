@@ -32,5 +32,7 @@
         public DateTime LastCooked { get; set; }
 
         public bool IsInMenu { get; set; }
+
+        public TimeSpan PreparationTime { get; set; }
     }
 }

@@ -102,8 +102,11 @@
                             </div>
                             <div class="row h-25">
                                 <div class="col-sm-6  col-lg-12 p-4 d-flex align-items-end">
-                                    <p><i class="far fa-clock"></i>60 min preparation time
-                                    </p>
+                                    <label asp-for="@Model.PreparationTime" class="control-label">
+                                        Preparation time:
+                                    </label>
+                                    <input asp-for="@Model.PreparationTime" class="form-control" value="@Model.PreparationTime" />
+                                    <span asp-validation-for=@Model.PreparationTime class="text-danger"></span>
                                 </div>
                             </div>
                             @*<div class="row h-5">
