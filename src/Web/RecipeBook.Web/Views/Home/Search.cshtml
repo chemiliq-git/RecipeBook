@@ -3,11 +3,15 @@
 <form id="keyForm" method="Post"></form>
 
 <div class="container">
+    @{
+        var serializedSearchData = Newtonsoft.Json.JsonConvert.SerializeObject(Model.SearchData, Newtonsoft.Json.Formatting.Indented,
+        new Newtonsoft.Json.JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() });
+    }
     @*<div class="row d-block d-sm-none">
-        <button type="button" class="btn btn-default">
-            <span class="fas fa-sort-down"></span>Filter
-        </button>
-    </div>*@
+            <button type="button" class="btn btn-default">
+                <span class="fas fa-sort-down"></span>Filter
+            </button>
+        </div>*@
     <div class="row">
         <div class="col-sm-12 col-md-3 col-lg-3">
             @await Component.InvokeAsync("SideBarFilter", new { searchData = Model.SearchData })
@@ -21,8 +25,12 @@
 
 
 
-    @section Scripts {
-        <script src="~/js/homeSearchView.js" asp-append-version="true"></script>
-        <script src="~/js/sideBarView.js" asp-append-version="true"></script>
-        <script src="~/js/fiveStarsVote.js" asp-append-version="true"></script>
-    }
+@section Scripts {
+    <script src="~/js/homeSearchView.js" asp-append-version="true"></script>
+    <script src="~/js/sideBar.js" asp-append-version="true"></script>
+    <script src="~/js/fiveStarsVote.js" asp-append-version="true"></script>
+    <script>        
+        var homeSearchViewHelper = new HomeSearchViewHelper('@Model.SearchData.Text', '@Model.SearchData.RecipeTypes', '@Model.SearchData.Ingredients');
+    </script>
+
+}

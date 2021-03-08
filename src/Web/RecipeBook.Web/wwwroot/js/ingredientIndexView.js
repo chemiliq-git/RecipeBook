@@ -1,11 +1,9 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     let searchViewSideBar = new sideBar();
     searchViewSideBar.init("Ingredient");
-    searchViewSideBar.addEventListener('complete', (e: CustomEvent) => {
-
+    searchViewSideBar.addEventListener('complete', (e) => {
         let token = $("#keyForm input[name=__RequestVerificationToken]").val();
-        let data = e.detail.formData as FormData;
-
+        let data = e.detail.formData;
         $.ajax({
             url: "/Ingredients/SideBarSearch",
             data: data,
@@ -21,5 +19,6 @@
                 var error = result;
             }
         });
-    })
+    });
 });
+//# sourceMappingURL=ingredientIndexView.js.map

@@ -1,23 +1,17 @@
-﻿$(document).ready(function () {   
-    let searchViewSideBar = new sideBar();
-    searchViewSideBar.init("Ingredient");
+$(document).ready(function () {
+    var searchViewSideBar = new sideBar(onSideBarChange, "Ingredient");
+    searchViewSideBar.startListenOnSideBarChange();
     //$('[id^="search_result_items_"]').click(onSearchResultItemClick);
-
-    searchViewSideBar.addEventListener('complete', (e: CustomEvent) => {
-
-        let token = $("#keyForm input[name=__RequestVerificationToken]").val();
-        let data = e.detail.formData as FormData;
-
-        let modelData = document.getElementById("model_data").getAttribute('value');
-
-        let jsonViewData = '';
+    function onSideBarChange(data) {
+        var token = $("#keyForm input[name=__RequestVerificationToken]").val();
+        var modelData = document.getElementById("model_data").getAttribute('value');
+        var jsonViewData = '';
         if (vData == '') {
-            jsonViewData = /*JSON.stringify(*/modelData/*)*/;
+            jsonViewData = /*JSON.stringify(*/ modelData /*)*/;
         }
         else {
             jsonViewData = JSON.stringify(vData);
         }
-
         data.append("modelData", jsonViewData);
         $.ajax({
             url: "/IngredientsSet/SideBarSearch",
@@ -29,36 +23,31 @@
             success: function (result) {
                 $('#SearchResultListPartialView').html(result.partialView);
                 //$('[id^="search_result_items_"]').click(onSearchResultItemClick);
-                vData = result.data
+                vData = result.data;
             },
             error: function (result) {
                 //TODO 
                 var error = result;
             }
         });
-    })
+    }
 });
-
-let vData ='';
-
-function onRemoveIngredientsSetItemsClick(id, modeldata) {
+var vData = '';
+function onRemoveIngredientsSetItemsClickEdit(id, modeldata) {
     //let idDividerIndex = (<HTMLInputElement>event.target).id.lastIndexOf('_')
     //let selectedId = (<HTMLInputElement>event.target).id.substr(idDividerIndex + 1);
-
-    let selectedId = id;
-
-    let token = $("#keyForm input[name=__RequestVerificationToken]").val();
-    let jsonViewData = '';
+    var selectedId = id;
+    var token = $("#keyForm input[name=__RequestVerificationToken]").val();
+    var jsonViewData = '';
     if (vData == '') {
         jsonViewData = JSON.stringify(modeldata);
     }
     else {
         jsonViewData = JSON.stringify(vData);
     }
-    let data = new FormData();
+    var data = new FormData();
     data.append("selectedId", selectedId);
     data.append("modelData", jsonViewData);
-
     $.ajax({
         url: "/IngredientsSet/Remove",
         data: data,
@@ -67,11 +56,9 @@ function onRemoveIngredientsSetItemsClick(id, modeldata) {
         type: "POST",
         headers: { 'X-CSRF-TOKEN': token.toString() },
         success: function (result) {
-            $('#IngredientsSetItemsListPartialView').html(result.partialView);
+            $('#EditIngredientsSetItemsListPartialView').html(result.partialView);
             //$('[id^="remove_ingredientsset_items_"]').click(onRemoveIngredientsSetItemsClick);
-            //$('#partialViewName').html(result.partialView);
             vData = result.data;
-
         },
         error: function (result) {
             //TODO 
@@ -79,25 +66,21 @@ function onRemoveIngredientsSetItemsClick(id, modeldata) {
         }
     });
 }
-
-function onSearchResultItemClick(id, modeldata) {
+function onSearchResultItemClickEdit(id, modeldata) {
     //let idDividerIndex = (<HTMLInputElement>event.target).id.lastIndexOf('_');
     //let selectedId = (<HTMLInputElement>event.target).id.substr(idDividerIndex + 1);
-
-    let selectedId = id;
-
-    let token = $("#keyForm input[name=__RequestVerificationToken]").val();
-    let jsonViewData = '';
+    var selectedId = id;
+    var token = $("#keyForm input[name=__RequestVerificationToken]").val();
+    var jsonViewData = '';
     if (vData == '') {
         jsonViewData = JSON.stringify(modeldata);
     }
     else {
         jsonViewData = JSON.stringify(vData);
     }
-    let data = new FormData();
+    var data = new FormData();
     data.append("selectedId", selectedId);
     data.append("modelData", jsonViewData);
-
     $.ajax({
         url: "/IngredientsSet/Add",
         data: data,
@@ -106,9 +89,8 @@ function onSearchResultItemClick(id, modeldata) {
         type: "POST",
         headers: { 'X-CSRF-TOKEN': token.toString() },
         success: function (result) {
-            $('#IngredientsSetItemsListPartialView').html(result.partialView);
+            $('#CreateIngredientsSetItemsListPartialView').html(result.partialView);
             //$('[id^="remove_ingredientsset_items_"]').click(onRemoveIngredientsSetItemsClick);
-            //$('#partialViewName').html(result.partialView);
             vData = result.data;
         },
         error: function (result) {
@@ -117,3 +99,4 @@ function onSearchResultItemClick(id, modeldata) {
         }
     });
 }
+//# sourceMappingURL=ingredientsSetEditView.js.map

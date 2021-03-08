@@ -20,7 +20,7 @@
         public ActionResult Index()
         {
             MenuViewModel data = new MenuViewModel();
-            data.AllItems = this.recipeService.GetByIsInMenu<MenuRecipeViewModel>().ToList();
+            data.AllItems = this.recipeService.GetByIsInMenu<MenuRecipeViewModel>().OrderByDescending(result => result.RecipeScore).ToList();
             return this.View(data);
         }
 
@@ -38,7 +38,7 @@
             bool result = await this.recipeService.RemoveRecipeFromMenu(id);
 
             MenuViewModel data = new MenuViewModel();
-            data.AllItems = this.recipeService.GetByIsInMenu<MenuRecipeViewModel>().ToList();
+            data.AllItems = this.recipeService.GetByIsInMenu<MenuRecipeViewModel>().OrderByDescending(result => result.RecipeScore).ToList();
 
             return this.View("Index", data);
         }

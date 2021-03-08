@@ -6,7 +6,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using RecipeBook.Data.Models;
     using RecipeBook.Services.Data;
     using RecipeBook.Web.ViewModels;
     using RecipeBook.Web.ViewModels.Home;
@@ -18,15 +20,19 @@
         private readonly IIngredientService ingredientsService;
         private readonly IIngredientTypeService ingredientTypeService;
         private readonly IVoteService voteService;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ICookingHistoryService cookingHistoryService;
 
         public HomeController(IRecipeTypeService recipeTypeService, IRecipeService recipeService, IIngredientService ingredientsService,
-            IIngredientTypeService ingredientTypeService, IVoteService voteService)
+            IIngredientTypeService ingredientTypeService, IVoteService voteService, UserManager<ApplicationUser> userManager, ICookingHistoryService cookingHistoryService)
         {
             this.recipeTypeService = recipeTypeService;
             this.recipeService = recipeService;
             this.ingredientsService = ingredientsService;
             this.ingredientTypeService = ingredientTypeService;
             this.voteService = voteService;
+            this.userManager = userManager;
+            this.cookingHistoryService = cookingHistoryService;
         }
 
         public IActionResult Index()
@@ -155,6 +161,83 @@
             bool result = await this.recipeService.RemoveRecipeFromMenu(id);
 
             return this.Json(new { @id = id, @result = result });
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UpdateLastCookedDate(string id, SearchDataModel searchData)
+        {
+            DateTime dateTimeNow = DateTime.UtcNow;
+            await this.recipeService.UpdateLastCookedDate(id, dateTimeNow);
+
+            var currentRecipe = this.recipeService.GetById<SearchResultItemViewModel>(id);
+
+            CookingHistory cookingRecord = new CookingHistory();
+            cookingRecord.RecipeId = currentRecipe.Id;
+            cookingRecord.LastCooked = dateTimeNow;
+            cookingRecord.RecipeEasyRate = currentRecipe.EasyRate;
+            cookingRecord.RecipeTasteRate = currentRecipe.TasteRate;
+            cookingRecord.UserId = this.userManager.GetUserId(this.User);
+
+            await this.cookingHistoryService.CreateAsync(cookingRecord);
+
+
+            var searchViewModel = new SearchViewModel();
+
+            searchViewModel.SearchData = searchData;
+
+            List<SearchResultItemViewModel> varResultItems = this.recipeService.GetAll<SearchResultItemViewModel>().ToList();
+            bool isPrevFiltered = false;
+
+            if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
+            {
+                isPrevFiltered = true;
+                var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
+
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
+
+                varResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems).ToList();
+            }
+
+            if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
+            {
+                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<SearchResultItemViewModel>(searchData.RecipeTypes);
+
+                if (isPrevFiltered)
+                {
+                    varResultItems = (from objA in varResultItems
+                                      join objB in searchRecipesByTypesResultItems on objA.Id equals objB.Id
+                                      select objA).ToList();
+                }
+                else
+                {
+                    varResultItems = searchRecipesByTypesResultItems.ToList();
+                }
+
+                isPrevFiltered = true;
+            }
+
+            if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
+            {
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Ingredients);
+
+                if (isPrevFiltered)
+                {
+                    varResultItems = (from objA in varResultItems
+                                      join objB in searchRecipesByIngredientsResultItems on objA.Id equals objB.Id
+                                      select objA).ToList();
+                }
+                else
+                {
+                    varResultItems = searchRecipesByIngredientsResultItems.ToList();
+                }
+            }
+
+
+            searchViewModel.ResultItems = varResultItems.OrderByDescending(result => result.RecipeScore);
+            var parView = this.PartialView("ResultList", searchViewModel);
+            return parView;
         }
 
         public IActionResult Privacy()

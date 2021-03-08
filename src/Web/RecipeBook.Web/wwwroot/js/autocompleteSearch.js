@@ -1,12 +1,12 @@
-var autoCompleteSearch = /** @class */ (function () {
-    function autoCompleteSearch(controlName, searchDataMode) {
+class autoCompleteSearch {
+    constructor(controlName, searchDataMode) {
         this.controlName = controlName;
         this.searchDataMode = searchDataMode;
     }
-    autoCompleteSearch.prototype.startListenOnKeyUp = function () {
-        var context = this;
+    startListenOnKeyUp() {
+        let context = this;
         $(context.controlName).keyup(function (event) {
-            var input = $(context.controlName).val().toString();
+            let input = $(context.controlName).val().toString();
             var formData = new FormData();
             formData.append("inputText", input);
             formData.append("searchDataMode", context.searchDataMode);
@@ -20,7 +20,7 @@ var autoCompleteSearch = /** @class */ (function () {
                 headers: { 'X-CSRF-TOKEN': token.toString() },
                 success: function (data) {
                     var availableData = [];
-                    data.forEach(function (element) {
+                    data.forEach((element) => {
                         availableData.push({ id: element.id, label: element.name });
                     });
                     $(context.controlName).autocomplete({
@@ -34,7 +34,6 @@ var autoCompleteSearch = /** @class */ (function () {
                 error: function (result) { }
             });
         });
-    };
-    return autoCompleteSearch;
-}());
+    }
+}
 //# sourceMappingURL=autocompleteSearch.js.map

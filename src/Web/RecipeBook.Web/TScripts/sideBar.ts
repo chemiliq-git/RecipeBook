@@ -1,22 +1,18 @@
-﻿class sideBar {
-
-    onSideBarChange: any;
+﻿class sideBar extends EventTarget {
     searchDataMode: string;
-
-    constructor(onSideBarChange: any, searchDataMode) {
+   
+    init(searchDataMode) {
+        this.startListenOnSideBarChange();
         let myAutoCompleteSearch = new autoCompleteSearch("#searchBox", searchDataMode);
         myAutoCompleteSearch.startListenOnKeyUp();
-        this.onSideBarChange = onSideBarChange;
-        this.searchDataMode = searchDataMode;
     }
 
     startListenOnSideBarChange() {
-        var context = this;
-        $('input[type="text"]').change(function (event) { context.search(event, context); });
-        $('input[type="checkbox"]').change(function (event) { context.search(event, context); });
+        $('input[type="text"]').change((event) => { this.search(event); });
+        $('input[type="checkbox"]').change((event) => { this.search(event); });
     }
 
-    search(e, context): any {
+    search(e): any {
         let currentElement = <HTMLInputElement>e.target
         if (currentElement.name.indexOf('Ingr_Type_checkbox_') == 0 && !currentElement.checked) {
             $("input[name^='Ingr_checkbox']").prop("checked", false)
@@ -54,6 +50,6 @@
         }
         formData.append("Ingredients", checkedElementsIds);
 
-        context.onSideBarChange(formData);
+        this.dispatchEvent(new CustomEvent('complete', { detail: { formData: formData } }));
     };
 }
