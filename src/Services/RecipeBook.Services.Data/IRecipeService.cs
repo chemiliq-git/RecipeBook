@@ -26,6 +26,8 @@
 
         Task<bool> UpdateAsync(RecipeDataModel input);
 
+        Task<bool> DeleteAsync(string inputId);
+
         Task<bool> UpdateLastCookedDate(string inputId, DateTime currentDateTime);
 
         Task<bool> AddRecipeToMenu(string inputId);

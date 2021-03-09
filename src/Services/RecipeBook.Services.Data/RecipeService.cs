@@ -186,6 +186,30 @@
             }
         }
 
+        public async Task<bool> DeleteAsync(string inputId)
+        {
+            try
+            {
+                var recipes = this.recipeRepository.All()
+                .Where(r => r.Id == inputId)
+                .ToList();
+                if (recipes.Count > 0)
+                {
+                    this.recipeRepository.Delete(recipes[0]);
+                    await this.recipeRepository.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public async Task<bool> UpdateLastCookedDate(string inputId, DateTime currentDateTime)
         {
             try

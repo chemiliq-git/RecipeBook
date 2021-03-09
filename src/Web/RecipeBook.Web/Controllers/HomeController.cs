@@ -75,6 +75,7 @@
             return this.View(searchViewModel);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("SideBarSearch")]
@@ -166,7 +167,7 @@
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateLastCookedDate(string id, SearchDataModel searchData)
+        public async Task<ActionResult> UpdateLastCookedDate(string id)
         {
             DateTime dateTimeNow = DateTime.UtcNow;
             var result = await this.recipeService.UpdateLastCookedDate(id, dateTimeNow);
@@ -184,61 +185,16 @@
                 await this.cookingHistoryService.CreateAsync(cookingRecord);
             }
 
-            var searchViewModel = new SearchViewModel();
+            return this.Json(new {@result = result });
+        }
 
-            searchViewModel.SearchData = searchData;
-
-            List<SearchResultItemViewModel> varResultItems = this.recipeService.GetAll<SearchResultItemViewModel>().ToList();
-            bool isPrevFiltered = false;
-
-            if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
-            {
-                isPrevFiltered = true;
-                var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
-
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
-
-                varResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems).ToList();
-            }
-
-            if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
-            {
-                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<SearchResultItemViewModel>(searchData.RecipeTypes);
-
-                if (isPrevFiltered)
-                {
-                    varResultItems = (from objA in varResultItems
-                                      join objB in searchRecipesByTypesResultItems on objA.Id equals objB.Id
-                                      select objA).ToList();
-                }
-                else
-                {
-                    varResultItems = searchRecipesByTypesResultItems.ToList();
-                }
-
-                isPrevFiltered = true;
-            }
-
-            if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
-            {
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Ingredients);
-
-                if (isPrevFiltered)
-                {
-                    varResultItems = (from objA in varResultItems
-                                      join objB in searchRecipesByIngredientsResultItems on objA.Id equals objB.Id
-                                      select objA).ToList();
-                }
-                else
-                {
-                    varResultItems = searchRecipesByIngredientsResultItems.ToList();
-                }
-            }
-
-
-            searchViewModel.ResultItems = varResultItems.OrderByDescending(result => result.RecipeScore);
-            var parView = this.PartialView("ResultList", searchViewModel);
-            return parView;
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteRecipe(string id)
+        {
+            var result = await this.recipeService.DeleteAsync(id);
+            return this.Json(new { @result = result });
         }
 
         public IActionResult Privacy()

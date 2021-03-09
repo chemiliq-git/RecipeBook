@@ -122,14 +122,21 @@
             return this.View(inputData);
         }
 
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            // TODO
-            return this.View();
-        }
+        //[HttpPost]
+        //[Authorize]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Delete(string id)
+        //{
+
+        //    return this.View();
+        //}
+
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(string id)
+        //{
+        //    return RedirectToAction(/*nameof(Index)*/);
+        //}
 
         [HttpPost]
         [Authorize]

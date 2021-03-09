@@ -80,7 +80,7 @@
         this.searchIngredients = searchIngredients
 
         let searchViewSideBar = new sideBar();
-        searchViewSideBar.init("Recipe");       
+        searchViewSideBar.init("Recipe");
         searchViewSideBar.addEventListener('complete', this.onSideBarComplete);
 
 
@@ -88,7 +88,7 @@
         fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
         fTasteStarsVote.startListenToVote();
 
-        let fEasyStarsVote = new fiveStarsVote("EasyRateStars");        
+        let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
         fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
         fEasyStarsVote.startListenToVote();
     }
@@ -150,7 +150,7 @@
         }
     }
 
-    OnSearchCookedTodayClick(id) {
+    OnCookedTodayClick(id) {
         let selectedId = id;
 
         let token = $("#keyForm input[name=__RequestVerificationToken]").val();
@@ -169,14 +169,32 @@
             type: "POST",
             headers: { 'X-CSRF-TOKEN': token.toString() },
             success: (result) => {
-                $('#partialView').html(result);
-                let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
-                fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
-                fTasteStarsVote.startListenToVote();
 
-                let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
-                fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
-                fEasyStarsVote.startListenToVote();
+                let token = $("#keyForm input[name=__RequestVerificationToken]").val();
+
+                let data = new FormData();
+                data.append("Text", this.searchText);
+                data.append("RecipeTypes", this.searchRecipeTypes);
+                data.append("Ingredients", this.searchIngredients);
+
+                $.ajax({
+                    url: "/Home/SideBarSearch",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    type: "POST",
+                    headers: { 'X-CSRF-TOKEN': token.toString() },
+                    success: (result) => {
+                        $('#partialView').html(result);
+                        let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                        fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
+                        fTasteStarsVote.startListenToVote();
+
+                        let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                        fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
+                        fEasyStarsVote.startListenToVote();
+                    }
+                });
             },
             error: function (error) {
                 if (error.status == 401) {
@@ -187,5 +205,61 @@
                 }
             }
         });
+    }
+
+    OnDelete(id: string, name: string) {
+        if (confirm('Are you sure you want ot delete ' + name + ' recipe ?')) {
+            let selectedId = id;
+
+            let token = $("#keyForm input[name=__RequestVerificationToken]").val();
+
+            let data = new FormData();
+            data.append("id", selectedId);
+
+            $.ajax({
+                url: "/Home/DeleteRecipe",
+                data: data,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                headers: { 'X-CSRF-TOKEN': token.toString() },
+                success: (result) => {
+
+                    let token = $("#keyForm input[name=__RequestVerificationToken]").val();
+
+                    let data = new FormData();
+                    data.append("Text", this.searchText);
+                    data.append("RecipeTypes", this.searchRecipeTypes);
+                    data.append("Ingredients", this.searchIngredients);
+
+                    $.ajax({
+                        url: "/Home/SideBarSearch",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        type: "POST",
+                        headers: { 'X-CSRF-TOKEN': token.toString() },
+                        success: (result) => {
+                            $('#partialView').html(result);
+                            let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                            fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
+                            fTasteStarsVote.startListenToVote();
+
+                            let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                            fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
+                            fEasyStarsVote.startListenToVote();
+                        }
+                    });
+                },
+                error: function (error) {
+                    if (error.status == 401) {
+                        window.location.href = '/Identity/Account/Login';
+                    }
+                    else {
+                        //TODO show custom error msg
+                    }
+                }
+            });
+        }
     }
 }

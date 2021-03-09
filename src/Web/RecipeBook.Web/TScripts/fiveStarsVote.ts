@@ -104,7 +104,7 @@
             success: (result) => {
                 var stars = $(starElement).parent().children('li.star');
                 var starsValueItem = $(starElement).parent().children('li.list-inline-item')
-                if (this.itemName.indexOf('Taste') > 0) {
+                if (this.itemName.indexOf('Taste') >= 0) {
                     starsValueItem.html('(Taste rate:' + result + ')');
                 }
                 else {
