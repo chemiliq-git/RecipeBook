@@ -130,39 +130,54 @@
         }
 
         // GET: Ingredients/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var ingredient = await _context.Ingredients
-            //    .Include(i => i.IngredientType)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (ingredient == null)
-            //{
-            //    return NotFound();
-            //}
-
-            return View(/*ingredient*/);
-        }
-
-        // POST: Ingredients/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<ActionResult> Delete(string id, SearchDataModel searchData)
         {
-            //var ingredient = await _context.Ingredients.FindAsync(id);
-            //_context.Ingredients.Remove(ingredient);
-            //await _context.SaveChangesAsync();
-            return RedirectToAction(/*nameof(Index)*/);
-        }
+            var result = await this.ingredientsService.DeleteAsync(id);
 
-        //private bool IngredientExists(string id)
-        //{
-        //    return _context.Ingredients.Any(e => e.Id == id);
-        //}
+            if (searchData.Ingredients != null && searchData.Ingredients.Contains(id))
+            {
+                searchData.Ingredients.Replace(id, string.Empty);
+            }
+
+            ViewModels.Ingredeint.IndexViewModel data = new ViewModels.Ingredeint.IndexViewModel();
+            data.SearchData = searchData;
+            data.SearchData.Mode = SearchDataModeEnum.Ingredient;
+
+
+            List<IngredientViewModel> varResultItems = this.ingredientsService.GetAll<IngredientViewModel>().ToList();
+            bool isPrevFiltered = false;
+
+            if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
+            {
+                isPrevFiltered = true;
+                var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<IngredientViewModel>(searchData.Text);
+
+                varResultItems = searchIngredientByNameResultItems.ToList();
+            }
+
+            if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
+            {
+                var searchIngredientByNameResultItems = this.ingredientsService.GetByIdList<IngredientViewModel>(searchData.Ingredients);
+
+                if (isPrevFiltered)
+                {
+                    varResultItems = (from objA in varResultItems
+                                      join objB in searchIngredientByNameResultItems on objA.Id equals objB.Id
+                                      select objA).ToList();
+                }
+                else
+                {
+                    varResultItems = searchIngredientByNameResultItems.ToList();
+                }
+            }
+
+            data.ResultItems = varResultItems;
+
+            return this.View(nameof(this.Index), data);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

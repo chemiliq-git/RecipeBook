@@ -223,8 +223,6 @@ class HomeSearchViewHelper {
                 }
             });
         }
-        else {
-        }
     }
 }
 //# sourceMappingURL=homeSearchView.js.map

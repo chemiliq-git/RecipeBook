@@ -2,7 +2,6 @@
     searchText: string;
     searchRecipeTypes: string;
     searchIngredients: string;
-    context: HomeSearchViewHelper;
 
     onHomeVoteSuccess = () => {
         let token = $("#keyForm input[name=__RequestVerificationToken]").val();

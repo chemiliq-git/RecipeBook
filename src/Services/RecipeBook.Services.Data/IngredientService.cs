@@ -51,15 +51,28 @@
 
             if (!string.IsNullOrEmpty(inputList))
             {
+                //inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                //IQueryable<Ingredient> ingredients = this.ingredientRepository.All();
+
+                //ingredients = from ingr in ingredients
+                //              where inputArray.Any(input => ingr.Name.Contains(input))
+                //              select ingr;
+
+                //result = ingredients.To<T>().ToList();
+
+
                 inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                IQueryable<Ingredient> ingredients = this.ingredientRepository.All();
+                IQueryable<Ingredient> query = this.ingredientRepository.All();
+                foreach (string input in inputArray)
+                {
+                    query = query
+                    .Where(ingr => ingr.Name.Contains(input))
+                    .OrderBy(ingr => ingr.Name);
+                }
 
-                ingredients = from ingr in ingredients
-                              where inputArray.Any(input => ingr.Name.Contains(input))
-                              select ingr;
-
-                result = ingredients.To<T>().ToList();
+                result = query.To<T>().ToList();
             }
 
             return result;
@@ -108,6 +121,29 @@
                 this.ingredientRepository.Update(ingredient);
                 await this.ingredientRepository.SaveChangesAsync();
                 return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(string inputId)
+        {
+            try
+            {
+                var ingredients = this.ingredientRepository.All()
+                .Where(r => r.Id == inputId)
+                .ToList();
+
+                if (ingredients.Count > 0)
+                {
+                    this.ingredientRepository.Delete(ingredients[0]);
+                    await this.ingredientRepository.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
             }
             catch
             {

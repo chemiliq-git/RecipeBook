@@ -11,7 +11,7 @@ $(document).ready(function () {
             contentType: false,
             type: "POST",
             headers: { 'X-CSRF-TOKEN': token.toString() },
-            success: function (result) {
+            success: (result) => {
                 $('#partialView').html(result);
             },
             error: function (result) {

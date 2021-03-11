@@ -20,5 +20,7 @@
         Task<bool> CreateAsync(Ingredient input);
 
         Task<bool> UpdateAsync(Ingredient input);
+
+        Task<bool> DeleteAsync(string inputId);
     }
 }
