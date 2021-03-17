@@ -7,7 +7,16 @@
         <div class="row">
             <div class="col-md-8 col-lg-7 pb-4">
                 <div class="card card-inverse card-primary" id="image_box">
-                    <img class="img-fluid" src="@Model.ImagePath" alt="Image" width="680" height="680" draggable="true">
+                    @{ if (string.IsNullOrEmpty(Model.ImagePath))
+                        {
+                            <img class="img-fluid" src="~/images/PlaceHolder680x680.jpg" alt="No image here" width="680" height="680" draggable="true">
+                        }
+                        else
+                        {
+                            <img class="img-fluid" src="@Model.ImagePath" alt="No image here" on width="680" height="680" draggable="true">
+                        }
+                    }
+
                 </div>
             </div>
             <div class="col-md-4 col-lg-5">
