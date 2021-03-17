@@ -14,9 +14,30 @@
 
     search(e): any {
         let currentElement = <HTMLInputElement>e.target
-        if (currentElement.name.indexOf('Ingr_Type_checkbox_') == 0 && !currentElement.checked) {
-            $("input[name^='Ingr_checkbox']").prop("checked", false)
+        let ingrs = $(currentElement).parent().attr('aria-controls');  
+        let allInpuCheckBoxes = $("input[name^='Ingr_Checkbox']").toArray();
+
+        if (currentElement.name.indexOf('Ingr_Type_Checkbox_') == 0 && currentElement.checked) {              
+            
+            allInpuCheckBoxes.forEach(function (Element) {
+                let element = <HTMLInputElement>Element
+                if (ingrs.indexOf(element.id) >= 0) {
+                    element.checked =  true;
+                }
+            });
+            
+            //$("input[name^='Ingr_Checkbox']").prop("checked", true)
         }
+        else if (currentElement.name.indexOf('Ingr_Type_Checkbox_') == 0 && !currentElement.checked) {
+            //$("input[name^='Ingr_Checkbox']").prop("checked", false)
+            allInpuCheckBoxes.forEach(function (Element) {
+                let element = <HTMLInputElement>Element
+                if (ingrs.indexOf(element.id) >= 0) {
+                    //$(Element).prop("checked", false);
+                    element.checked = false;
+                }
+            });
+        } 
 
         var formData = new FormData();
 

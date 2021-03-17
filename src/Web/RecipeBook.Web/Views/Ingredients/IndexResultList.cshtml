@@ -22,10 +22,10 @@
                         </div>
                         <div class="col-3">
                             <form asp-controller="Ingredients" method="Post" onclick="return confirm('Are you sure you want ot delete @item.Name ingredient ?')">
-                                <input asp-for=@Model.SearchData.Text class="form-control" type="hidden" />
-                                <input asp-for=@Model.SearchData.Mode class="form-control" type="hidden" />
-                                <input asp-for=@Model.SearchData.Ingredients class="form-control" type="hidden" />
-                                <input asp-for=@Model.SearchData.RecipeTypes class="form-control" type="hidden" />
+                                <input asp-for=@Model.SearchData.Text class="form-control" type="hidden" id="SearchDataText_@item.Id"/>
+                                <input asp-for=@Model.SearchData.Mode class="form-control" type="hidden" id="SearchDataMode_@item.Id"/>
+                                <input asp-for=@Model.SearchData.Ingredients class="form-control" type="hidden" id="SearchDataIngredients_@item.Id"/>
+                                <input asp-for=@Model.SearchData.RecipeTypes class="form-control" type="hidden" id="SearchDataRecipeTypes_@item.Id"/>
 
                                 <button asp-action="Delete" asp-route-id="@item.Id" type="submit" class="btn btn-sm btn-danger rounded-pill" id='DeleteButton_@item.Id'>
                                     <i class="fas fa-trash-alt"></i>Delete

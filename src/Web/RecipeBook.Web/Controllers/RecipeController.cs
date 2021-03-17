@@ -31,6 +31,7 @@
             return this.View(data);
         }
 
+        [Authorize]
         public ActionResult Create()
         {
             RecipeViewModel data = new RecipeViewModel();

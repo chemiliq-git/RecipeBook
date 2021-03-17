@@ -54,48 +54,86 @@
         <header class="card-header">
             <h6 class="title">Filter by ingredients</h6>
         </header>
-        <div class="filter-content">
             <div class="card-body">
                 <form>
                     @foreach (var item in Model.IngredientTypes)
                     {
-                        <label class="form-check" data-toggle="collapse" data-target="#@item.Id" aria-expanded="true" aria-controls=@item.Id>
-                            <input class="form-check-input" type="checkbox" value="" name="Ingr_Type_Checkbox_+ @item.Name" checked="@item.Checked">
-                            <span class="form-check-label">
-                                @item.Name
-                            </span>
-                        </label>
-                        @if (@item.Checked)
+                        string ingrIds = string.Empty;
+                        @foreach (var ingr in item.Ingredients)
                         {
-                            <div class="collapse show" id=@item.Id>
-                                @foreach (var ingr in item.Ingredients)
-                                {
+                            ingrIds += ingr.Id + ' ';
+                        }
+                        if (ingrIds.Length > 0)
+                        {
+                            ingrIds = ingrIds.Substring(0, ingrIds.Length - 1);
+                        }
+                        if (!item.Checked)
+                        {
+                            <label class="form-check" data-toggle="collapse" data-target=".@item.Name-collapse" aria-expanded="false" aria-controls="@ingrIds">
+                                <input class="form-check-input" type="checkbox" value="" name="Ingr_Type_Checkbox_+ @item.Name">
+                                <span class="form-check-label">
+                                    @item.Name
+                                </span>
+                            </label>
+
+                            @foreach (var ingr in item.Ingredients)
+                            {
+                                <div class="collapse @item.Name-collapse" id="@ingr.Id">
                                     <label class="form-check ml-2">
-                                        <input class="form-check-input" type="checkbox" value="" onclick="" id='@ingr.Id' checked="@ingr.Checked" name='Ingr_Checkbox_+ @ingr.Name'>
+                                        @if (ingr.Checked)
+                                        {
+                                            <input class="form-check-input" type="checkbox" value="" onclick="" id='@ingr.Id' name='Ingr_Checkbox_+ @ingr.Name' checked>
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input" type="checkbox" value="" onclick="" id='@ingr.Id' name='Ingr_Checkbox_+ @ingr.Name' />
+                                        }
                                         <span class="form-check-label">
                                             @ingr.Name
                                         </span>
                                     </label>
-                                }
-                            </div>
+
+                                </div>
+
+                            }
                         }
                         else
                         {
-                            <div class="collapse" id=@item.Id>
-                                @foreach (var ingr in item.Ingredients)
-                                {
+                            <label class="form-check" data-toggle="collapse" data-target=".@item.Name-collapse" aria-expanded="true" aria-controls="@ingrIds">
+                                <input class="form-check-input" type="checkbox" value="" name="Ingr_Type_Checkbox_+ @item.Name" checked>
+                                <span class="form-check-label">
+                                    @item.Name
+                                </span>
+                            </label>
+
+                            @*<a class="checkbox" data-toggle="collapse" role="button"
+                            href=".@item.Name-collapse" aria-expanded="false"
+                            aria-controls="@ingrIds">
+                            "@item.Name"
+                            </a>*@
+
+                            @foreach (var ingr in item.Ingredients)
+                            {
+                                <div class="collapse show @item.Name-collapse" id="@ingr.Id">
                                     <label class="form-check ml-2">
-                                        <input class="form-check-input" type="checkbox" value="" onclick="" id='@ingr.Id' checked="@ingr.Checked" name='Ingr_Checkbox_+ @ingr.Name'>
+                                        @if (ingr.Checked)
+                                        {
+                                            <input class="form-check-input" type="checkbox" value="" onclick="" id='@ingr.Id' name='Ingr_Checkbox_+ @ingr.Name' checked>
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input" type="checkbox" value="" onclick="" id='@ingr.Id' name='Ingr_Checkbox_+ @ingr.Name' />
+                                        }
                                         <span class="form-check-label">
                                             @ingr.Name
                                         </span>
                                     </label>
-                                }
-                            </div>
+                                </div>
+                            }
                         }
                     }
                 </form>
             </div>
-        </div>
+        
     </article>
 </div>

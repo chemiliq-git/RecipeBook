@@ -53,6 +53,7 @@
         }
 
         // GET: Ingredients/Create
+        [Authorize]
         public IActionResult Create()
         {
             IngredientViewModel data = new IngredientViewModel();
