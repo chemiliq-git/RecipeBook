@@ -32,7 +32,7 @@
 
         public decimal RecipeScore
         {
-            get { return this.LastCookedDays + this.TasteRate + this.EasyRate; }
+            get { return this.LastCookedDays + this.TasteRate - this.EasyRate; }
         }
 
         public string Type { get; set; }

@@ -15,17 +15,21 @@
                 <div class="media-body mr-3">
                     <div class="row">
                         <div class="col-9">
-                            <h5 class="mt-0 mb-1"><a asp-controller="Ingredients" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h5>
-                            <p class="text-justify text-truncate" style="max-width: 200px;">
-                                @item.IngredientType.Name
-                            </p>
+                            <a asp-controller="Ingredients" asp-action="Details" asp-route-id="@item.Id">
+                                <h5 class="mt-0 mb-1">
+                                    @item.Name
+                                </h5>
+                                <p class="text-justify text-truncate" style="max-width: 200px;">
+                                    @item.IngredientType.Name
+                                </p>
+                            </a>
                         </div>
                         <div class="col-3">
                             <form asp-controller="Ingredients" method="Post" onclick="return confirm('Are you sure you want ot delete @item.Name ingredient ?')">
-                                <input asp-for=@Model.SearchData.Text class="form-control" type="hidden" id="SearchDataText_@item.Id"/>
-                                <input asp-for=@Model.SearchData.Mode class="form-control" type="hidden" id="SearchDataMode_@item.Id"/>
-                                <input asp-for=@Model.SearchData.Ingredients class="form-control" type="hidden" id="SearchDataIngredients_@item.Id"/>
-                                <input asp-for=@Model.SearchData.RecipeTypes class="form-control" type="hidden" id="SearchDataRecipeTypes_@item.Id"/>
+                                <input asp-for=@Model.SearchData.Text class="form-control" type="hidden" id="SearchDataText_@item.Id" />
+                                <input asp-for=@Model.SearchData.Mode class="form-control" type="hidden" id="SearchDataMode_@item.Id" />
+                                <input asp-for=@Model.SearchData.Ingredients class="form-control" type="hidden" id="SearchDataIngredients_@item.Id" />
+                                <input asp-for=@Model.SearchData.RecipeTypes class="form-control" type="hidden" id="SearchDataRecipeTypes_@item.Id" />
 
                                 <button asp-action="Delete" asp-route-id="@item.Id" type="submit" class="btn btn-sm btn-danger rounded-pill" id='DeleteButton_@item.Id'>
                                     <i class="fas fa-trash-alt"></i>Delete

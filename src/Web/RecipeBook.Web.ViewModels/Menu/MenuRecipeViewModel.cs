@@ -26,7 +26,7 @@
 
         public decimal RecipeScore
         {
-            get { return this.LastCookedDays + this.TasteRate + this.EasyRate; }
+            get { return this.LastCookedDays + this.TasteRate - this.EasyRate; }
         }
 
         public void CreateMappings(IProfileExpression configuration, IHttpContextAccessor httpContextAccessor)
