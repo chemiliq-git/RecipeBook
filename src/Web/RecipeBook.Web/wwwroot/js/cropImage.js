@@ -31,7 +31,7 @@ class cropImage {
     done(context) {
         let canvas = context.cr.getCroppedCanvas({
             width: 680,
-            height: 800
+            height: 680
         });
         if (canvas != null) {
             canvas.toBlob(function (blob) {

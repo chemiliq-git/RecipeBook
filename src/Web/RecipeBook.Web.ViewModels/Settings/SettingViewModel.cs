@@ -4,6 +4,7 @@
     using RecipeBook.Services.Mapping;
 
     using AutoMapper;
+    using Microsoft.AspNetCore.Http;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {
@@ -15,7 +16,7 @@
 
         public string NameAndValue { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
+        public void CreateMappings(IProfileExpression configuration, IHttpContextAccessor httpContextAccessor)
         {
             configuration.CreateMap<Setting, SettingViewModel>().ForMember(
                 m => m.NameAndValue,

@@ -24,6 +24,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize]
         public ActionResult Index()
         {
             MenuViewModel data = new MenuViewModel();

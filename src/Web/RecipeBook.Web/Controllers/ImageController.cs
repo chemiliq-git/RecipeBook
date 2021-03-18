@@ -43,7 +43,7 @@
                         path += "Ingredients";
                     }
 
-                    string fileName = data.LinkedId + "_Img" + ".png";
+                    string fileName = data.LinkedId + "_Img" + ".jpg";
                     path = Path.Combine(path, fileName);
 
                     System.IO.File.WriteAllBytes(path, contents);

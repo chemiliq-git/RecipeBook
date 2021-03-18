@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using System.Security.Claims;
     using AutoMapper;
+    using Microsoft.AspNetCore.Http;
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Mapping;
     using RecipeBook.Web.ViewModels.IngredientsSet;
@@ -42,16 +44,19 @@
 
         public TimeSpan PreparationTime { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
+        public void CreateMappings(IProfileExpression configuration, IHttpContextAccessor httpContextAccessor)
         {
             configuration.CreateMap<Recipe, RecipeViewModel>()
                 .ForMember(vm => vm.TasteRate, options =>
                 {
-                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Taste).ToList().Count > 0) ? (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste).Average(v => v.Value) : 0);
+                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Taste && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
+                    (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).First<Vote>().Value : 0);
                 })
                 .ForMember(vm => vm.EasyRate, options =>
                 {
-                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Easy).ToList().Count > 0) ? (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy).Average(v => v.Value) : 0);
+                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Easy && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
+                    (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                    && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).First<Vote>().Value : 0);
                 });
         }
     }

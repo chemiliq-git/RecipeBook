@@ -1,10 +1,12 @@
 ﻿namespace RecipeBook.Web.ViewModels.Menu
 {
     using AutoMapper;
+    using Microsoft.AspNetCore.Http;
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Mapping;
     using System;
     using System.Linq;
+    using System.Security.Claims;
 
     public class MenuRecipeViewModel : IMapFrom<Recipe>, IHaveCustomMappings
     {
@@ -27,16 +29,19 @@
             get { return this.LastCookedDays + this.TasteRate + this.EasyRate; }
         }
 
-        public void CreateMappings(IProfileExpression configuration)
+        public void CreateMappings(IProfileExpression configuration, IHttpContextAccessor httpContextAccessor)
         {
             configuration.CreateMap<Recipe, MenuRecipeViewModel>()
                 .ForMember(vm => vm.TasteRate, options =>
                 {
-                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Taste).ToList().Count > 0) ? (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste).Average(v => v.Value) : 0);
+                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Taste && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
+                    (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).First<Vote>().Value : 0);
                 })
                 .ForMember(vm => vm.EasyRate, options =>
                 {
-                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Easy).ToList().Count > 0) ? (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy).Average(v => v.Value) : 0);
+                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Easy && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
+                    (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                    && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).First<Vote>().Value : 0);
                 })
                 .ForMember(vm => vm.LastCookedDays, options =>
                 {

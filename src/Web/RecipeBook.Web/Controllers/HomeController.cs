@@ -35,6 +35,7 @@
             this.cookingHistoryService = cookingHistoryService;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             var indexViewModel = new IndexViewModel();

@@ -7,6 +7,7 @@
 
     using AutoMapper;
     using AutoMapper.Configuration;
+    using Microsoft.AspNetCore.Http;
 
     public static class AutoMapperConfig
     {
@@ -14,7 +15,7 @@
 
         public static IMapper MapperInstance { get; set; }
 
-        public static void RegisterMappings(params Assembly[] assemblies)
+        public static void RegisterMappings(IHttpContextAccessor httpContextAccessor, params Assembly[] assemblies)
         {
             if (initialized)
             {
@@ -45,7 +46,7 @@
                     // IHaveCustomMappings
                     foreach (var map in GetCustomMappings(types))
                     {
-                        map.CreateMappings(configuration);
+                        map.CreateMappings(configuration, httpContextAccessor);
                     }
                 });
             MapperInstance = new Mapper(new MapperConfiguration(config));
