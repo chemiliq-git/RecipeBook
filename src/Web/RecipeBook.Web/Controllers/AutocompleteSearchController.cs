@@ -28,19 +28,18 @@
         [ValidateAntiForgeryToken]
         public ActionResult<IEnumerable<string>> Post([FromForm]string inputText, [FromForm] string searchDataMode)
         {
-            var searchRecipesResultItems = new List<SearchResultItemViewModel>();
             if (searchDataMode.ToUpper() == SearchDataModeEnum.Recipe.ToString().ToUpper())
             {
-                searchRecipesResultItems = this.recipeService.GetByNamesList<SearchResultItemViewModel>(inputText).ToList();
+               var searchRecipesResultItems = this.recipeService.GetByNamesList<RecipesSearchResultItemViewModel>(inputText).ToList();
+
+               return this.Json(searchRecipesResultItems);
             }
-            else if (searchDataMode.ToUpper() == SearchDataModeEnum.Ingredient.ToString().ToUpper())
+            else
             {
-                searchRecipesResultItems = this.ingredientsService.GetByNamesList<SearchResultItemViewModel>(inputText).ToList();
+                var searchRecipesResultItems = this.ingredientsService.GetByNamesList<IngredientsSearchResultItemViewModel>(inputText).ToList();
+
+                return this.Json(searchRecipesResultItems);
             }
-
-            var resultItems = searchRecipesResultItems;
-
-            return this.Json(resultItems);
         }
     }
 }

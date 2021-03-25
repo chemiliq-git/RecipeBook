@@ -8,12 +8,12 @@
     {
         public IngredientsSetScreenViewModel()
         {
-            this.SearchResultItems = new List<SearchResultItemViewModel>();
+            this.SearchResultItems = new List<IngredientsSearchResultItemViewModel>();
             this.SearchData = new SearchDataModel();
             this.IngredientsSetItems = new List<IngredientsSetItemViewModel>();
         }
 
-        public List<SearchResultItemViewModel> SearchResultItems { get; set; }
+        public List<IngredientsSearchResultItemViewModel> SearchResultItems { get; set; }
 
         public SearchDataModel SearchData { get; set; }
 

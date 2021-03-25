@@ -33,7 +33,7 @@
             var searchViewModel = new SearchViewModel();
             searchViewModel.SearchData = new SearchDataModel();
             searchViewModel.SearchData.Mode = SearchDataModeEnum.Recipe;
-            searchViewModel.ResultItems = this.recipeService.GetAll<SearchResultItemViewModel>();
+            searchViewModel.ResultItems = this.recipeService.GetAll<RecipesSearchResultItemViewModel>();
 
             return this.View(searchViewModel);
         }
@@ -73,19 +73,19 @@
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
             {
-                var searchRecipesByNameResultItems = this.recipeService.GetByName<SearchResultItemViewModel>(searchData.Text);
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
+                var searchRecipesByNameResultItems = this.recipeService.GetByName<RecipesSearchResultItemViewModel>(searchData.Text);
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<RecipesSearchResultItemViewModel>(searchData.Text);
 
                 searchViewModel.ResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems);
             }
             else if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
             {
-                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<SearchResultItemViewModel>(searchData.RecipeTypes);
+                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<RecipesSearchResultItemViewModel>(searchData.RecipeTypes);
                 searchViewModel.ResultItems = searchRecipesByTypesResultItems;
             }
             else
             {
-                searchViewModel.ResultItems = this.recipeService.GetAll<SearchResultItemViewModel>();
+                searchViewModel.ResultItems = this.recipeService.GetAll<RecipesSearchResultItemViewModel>();
             }
 
             searchViewModel.ResultItems = searchViewModel.ResultItems.OrderByDescending(result => result.RecipeScore);
@@ -244,22 +244,22 @@
             //    return this.View("Search", searchViewModel);
             //}
 
-            List<SearchResultItemViewModel> varResultItems = this.recipeService.GetAll<SearchResultItemViewModel>().ToList();
+            List<RecipesSearchResultItemViewModel> varResultItems = this.recipeService.GetAll<RecipesSearchResultItemViewModel>().ToList();
             bool isPrevFiltered = false;
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
             {
                 isPrevFiltered = true;
-                var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
+                var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<RecipesSearchResultItemViewModel>(searchData.Text);
 
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Text);
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<RecipesSearchResultItemViewModel>(searchData.Text);
 
                 varResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems).ToList();
             }
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
             {
-                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<SearchResultItemViewModel>(searchData.RecipeTypes);
+                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<RecipesSearchResultItemViewModel>(searchData.RecipeTypes);
 
                 if (isPrevFiltered)
                 {
@@ -277,7 +277,7 @@
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
             {
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<SearchResultItemViewModel>(searchData.Ingredients);
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<RecipesSearchResultItemViewModel>(searchData.Ingredients);
 
                 if (isPrevFiltered)
                 {

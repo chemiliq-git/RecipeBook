@@ -30,7 +30,7 @@
             data.SearchData = new SearchDataModel();
             data.SearchData.Mode = SearchDataModeEnum.Ingredient;
 
-            data.SearchResultItems = this.ingredientsService.GetAll<SearchResultItemViewModel>().ToList();
+            data.SearchResultItems = this.ingredientsService.GetAll<IngredientsSearchResultItemViewModel>().ToList();
             data.IngredientsSetId = Guid.NewGuid().ToString();
             // TODO change IngredientsSetName
             data.IngredientsSetName = "Set";
@@ -83,7 +83,7 @@
             data.SearchData = new SearchDataModel();
             data.SearchData.Mode = SearchDataModeEnum.Ingredient;
 
-            data.SearchResultItems = this.ingredientsService.GetAll<SearchResultItemViewModel>().ToList();
+            data.SearchResultItems = this.ingredientsService.GetAll<IngredientsSearchResultItemViewModel>().ToList();
 
             var ingredientsSets = this.ingredientsSetService.GetByRecipeId<IngredientsSetViewModel>(Id);
 
@@ -252,20 +252,20 @@
 
             data.SearchData = searchData;
 
-            List<SearchResultItemViewModel> varResultItems = this.ingredientsService.GetAll<SearchResultItemViewModel>().ToList();
+            List<IngredientsSearchResultItemViewModel> varResultItems = this.ingredientsService.GetAll<IngredientsSearchResultItemViewModel>().ToList();
             bool isPrevFiltered = false;
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
             {
                 isPrevFiltered = true;
-                var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<SearchResultItemViewModel>(searchData.Text);
+                var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<IngredientsSearchResultItemViewModel>(searchData.Text);
 
                 varResultItems = searchIngredientByNameResultItems.ToList();
             }
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
             {
-                var searchIngredientByNameResultItems = this.ingredientsService.GetByIdList<SearchResultItemViewModel>(searchData.Ingredients);
+                var searchIngredientByNameResultItems = this.ingredientsService.GetByIdList<IngredientsSearchResultItemViewModel>(searchData.Ingredients);
 
                 if (isPrevFiltered)
                 {

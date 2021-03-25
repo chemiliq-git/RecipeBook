@@ -6,10 +6,10 @@
     {
         public SearchViewModel()
         {
-            this.ResultItems = new List<SearchResultItemViewModel>();
+            this.ResultItems = new List<RecipesSearchResultItemViewModel>();
         }
 
-        public IEnumerable<SearchResultItemViewModel> ResultItems { get; set; }
+        public IEnumerable<RecipesSearchResultItemViewModel> ResultItems { get; set; }
 
         public SearchDataModel SearchData { get; set; }
     }
