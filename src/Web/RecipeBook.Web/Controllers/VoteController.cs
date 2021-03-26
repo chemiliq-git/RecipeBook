@@ -1,13 +1,13 @@
 ﻿namespace RecipeBook.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Data;
-    using RecipeBook.Web.ViewModels.Home;
+    using RecipeBook.Web.ViewModels.Recipe;
 
     [Route("api/[controller]")]
     [ApiController]

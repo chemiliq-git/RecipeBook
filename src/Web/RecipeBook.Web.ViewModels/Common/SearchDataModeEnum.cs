@@ -1,4 +1,4 @@
-﻿namespace RecipeBook.Web.ViewModels.Home
+﻿namespace RecipeBook.Web.ViewModels.Common
 {
     public enum SearchDataModeEnum
     {

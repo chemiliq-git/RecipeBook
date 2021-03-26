@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
 
+    using RecipeBook.Web.ViewModels.Common;
+
     public class SideBarFilterViewModel
     {
         public string SearchedText { get; set; }

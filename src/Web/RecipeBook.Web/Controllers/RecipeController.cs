@@ -1,17 +1,17 @@
 ﻿namespace RecipeBook.Web.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
-    using RecipeBook.Data.Models;
-    using RecipeBook.Services.Data;
-    using RecipeBook.Web.ViewModels.Home;
-    using RecipeBook.Web.ViewModels.Recipe;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using RecipeBook.Data.Models;
+    using RecipeBook.Services.Data;
+    using RecipeBook.Web.ViewModels.Recipe;
+    using RecipeBook.Web.ViewModels.Common;
 
     public class RecipeController : Controller
     {
@@ -28,13 +28,14 @@
             this.userManager = userManager;
         }
 
-        public ActionResult Index(SearchViewModel data)
+        public ActionResult Index()
         {
-            var searchViewModel = new SearchViewModel();
+            var searchViewModel = new IndexViewModel();
             searchViewModel.SearchData = new SearchDataModel();
             searchViewModel.SearchData.Mode = SearchDataModeEnum.Recipe;
-            searchViewModel.ResultItems = this.recipeService.GetAll<RecipesSearchResultItemViewModel>();
+            searchViewModel.ResultItems = this.recipeService.GetAll<IndexRecipeItemViewModel>();
 
+            searchViewModel.ResultItems = searchViewModel.ResultItems.OrderByDescending(result => result.RecipeScore);
             return this.View(searchViewModel);
         }
 
@@ -63,7 +64,7 @@
         [ValidateAntiForgeryToken]
         public IActionResult Search(SearchDataModel searchData)
         {
-            var searchViewModel = new SearchViewModel();
+            var searchViewModel = new IndexViewModel();
             searchViewModel.SearchData = searchData;
 
             if (!this.ModelState.IsValid)
@@ -73,19 +74,19 @@
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
             {
-                var searchRecipesByNameResultItems = this.recipeService.GetByName<RecipesSearchResultItemViewModel>(searchData.Text);
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<RecipesSearchResultItemViewModel>(searchData.Text);
+                var searchRecipesByNameResultItems = this.recipeService.GetByName<IndexRecipeItemViewModel>(searchData.Text);
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<IndexRecipeItemViewModel>(searchData.Text);
 
                 searchViewModel.ResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems);
             }
             else if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
             {
-                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<RecipesSearchResultItemViewModel>(searchData.RecipeTypes);
+                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<IndexRecipeItemViewModel>(searchData.RecipeTypes);
                 searchViewModel.ResultItems = searchRecipesByTypesResultItems;
             }
             else
             {
-                searchViewModel.ResultItems = this.recipeService.GetAll<RecipesSearchResultItemViewModel>();
+                searchViewModel.ResultItems = this.recipeService.GetAll<IndexRecipeItemViewModel>();
             }
 
             searchViewModel.ResultItems = searchViewModel.ResultItems.OrderByDescending(result => result.RecipeScore);
@@ -234,7 +235,7 @@
         [ActionName("SideBarSearch")]
         public IActionResult SideBarSearch(SearchDataModel searchData)
         {
-            var searchViewModel = new SearchViewModel();
+            var searchViewModel = new IndexViewModel();
 
             searchViewModel.SearchData = searchData;
 
@@ -244,22 +245,22 @@
             //    return this.View("Search", searchViewModel);
             //}
 
-            List<RecipesSearchResultItemViewModel> varResultItems = this.recipeService.GetAll<RecipesSearchResultItemViewModel>().ToList();
+            List<IndexRecipeItemViewModel> varResultItems = this.recipeService.GetAll<IndexRecipeItemViewModel>().ToList();
             bool isPrevFiltered = false;
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
             {
                 isPrevFiltered = true;
-                var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<RecipesSearchResultItemViewModel>(searchData.Text);
+                var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<IndexRecipeItemViewModel>(searchData.Text);
 
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<RecipesSearchResultItemViewModel>(searchData.Text);
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<IndexRecipeItemViewModel>(searchData.Text);
 
                 varResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems).ToList();
             }
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
             {
-                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<RecipesSearchResultItemViewModel>(searchData.RecipeTypes);
+                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<IndexRecipeItemViewModel>(searchData.RecipeTypes);
 
                 if (isPrevFiltered)
                 {
@@ -277,7 +278,7 @@
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
             {
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<RecipesSearchResultItemViewModel>(searchData.Ingredients);
+                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<IndexRecipeItemViewModel>(searchData.Ingredients);
 
                 if (isPrevFiltered)
                 {

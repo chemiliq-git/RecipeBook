@@ -7,9 +7,10 @@
     using Microsoft.AspNetCore.Mvc;
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Data;
-    using RecipeBook.Web.ViewModels.Home;
+    using RecipeBook.Web.ViewModels.Recipe;
     using RecipeBook.Web.ViewModels.Ingredeint;
     using RecipeBook.Web.ViewModels.Ingredient;
+    using RecipeBook.Web.ViewModels.Common;
 
     public class IngredientsController : Controller
     {

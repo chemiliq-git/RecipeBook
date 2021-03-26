@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RecipeBook.Web.ViewModels.Recipe
+﻿namespace RecipeBook.Web.ViewModels.Common
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public class ImageDataModel
     {
         public string Image { get; set; }

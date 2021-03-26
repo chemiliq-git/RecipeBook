@@ -23,7 +23,7 @@
         var base64data = reader.result;
         let data = new FormData();
         data.append("Image", base64data.toString());
-        data.append("Type", "Recipes");
+        data.append("Type", "Recipe");
         data.append("LinkedId", linkedId)
         $.ajax({
             url: '/api/image',

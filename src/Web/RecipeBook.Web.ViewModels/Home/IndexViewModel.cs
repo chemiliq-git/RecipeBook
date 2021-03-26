@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Text;
 
+    using RecipeBook.Web.ViewModels.Common;
+
     public class IndexViewModel
     {
         public IEnumerable<IndexRecipeTypeViewModel> RecipeTypes { get; set; }

@@ -1,7 +1,8 @@
 ﻿namespace RecipeBook.Web.ViewModels.Ingredeint
 {
-    using RecipeBook.Web.ViewModels.Home;
     using System.Collections.Generic;
+
+    using RecipeBook.Web.ViewModels.Common;
 
     public class IndexViewModel
     {

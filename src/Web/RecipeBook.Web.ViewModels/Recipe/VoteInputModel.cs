@@ -1,4 +1,4 @@
-﻿namespace RecipeBook.Web.ViewModels.Home
+﻿namespace RecipeBook.Web.ViewModels.Recipe
 {
     using RecipeBook.Data.Models;
 

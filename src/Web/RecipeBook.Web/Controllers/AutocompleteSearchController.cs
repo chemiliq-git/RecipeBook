@@ -2,13 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using RecipeBook.Data;
-    using RecipeBook.Data.Models;
     using RecipeBook.Services.Data;
+    using RecipeBook.Web.ViewModels.Common;
     using RecipeBook.Web.ViewModels.Home;
+    using RecipeBook.Web.ViewModels.Recipe;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -30,13 +29,13 @@
         {
             if (searchDataMode.ToUpper() == SearchDataModeEnum.Recipe.ToString().ToUpper())
             {
-               var searchRecipesResultItems = this.recipeService.GetByNamesList<RecipesSearchResultItemViewModel>(inputText).ToList();
+               var searchRecipesResultItems = this.recipeService.GetByNamesList<IndexRecipeItemViewModel>(inputText).ToList();
 
                return this.Json(searchRecipesResultItems);
             }
             else
             {
-                var searchRecipesResultItems = this.ingredientsService.GetByNamesList<IngredientsSearchResultItemViewModel>(inputText).ToList();
+                var searchRecipesResultItems = this.ingredientsService.GetByNamesList<IndexIngredientItemViewModel>(inputText).ToList();
 
                 return this.Json(searchRecipesResultItems);
             }

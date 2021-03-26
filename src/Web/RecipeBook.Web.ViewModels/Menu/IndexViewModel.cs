@@ -6,8 +6,8 @@
 
     using RecipeBook.Services.Mapping;
 
-    public class MenuViewModel
+    public class IndexViewModel
     {
-        public List<MenuRecipeViewModel> AllItems { get; set; }
+        public List<IndexItemViewModel> AllItems { get; set; }
     }
 }

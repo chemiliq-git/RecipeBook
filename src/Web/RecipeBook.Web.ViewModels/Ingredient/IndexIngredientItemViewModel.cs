@@ -5,9 +5,9 @@
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Mapping;
 
-    public class IngredientsSearchResultItemViewModel : IMapFrom<Ingredient>, IMapTo<Ingredient>
+    public class IndexIngredientItemViewModel : IMapFrom<Ingredient>, IMapTo<Ingredient>
     {
-        public IngredientsSearchResultItemViewModel()
+        public IndexIngredientItemViewModel()
         {
             Id = Guid.NewGuid().ToString();
         }

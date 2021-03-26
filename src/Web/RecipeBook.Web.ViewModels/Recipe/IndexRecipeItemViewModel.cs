@@ -1,19 +1,19 @@
-﻿namespace RecipeBook.Web.ViewModels.Home
+﻿namespace RecipeBook.Web.ViewModels.Recipe
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
-    using System.Text;
+
     using AutoMapper;
     using Microsoft.AspNetCore.Http;
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Mapping;
-    public class SearchResultItemViewModel : IMapFrom<Recipe>, IMapFrom<Ingredient>, IMapTo<Recipe>, IMapTo<Ingredient>, IHaveCustomMappings
+
+    public class IndexRecipeItemViewModel : IMapFrom<Recipe>, IMapTo<Recipe>, IHaveCustomMappings
     {
-        public SearchResultItemViewModel()
+        public IndexRecipeItemViewModel()
         {
-            Id = Guid.NewGuid().ToString();
+            this.Id = Guid.NewGuid().ToString();
         }
 
         public string Id { get; set; }
@@ -35,17 +35,11 @@
             get { return this.LastCookedDays + this.TasteRate - this.EasyRate; }
         }
 
-        public string Type { get; set; }
-
         public bool IsInMenu { get; set; }
 
         public void CreateMappings(IProfileExpression configuration, IHttpContextAccessor httpContextAccessor)
         {
-            configuration.CreateMap<Ingredient, SearchResultItemViewModel>()
-                .ForMember(vm => vm.Type, options => options.MapFrom(i => "Ingredient"));
-
-            configuration.CreateMap<Recipe, SearchResultItemViewModel>()
-                .ForMember(vm => vm.Type, options => options.MapFrom(r => "Recipe"))
+            configuration.CreateMap<Recipe, IndexRecipeItemViewModel>()
                 .ForMember(vm => vm.TasteRate, options =>
                 {
                     options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Taste && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
@@ -53,7 +47,7 @@
                 })
                 .ForMember(vm => vm.EasyRate, options =>
                 {
-                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Easy && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ? 
+                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Easy && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
                     (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
                     && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).First<Vote>().Value : 0);
                 })
@@ -64,3 +58,4 @@
         }
     }
 }
+

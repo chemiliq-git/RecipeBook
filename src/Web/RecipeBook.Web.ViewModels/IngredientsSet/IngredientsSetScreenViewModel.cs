@@ -3,17 +3,17 @@
     using System.Collections.Generic;
 
     using RecipeBook.Web.ViewModels.Home;
-
+    using RecipeBook.Web.ViewModels.Common;
     public class IngredientsSetScreenViewModel
     {
         public IngredientsSetScreenViewModel()
         {
-            this.SearchResultItems = new List<IngredientsSearchResultItemViewModel>();
+            this.SearchResultItems = new List<IndexIngredientItemViewModel>();
             this.SearchData = new SearchDataModel();
             this.IngredientsSetItems = new List<IngredientsSetItemViewModel>();
         }
 
-        public List<IngredientsSearchResultItemViewModel> SearchResultItems { get; set; }
+        public List<IndexIngredientItemViewModel> SearchResultItems { get; set; }
 
         public SearchDataModel SearchData { get; set; }
 

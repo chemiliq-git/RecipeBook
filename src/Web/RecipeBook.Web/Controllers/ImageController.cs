@@ -1,10 +1,11 @@
 ﻿namespace RecipeBook.Web.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using RecipeBook.Web.ViewModels.Recipe;
     using System;
     using System.IO;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using RecipeBook.Web.ViewModels.Common;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -34,13 +35,13 @@
                     byte[] contents = Convert.FromBase64String(imageBase64Str);
                     string path = "wwwroot/images/";
 
-                    if (data.Type == "Recipes")
+                    if (data.Type == ImageDataTypeEnum.Recipe.ToString())
                     {
-                        path += "Recipes";
+                        path += ImageDataTypeEnum.Recipe.ToString() + "s";
                     }
-                    else if (data.Type == "Ingredients")
+                    else if (data.Type == ImageDataTypeEnum.Ingredient.ToString())
                     {
-                        path += "Ingredients";
+                        path += ImageDataTypeEnum.Ingredient.ToString() + "s";
                     }
 
                     string fileName = data.LinkedId + "_Img" + ".jpg";

@@ -5,11 +5,13 @@
     using System.Linq;
     using System.Text.Json;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Data;
+    using RecipeBook.Web.ViewModels.Common;
     using RecipeBook.Web.ViewModels.Home;
     using RecipeBook.Web.ViewModels.IngredientsSet;
 
@@ -30,7 +32,7 @@
             data.SearchData = new SearchDataModel();
             data.SearchData.Mode = SearchDataModeEnum.Ingredient;
 
-            data.SearchResultItems = this.ingredientsService.GetAll<IngredientsSearchResultItemViewModel>().ToList();
+            data.SearchResultItems = this.ingredientsService.GetAll<IndexIngredientItemViewModel>().ToList();
             data.IngredientsSetId = Guid.NewGuid().ToString();
             // TODO change IngredientsSetName
             data.IngredientsSetName = "Set";
@@ -83,7 +85,7 @@
             data.SearchData = new SearchDataModel();
             data.SearchData.Mode = SearchDataModeEnum.Ingredient;
 
-            data.SearchResultItems = this.ingredientsService.GetAll<IngredientsSearchResultItemViewModel>().ToList();
+            data.SearchResultItems = this.ingredientsService.GetAll<IndexIngredientItemViewModel>().ToList();
 
             var ingredientsSets = this.ingredientsSetService.GetByRecipeId<IngredientsSetViewModel>(Id);
 
@@ -252,20 +254,20 @@
 
             data.SearchData = searchData;
 
-            List<IngredientsSearchResultItemViewModel> varResultItems = this.ingredientsService.GetAll<IngredientsSearchResultItemViewModel>().ToList();
+            List<IndexIngredientItemViewModel> varResultItems = this.ingredientsService.GetAll<IndexIngredientItemViewModel>().ToList();
             bool isPrevFiltered = false;
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
             {
                 isPrevFiltered = true;
-                var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<IngredientsSearchResultItemViewModel>(searchData.Text);
+                var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<IndexIngredientItemViewModel>(searchData.Text);
 
                 varResultItems = searchIngredientByNameResultItems.ToList();
             }
 
             if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
             {
-                var searchIngredientByNameResultItems = this.ingredientsService.GetByIdList<IngredientsSearchResultItemViewModel>(searchData.Ingredients);
+                var searchIngredientByNameResultItems = this.ingredientsService.GetByIdList<IndexIngredientItemViewModel>(searchData.Ingredients);
 
                 if (isPrevFiltered)
                 {

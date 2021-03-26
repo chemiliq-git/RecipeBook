@@ -27,8 +27,8 @@
         [Authorize]
         public ActionResult Index()
         {
-            MenuViewModel data = new MenuViewModel();
-            data.AllItems = this.recipeService.GetByIsInMenu<MenuRecipeViewModel>().OrderByDescending(result => result.RecipeScore).ToList();
+            IndexViewModel data = new IndexViewModel();
+            data.AllItems = this.recipeService.GetByIsInMenu<IndexItemViewModel>().OrderByDescending(result => result.RecipeScore).ToList();
             return this.View(data);
         }
 
@@ -45,8 +45,8 @@
         {
             bool result = await this.recipeService.RemoveRecipeFromMenu(id);
 
-            MenuViewModel data = new MenuViewModel();
-            data.AllItems = this.recipeService.GetByIsInMenu<MenuRecipeViewModel>().OrderByDescending(result => result.RecipeScore).ToList();
+            IndexViewModel data = new IndexViewModel();
+            data.AllItems = this.recipeService.GetByIsInMenu<IndexItemViewModel>().OrderByDescending(result => result.RecipeScore).ToList();
 
             return this.View("Index", data);
         }
@@ -56,12 +56,12 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateLastCookedDate(string id)
         {
-            MenuViewModel data = new MenuViewModel();
+            IndexViewModel data = new IndexViewModel();
             DateTime dateTimeNow = DateTime.UtcNow;
             var result = await this.recipeService.UpdateLastCookedDate(id, dateTimeNow);
             if (result)
             {
-                var currentRecipe = this.recipeService.GetById<MenuRecipeViewModel>(id);
+                var currentRecipe = this.recipeService.GetById<IndexItemViewModel>(id);
 
                 CookingHistory cookingRecord = new CookingHistory();
                 cookingRecord.RecipeId = currentRecipe.Id;
@@ -73,7 +73,7 @@
                 await this.cookingHistoryService.CreateAsync(cookingRecord);
             }
 
-            data.AllItems = this.recipeService.GetByIsInMenu<MenuRecipeViewModel>().OrderByDescending(result => result.RecipeScore).ToList();
+            data.AllItems = this.recipeService.GetByIsInMenu<IndexItemViewModel>().OrderByDescending(result => result.RecipeScore).ToList();
             return this.View("Index", data);
         }
     }

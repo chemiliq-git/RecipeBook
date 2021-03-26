@@ -1,4 +1,4 @@
-﻿namespace RecipeBook.Web.ViewModels.Home
+﻿namespace RecipeBook.Web.ViewModels.Menu
 {
     using System;
     using System.Linq;
@@ -9,13 +9,8 @@
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Mapping;
 
-    public class RecipesSearchResultItemViewModel : IMapFrom<Recipe>, IMapTo<Recipe>, IHaveCustomMappings
+    public class IndexItemViewModel : IMapFrom<Recipe>, IHaveCustomMappings
     {
-        public RecipesSearchResultItemViewModel()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
-
         public string Id { get; set; }
 
         public string Name { get; set; }
@@ -35,11 +30,9 @@
             get { return this.LastCookedDays + this.TasteRate - this.EasyRate; }
         }
 
-        public bool IsInMenu { get; set; }
-
         public void CreateMappings(IProfileExpression configuration, IHttpContextAccessor httpContextAccessor)
         {
-            configuration.CreateMap<Recipe, RecipesSearchResultItemViewModel>()
+            configuration.CreateMap<Recipe, IndexItemViewModel>()
                 .ForMember(vm => vm.TasteRate, options =>
                 {
                     options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Taste && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
@@ -58,4 +51,3 @@
         }
     }
 }
-
