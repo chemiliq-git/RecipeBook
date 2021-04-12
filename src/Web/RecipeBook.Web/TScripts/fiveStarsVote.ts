@@ -1,5 +1,5 @@
 ﻿class fiveStarsVote extends EventTarget {
-    itemName: string    
+    private itemName: string    
 
     constructor(iName) {
         super()
@@ -16,7 +16,7 @@
             let dataArray = starsElementData.split(',');
             let tasteRate = dataArray[1];
 
-            var stars = $(Element).children('li.star');
+            let stars = $(Element).children('li.star');
 
             for (let i = 0; i < stars.length; i++) {
                 if (i < parseInt(tasteRate)) {
@@ -31,23 +31,23 @@
 
     }
 
-    startListenToVote() {
+    startListenToVote(this: fiveStarsVote) {
         let context = this;
         let allElements = $('[id^="' + this.itemName + '"]').toArray();
 
         allElements.forEach(function (Element) {
 
-            var stars = $(Element).children('li.star');
+            let stars = $(Element).children('li.star');
             for (let i = 0; i < stars.length; i++) {
-                stars[i].addEventListener('mouseover', (event) => { context.onStartMouseOver(event.target); }, false);
-                stars[i].addEventListener('mouseout', (event) => { context.onStartMouseOut(event.target); }, false);
-                stars[i].addEventListener('click', (event) => { context.onStarClick(event.target); }, false);
+                stars[i].addEventListener('mouseover', (event) => { context.onStartMouseOver(event.target as HTMLElement); }, false);
+                stars[i].addEventListener('mouseout', (event) => { context.onStartMouseOut(event.target as HTMLElement); }, false);
+                stars[i].addEventListener('click', (event) => { context.onStarClick(event.target as HTMLElement); }, false);
             }
         });
     }
 
     /* 1. Visualizing things on Hover - See next part for action on click */
-    onStartMouseOver(currentElement) {
+    private onStartMouseOver(currentElement: HTMLElement) {
         let starElement = currentElement.parentNode;
         let onStar = parseInt($(starElement).data('value'), 10); // The star currently mouse on
 
@@ -63,7 +63,7 @@
 
     };
 
-    onStartMouseOut(currentElement) {
+    private onStartMouseOut(currentElement: HTMLElement) {
         let starElement = currentElement.parentNode;
         $(starElement).parent().children('li.star').each(function (e) {
             $(this).removeClass('hover');
@@ -72,7 +72,7 @@
 
 
     /* 2. Action to perform on click */
-    onStarClick(currentElement) {
+    private onStarClick(currentElement: HTMLElement) {
         let starElement = currentElement.parentNode;
         let onStar = parseInt($(starElement).data('value'), 10); // The star currently selected
 
@@ -102,8 +102,8 @@
             type: "POST",
             headers: { 'X-CSRF-TOKEN': token.toString() },
             success: (result) => {
-                var stars = $(starElement).parent().children('li.star');
-                var starsValueItem = $(starElement).parent().children('li.list-inline-item')
+                let stars = $(starElement).parent().children('li.star');
+                let starsValueItem = $(starElement).parent().children('li.list-inline-item')
                 if (this.itemName.indexOf('Taste') >= 0) {
                     starsValueItem.html('(Taste rate:' + result + ')');
                 }

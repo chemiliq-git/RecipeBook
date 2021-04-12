@@ -5,12 +5,12 @@ class autoCompleteSearch {
     }
     startListenOnKeyUp() {
         let context = this;
-        $(context.controlName).keyup(function (event) {
+        $(this.controlName).keyup(function (event) {
             let input = $(context.controlName).val().toString();
-            var formData = new FormData();
+            let formData = new FormData();
             formData.append("inputText", input);
             formData.append("searchDataMode", context.searchDataMode);
-            var token = $("#keyForm input[name=__RequestVerificationToken]").val();
+            let token = $("#keyForm input[name=__RequestVerificationToken]").val();
             $.ajax({
                 url: "/api/AutocompleteSearch",
                 data: formData,
@@ -27,7 +27,7 @@ class autoCompleteSearch {
                         source: availableData,
                         minLength: 2,
                         select: function (event, ui) {
-                            var value = ui.item.val;
+                            let value = ui.item.val;
                         }
                     });
                 },

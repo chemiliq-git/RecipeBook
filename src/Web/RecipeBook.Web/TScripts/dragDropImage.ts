@@ -1,9 +1,7 @@
 ﻿class dragDropImage {
-
-    handleImageDroped: any;
-    handleError: any;
-    context: dragDropImage;
-    elementId: string;
+    private handleImageDroped: (readerResult: string | ArrayBuffer) => void;
+    private handleError: (error: string) => void;
+    private elementId: string;
 
     constructor(elementId: string, handleImageDroped, handleError) {
         this.elementId = elementId;
@@ -20,15 +18,15 @@
         item.addEventListener('drop', function (event) { context.handleDrop(event, context); }, false);
     }
 
-    handleEnter(e, context) {
+    private handleEnter(e: DragEvent, context: dragDropImage) {
         e.preventDefault();
     }
 
-    handleOver(e, context) {
+    private handleOver(e: DragEvent, context: dragDropImage) {
         e.preventDefault();
     }
 
-    handleDrop(e, context) {
+    private handleDrop(e: DragEvent, context: dragDropImage) {
         e.stopPropagation();
         e.preventDefault();
 

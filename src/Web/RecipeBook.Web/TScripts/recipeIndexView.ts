@@ -68,7 +68,7 @@
             },
             error: function (result) {
                 //TODO 
-                var error = result;
+                let error = result;
             }
         });
     }
@@ -149,7 +149,7 @@
         }
     }
 
-    OnCookedTodayClick(id) {
+    OnCookedTodayClick(id: string) {
         let selectedId = id;
 
         let token = $("#keyForm input[name=__RequestVerificationToken]").val();

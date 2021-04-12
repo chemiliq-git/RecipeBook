@@ -28,7 +28,7 @@ $(document).ready(function () {
             },
             error: function (result) {
                 //TODO 
-                var error = result;
+                let error = result;
             }
         });
     });
@@ -64,7 +64,7 @@ function onRemoveIngredientsSetItemsClick(id, modeldata) {
         },
         error: function (result) {
             //TODO 
-            var error = result;
+            let error = result;
         }
     });
 }
@@ -98,7 +98,7 @@ function onSearchResultItemClick(id, modeldata) {
         },
         error: function (result) {
             //TODO 
-            var error = result;
+            let error = result;
         }
     });
 }

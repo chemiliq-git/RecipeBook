@@ -1,7 +1,7 @@
 $(document).ready(function () {
     let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
     let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
-    let crImg = new cropImage(onImageCroped);
+    let crImg = new CropImage(onImageCroped);
     let dragDropImg = new dragDropImage('image_box', onImageDroped, onError);
     dragDropImg.startListen();
     let linkedId = $('#image_box').data('value');
@@ -12,7 +12,7 @@ $(document).ready(function () {
     function onError(error) {
     }
     function onImageCroped(reader) {
-        var base64data = reader.result;
+        let base64data = reader.result;
         let data = new FormData();
         data.append("Image", base64data.toString());
         data.append("Type", "Recipe");

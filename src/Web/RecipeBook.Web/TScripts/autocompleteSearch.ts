@@ -5,24 +5,24 @@
 
 class autoCompleteSearch {
 
-    controlName: string;
-    searchDataMode: string;
+    private controlName: string;
+    private searchDataMode: string;
 
-    constructor(controlName: string, searchDataMode) {        
+    constructor(controlName: string, searchDataMode: string) {        
         this.controlName = controlName;
         this.searchDataMode = searchDataMode;
     }
 
-    startListenOnKeyUp() {
+    startListenOnKeyUp(this: autoCompleteSearch) {
         let context: autoCompleteSearch = this;
 
-        $(context.controlName).keyup(function (event) {
+        $(this.controlName).keyup(function (event) {
             let input = $(context.controlName).val().toString();
 
-            var formData = new FormData();
+            let formData = new FormData();
             formData.append("inputText", input);
             formData.append("searchDataMode", context.searchDataMode);
-            var token = $("#keyForm input[name=__RequestVerificationToken]").val();
+            let token = $("#keyForm input[name=__RequestVerificationToken]").val();
 
             $.ajax(
                 {
@@ -43,7 +43,7 @@ class autoCompleteSearch {
                             source: availableData,
                             minLength: 2,
                             select: function (event, ui) {
-                                var value = ui.item.val;
+                                let value = ui.item.val;
 
                             }
                         });

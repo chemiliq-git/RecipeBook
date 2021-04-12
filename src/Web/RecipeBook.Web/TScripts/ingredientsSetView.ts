@@ -33,7 +33,7 @@
             },
             error: function (result) {
                 //TODO 
-                var error = result;
+                let error = result;
             }
         });
     })
@@ -41,7 +41,7 @@
 
 let vData ='';
 
-function onRemoveIngredientsSetItemsClick(id, modeldata) {
+function onRemoveIngredientsSetItemsClick(id: string, modeldata) {
     //let idDividerIndex = (<HTMLInputElement>event.target).id.lastIndexOf('_')
     //let selectedId = (<HTMLInputElement>event.target).id.substr(idDividerIndex + 1);
 
@@ -75,12 +75,12 @@ function onRemoveIngredientsSetItemsClick(id, modeldata) {
         },
         error: function (result) {
             //TODO 
-            var error = result;
+            let error = result;
         }
     });
 }
 
-function onSearchResultItemClick(id, modeldata) {
+function onSearchResultItemClick(id: string, modeldata) {
     //let idDividerIndex = (<HTMLInputElement>event.target).id.lastIndexOf('_');
     //let selectedId = (<HTMLInputElement>event.target).id.substr(idDividerIndex + 1);
 
@@ -113,7 +113,7 @@ function onSearchResultItemClick(id, modeldata) {
         },
         error: function (result) {
             //TODO 
-            var error = result;
+            let error = result;
         }
     });
 }

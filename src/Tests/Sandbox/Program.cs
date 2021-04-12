@@ -21,7 +21,6 @@
     using RecipeBook.Services.Data;
     using RecipeBook.Services.Mapping;
     using RecipeBook.Services.Messaging;
-    using RecipeBook.Web.ViewModels;
 
     public static class Program
     {
@@ -32,10 +31,10 @@
             ConfigureServices(serviceCollection);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider(true);
 
-            using (var serviceScope = serviceProvider.CreateScope())
-            {
-                AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
-            }
+            //using (var serviceScope = serviceProvider.CreateScope())
+            //{
+            //    AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            //}
             // Seed data on application startup
             using (var serviceScope = serviceProvider.CreateScope())
             {

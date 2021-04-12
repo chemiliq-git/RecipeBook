@@ -56,7 +56,7 @@ class RecipeIndexViewHelper {
                 },
                 error: function (result) {
                     //TODO 
-                    var error = result;
+                    let error = result;
                 }
             });
         };

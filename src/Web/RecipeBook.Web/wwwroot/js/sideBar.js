@@ -31,7 +31,7 @@ class sideBar extends EventTarget {
                 }
             });
         }
-        var formData = new FormData();
+        let formData = new FormData();
         let text = $('input[type="text"]').prop("value");
         formData.append("Text", text);
         let checkedElements = $("input[name^='Recipe_Type_Checkbox']:checked");

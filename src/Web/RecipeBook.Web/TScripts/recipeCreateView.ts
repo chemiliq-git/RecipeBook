@@ -2,7 +2,7 @@
     let fTasteStarsVote = new fiveStarsVote("TasteRateStars");   
     let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
 
-    let crImg = new cropImage(onImageCroped);
+    let crImg = new CropImage(onImageCroped);
 
     let dragDropImg = new dragDropImage('image_box', onImageDroped, onError);
     dragDropImg.startListen();
@@ -12,15 +12,15 @@
     let linkedId = $('#image_box').data('value');
     let token = $("#keyForm input[name=__RequestVerificationToken]").val();
 
-    function onImageDroped(data: any) {
+    function onImageDroped(data: string) {
         crImg.start(data);
     }
 
-    function onError(error: any) {
+    function onError(error: string) {
     }
 
-    function onImageCroped(reader) {
-        var base64data = reader.result;
+    function onImageCroped(reader: FileReader) {
+        let base64data = reader.result;
         let data = new FormData();
         data.append("Image", base64data.toString());
         data.append("Type", "Recipe");

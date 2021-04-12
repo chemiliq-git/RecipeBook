@@ -1,12 +1,12 @@
-class cropImage {
+class CropImage {
     constructor(onImageCroped) {
         this.$modal = $('#modal');
         this.image = document.getElementById('sample_image');
         let context = this;
         this.onImgCroped = onImageCroped;
-        this.$modal.on('shown.bs.modal', function (event) { context.initCropper(context); });
-        this.$modal.on('hidden.bs.modal', function (event) { context.destroyCropper(context); });
-        $('#crop').click(function (event) { context.done(context); });
+        this.$modal.on('shown.bs.modal', function (event) { context.initCropper(); });
+        this.$modal.on('hidden.bs.modal', function (event) { context.destroyCropper(); });
+        $('#crop').click(function (event) { context.done(); });
     }
     start(data) {
         this.image.src = data;
@@ -17,18 +17,19 @@ class cropImage {
         $('#uploaded_image').attr('src', data);
         document.getElementById("image_Path").setAttribute("value", data);
     }
-    initCropper(context) {
-        context.cr = new Cropper(context.image, {
+    initCropper() {
+        this.cr = new Cropper(this.image, {
             aspectRatio: 1,
             viewMode: 0,
             preview: '.preview'
         });
     }
-    destroyCropper(context) {
-        context.cr.destroy();
-        context.cr = null;
+    destroyCropper() {
+        this.cr.destroy();
+        this.cr = null;
     }
-    done(context) {
+    done() {
+        let context = this;
         let canvas = context.cr.getCroppedCanvas({
             width: 680,
             height: 680
@@ -36,10 +37,10 @@ class cropImage {
         if (canvas != null) {
             canvas.toBlob(function (blob) {
                 let url = URL.createObjectURL(blob);
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.readAsDataURL(blob);
                 reader.onloadend =
-                    function () {
+                    () => {
                         context.onImgCroped(reader);
                     };
             });

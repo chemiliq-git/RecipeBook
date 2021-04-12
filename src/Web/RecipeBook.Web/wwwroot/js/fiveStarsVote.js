@@ -10,7 +10,7 @@ class fiveStarsVote extends EventTarget {
             let starsElementData = $(Element).data('value');
             let dataArray = starsElementData.split(',');
             let tasteRate = dataArray[1];
-            var stars = $(Element).children('li.star');
+            let stars = $(Element).children('li.star');
             for (let i = 0; i < stars.length; i++) {
                 if (i < parseInt(tasteRate)) {
                     $(stars[i]).addClass('selected');
@@ -25,7 +25,7 @@ class fiveStarsVote extends EventTarget {
         let context = this;
         let allElements = $('[id^="' + this.itemName + '"]').toArray();
         allElements.forEach(function (Element) {
-            var stars = $(Element).children('li.star');
+            let stars = $(Element).children('li.star');
             for (let i = 0; i < stars.length; i++) {
                 stars[i].addEventListener('mouseover', (event) => { context.onStartMouseOver(event.target); }, false);
                 stars[i].addEventListener('mouseout', (event) => { context.onStartMouseOut(event.target); }, false);
@@ -81,8 +81,8 @@ class fiveStarsVote extends EventTarget {
             type: "POST",
             headers: { 'X-CSRF-TOKEN': token.toString() },
             success: (result) => {
-                var stars = $(starElement).parent().children('li.star');
-                var starsValueItem = $(starElement).parent().children('li.list-inline-item');
+                let stars = $(starElement).parent().children('li.star');
+                let starsValueItem = $(starElement).parent().children('li.list-inline-item');
                 if (this.itemName.indexOf('Taste') >= 0) {
                     starsValueItem.html('(Taste rate:' + result + ')');
                 }

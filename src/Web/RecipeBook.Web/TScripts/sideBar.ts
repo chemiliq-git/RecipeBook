@@ -1,7 +1,6 @@
 ﻿class sideBar extends EventTarget {
-    searchDataMode: string;
    
-    init(searchDataMode) {
+    init(searchDataMode: string) {
         this.startListenOnSideBarChange();
         let myAutoCompleteSearch = new autoCompleteSearch("#searchBox", searchDataMode);
         myAutoCompleteSearch.startListenOnKeyUp();
@@ -12,7 +11,7 @@
         $('input[type="checkbox"]').change((event) => { this.search(event); });
     }
 
-    search(e): any {
+    search(e: JQuery.ChangeEvent): any {
         let currentElement = <HTMLInputElement>e.target
         let ingrs = $(currentElement).parent().attr('aria-controls');  
         let allInpuCheckBoxes = $("input[name^='Ingr_Checkbox']").toArray();
@@ -39,7 +38,7 @@
             });
         } 
 
-        var formData = new FormData();
+        let formData = new FormData();
 
         let text = $('input[type="text"]').prop("value");
         formData.append("Text", text);
