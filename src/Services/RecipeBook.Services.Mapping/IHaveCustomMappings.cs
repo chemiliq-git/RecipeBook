@@ -5,6 +5,6 @@
 
     public interface IHaveCustomMappings
     {
-        void CreateMappings(IProfileExpression configuration, IHttpContextAccessor httpContextAccessor);
+        void CreateMappings(IProfileExpression configuration);
     }
 }

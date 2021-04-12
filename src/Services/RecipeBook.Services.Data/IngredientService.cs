@@ -44,7 +44,7 @@
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetByNamesList<T>(string inputList)
+        public IEnumerable<T> GetByNames<T>(string inputList)
         {
             List<string> inputArray = new List<string>();
             var result = new List<T>();
@@ -62,15 +62,7 @@
                 //result = ingredients.To<T>().ToList();
 
 
-                inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                IQueryable<Ingredient> query = this.ingredientRepository.All();
-                foreach (string input in inputArray)
-                {
-                    query = query
-                    .Where(ingr => ingr.Name.Contains(input))
-                    .OrderBy(ingr => ingr.Name);
-                }
+                IQueryable<Ingredient> query= this.GetByNamesQueryable(inputList);
 
                 result = query.To<T>().ToList();
             }
@@ -78,20 +70,14 @@
             return result;
         }
 
-        public IEnumerable<T> GetByIdList<T>(string inputList)
+        public IEnumerable<T> GetByIds<T>(string inputList)
         {
             List<string> inputArray = new List<string>();
             var result = new List<T>();
 
             if (!string.IsNullOrEmpty(inputList))
             {
-                inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                IQueryable<Ingredient> ingredients = this.ingredientRepository.All();
-
-                ingredients = from ingr in ingredients
-                          where inputArray.Any(input => ingr.Id.Equals(input))
-                          select ingr;
+                IQueryable<Ingredient> ingredients = this.GetByIdsQueryable(inputList);
 
                 result = ingredients.To<T>().ToList();
             }
@@ -151,5 +137,63 @@
             }
         }
 
+        public IEnumerable<T> GetByNamesAndIds<T>(string text, string ingredients)
+        {
+            IQueryable<Ingredient> varResultItems = this.ingredientRepository.All().OrderBy(x => x.Name);
+
+            bool isPrevFiltered = false;
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                isPrevFiltered = true;
+                var searchIngredientByNameResultItems = this.GetByNamesQueryable(text);
+
+                varResultItems = searchIngredientByNameResultItems;
+            }
+
+            if (!string.IsNullOrEmpty(ingredients))
+            {
+                var searchIngredientByNameResultItems = this.GetByIdsQueryable(ingredients);
+
+                if (isPrevFiltered)
+                {
+                    varResultItems = from objA in varResultItems
+                                      join objB in searchIngredientByNameResultItems on objA.Id equals objB.Id
+                                      select objA;
+                }
+                else
+                {
+                    varResultItems = searchIngredientByNameResultItems;
+                }
+            }
+
+            return varResultItems.To<T>().ToList();
+        }
+
+        private IQueryable<Ingredient> GetByIdsQueryable(string inputList)
+        {
+            var inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            var ingredients = this.ingredientRepository.All();
+            ingredients = from ingr in ingredients
+                          where inputArray.Any(input => ingr.Id.Equals(input))
+                          select ingr;
+            return ingredients;
+        }
+
+        private IQueryable<Ingredient> GetByNamesQueryable(string inputList)
+        {
+            var inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            var query = this.ingredientRepository.All();
+            foreach (string input in inputArray)
+            {
+                query = query
+                .Where(ingr => ingr.Name.Contains(input))
+                .OrderBy(ingr => ingr.Name);
+            }
+
+            return query;
+        }
     }
 }

@@ -11,7 +11,7 @@
     using RecipeBook.Services.Mapping;
     using RecipeBook.Web.ViewModels.IngredientsSet;
 
-    public class RecipeViewModel : IMapFrom<RecipeBook.Data.Models.Recipe>, IHaveCustomMappings
+    public class RecipeViewModel : IMapFrom<RecipeBook.Data.Models.Recipe>
     {
         public RecipeViewModel()
         {
@@ -43,21 +43,5 @@
         public DateTime LastCooked { get; set; }
 
         public TimeSpan PreparationTime { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration, IHttpContextAccessor httpContextAccessor)
-        {
-            configuration.CreateMap<Recipe, RecipeViewModel>()
-                .ForMember(vm => vm.TasteRate, options =>
-                {
-                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Taste && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
-                    (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).First<Vote>().Value : 0);
-                })
-                .ForMember(vm => vm.EasyRate, options =>
-                {
-                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Easy && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
-                    (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
-                    && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).First<Vote>().Value : 0);
-                });
-        }
     }
 }

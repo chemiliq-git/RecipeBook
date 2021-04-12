@@ -29,13 +29,13 @@
         {
             if (searchDataMode.ToUpper() == SearchDataModeEnum.Recipe.ToString().ToUpper())
             {
-               var searchRecipesResultItems = this.recipeService.GetByNamesList<IndexRecipeItemViewModel>(inputText).ToList();
+               var searchRecipesResultItems = this.recipeService.GetByNames<IndexRecipeItemViewModel>(inputText).ToList();
 
                return this.Json(searchRecipesResultItems);
             }
             else
             {
-                var searchRecipesResultItems = this.ingredientsService.GetByNamesList<IndexIngredientItemViewModel>(inputText).ToList();
+                var searchRecipesResultItems = this.ingredientsService.GetByNames<IndexIngredientItemViewModel>(inputText).ToList();
 
                 return this.Json(searchRecipesResultItems);
             }

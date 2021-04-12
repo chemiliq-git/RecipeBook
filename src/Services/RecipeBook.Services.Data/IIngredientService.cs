@@ -11,11 +11,13 @@
 
         IEnumerable<T> GetById<T>(string input);
 
-        IEnumerable<T> GetByIdList<T>(string input);
+        IEnumerable<T> GetByIds<T>(string input);
 
         IEnumerable<T> GetByName<T>(string input);
 
-        IEnumerable<T> GetByNamesList<T>(string input);
+        IEnumerable<T> GetByNames<T>(string input);
+
+        IEnumerable<T> GetByNamesAndIds<T>(string text, string ingredients);
 
         Task<bool> CreateAsync(Ingredient input);
 

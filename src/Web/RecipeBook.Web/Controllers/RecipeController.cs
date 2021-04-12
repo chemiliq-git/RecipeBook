@@ -72,21 +72,9 @@
                 return this.View(searchViewModel);
             }
 
-            if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
+            if (searchData != null)
             {
-                var searchRecipesByNameResultItems = this.recipeService.GetByName<IndexRecipeItemViewModel>(searchData.Text);
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<IndexRecipeItemViewModel>(searchData.Text);
-
-                searchViewModel.ResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems);
-            }
-            else if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
-            {
-                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<IndexRecipeItemViewModel>(searchData.RecipeTypes);
-                searchViewModel.ResultItems = searchRecipesByTypesResultItems;
-            }
-            else
-            {
-                searchViewModel.ResultItems = this.recipeService.GetAll<IndexRecipeItemViewModel>();
+                searchViewModel.ResultItems = this.recipeService.GetFromHomeSearchData<IndexRecipeItemViewModel>(searchData.Text, searchData.RecipeTypes);
             }
 
             searchViewModel.ResultItems = searchViewModel.ResultItems.OrderByDescending(result => result.RecipeScore);
@@ -239,59 +227,8 @@
 
             searchViewModel.SearchData = searchData;
 
-            //TODO change it
-            //if (!this.ModelState.IsValid)
-            //{
-            //    return this.View("Search", searchViewModel);
-            //}
-
-            List<IndexRecipeItemViewModel> varResultItems = this.recipeService.GetAll<IndexRecipeItemViewModel>().ToList();
-            bool isPrevFiltered = false;
-
-            if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
-            {
-                isPrevFiltered = true;
-                var searchRecipesByNameResultItems = this.recipeService.GetByNamesList<IndexRecipeItemViewModel>(searchData.Text);
-
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<IndexRecipeItemViewModel>(searchData.Text);
-
-                varResultItems = searchRecipesByNameResultItems.Union(searchRecipesByIngredientsResultItems).ToList();
-            }
-
-            if (searchData != null && !string.IsNullOrEmpty(searchData.RecipeTypes))
-            {
-                var searchRecipesByTypesResultItems = this.recipeService.GetByRecipeTypes<IndexRecipeItemViewModel>(searchData.RecipeTypes);
-
-                if (isPrevFiltered)
-                {
-                    varResultItems = (from objA in varResultItems
-                                      join objB in searchRecipesByTypesResultItems on objA.Id equals objB.Id
-                                      select objA).ToList();
-                }
-                else
-                {
-                    varResultItems = searchRecipesByTypesResultItems.ToList();
-                }
-
-                isPrevFiltered = true;
-            }
-
-            if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
-            {
-                var searchRecipesByIngredientsResultItems = this.recipeService.GetByIngredients<IndexRecipeItemViewModel>(searchData.Ingredients);
-
-                if (isPrevFiltered)
-                {
-                    varResultItems = (from objA in varResultItems
-                                      join objB in searchRecipesByIngredientsResultItems on objA.Id equals objB.Id
-                                      select objA).ToList();
-                }
-                else
-                {
-                    varResultItems = searchRecipesByIngredientsResultItems.ToList();
-                }
-            }
-
+            IEnumerable<IndexRecipeItemViewModel> varResultItems = this.recipeService.GetByNamesAndRecipeTypeIdsAndIngrIds<IndexRecipeItemViewModel>(
+                searchData.Text, searchData.RecipeTypes, searchData.Ingredients);
 
             searchViewModel.ResultItems = varResultItems.OrderByDescending(result => result.RecipeScore);
             var parView = this.PartialView("ResultList", searchViewModel);

@@ -3,7 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
+    using System.Security.Principal;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
     using RecipeBook.Data.Common.Repositories;
     using RecipeBook.Data.Models;
     using RecipeBook.Services.Mapping;
@@ -11,81 +14,108 @@
     public class RecipeService : IRecipeService
     {
         private readonly IDeletableEntityRepository<Recipe> recipeRepository;
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IIdentity identity;
 
-        public RecipeService(IDeletableEntityRepository<Recipe> recipeRepository)
+        public RecipeService(IDeletableEntityRepository<Recipe> recipeRepository, IHttpContextAccessor httpContextAccessor)
         {
             this.recipeRepository = recipeRepository;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public IEnumerable<T> GetAll<T>()
         {
-            IQueryable<Recipe> query =
-               this.recipeRepository.All().OrderBy(x => x.Name);
+            string currentUserUId = this.httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            return query.To<T>().ToList();
-        }
-
-        public IEnumerable<T> GetByName<T>(string input)
-        {
             IQueryable<Recipe> query =
                this.recipeRepository.All()
-                .Where(r => r.Name.Contains(input))
-                .OrderBy(x => x.Name);
+               .OrderBy(x => x.Name)
+               .Select(r => new Recipe
+               {
+                   Id = r.Id,
+                   Name = r.Name,
+                   Text = r.Text,
+                   ImagePath = r.ImagePath,
+                   IngredientSetId = r.IngredientSetId,
+                   LastCooked = r.LastCooked,
+                   DeletedOn = r.DeletedOn,
+                   ModifiedOn = r.ModifiedOn,
+                   CreatedOn = r.CreatedOn,
+                   IsDeleted = r.IsDeleted,
+                   IngredientRecipeTypeId = r.IngredientRecipeTypeId,
+                   IsInMenu = r.IsInMenu,
+                   RecipeTypeId = r.RecipeTypeId,
+                   PreparationTime = r.PreparationTime,
+                   RecipeType = r.RecipeType,
+                   IngredientSet = r.IngredientSet,
+                   Votes = r.Votes,
 
-            var result = query.To<T>().ToList();
+                   TasteRate = r.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
 
-            return result;
+                   EasyRate = r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+               }); 
+            return query.To<T>().ToList();
         }
 
         public T GetById<T>(string input)
         {
+            string currentUserUId = this.httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             IQueryable<Recipe> query =
                this.recipeRepository.All()
-                .Where(r => r.Id.Equals(input));
+                .Where(r => r.Id.Equals(input))
+                .Select(r => new Recipe
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    Text = r.Text,
+                    ImagePath = r.ImagePath,
+                    IngredientSetId = r.IngredientSetId,
+                    LastCooked = r.LastCooked,
+                    DeletedOn = r.DeletedOn,
+                    ModifiedOn = r.ModifiedOn,
+                    CreatedOn = r.CreatedOn,
+                    IsDeleted = r.IsDeleted,
+                    IngredientRecipeTypeId = r.IngredientRecipeTypeId,
+                    IsInMenu = r.IsInMenu,
+                    RecipeTypeId = r.RecipeTypeId,
+                    PreparationTime = r.PreparationTime,
+                    RecipeType = r.RecipeType,
+                    IngredientSet = r.IngredientSet,
+                    Votes = r.Votes,
+
+                    TasteRate = r.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                     && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+
+                    EasyRate = r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                     && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+                });
+
 
             var result = query.To<T>().ToList();
 
             return result[0];
         }
 
-        public IEnumerable<T> GetByNamesList<T>(string inputList)
+        public IEnumerable<T> GetByNames<T>(string inputList)
         {
             List<string> inputArray = new List<string>();
             var result = new List<T>();
 
             if (!string.IsNullOrEmpty(inputList))
             {
-                inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                IQueryable<Recipe> query = this.recipeRepository.All();
-                foreach (string input in inputArray)
-                {
-                    query = query
-                    .Where(r => r.Name.Contains(input))
-                    .OrderBy(r => r.Name);
-                }
-
+                var query = this.GetByNames(inputList);
                 result = query.To<T>().ToList();
-            }
-
-            return result;
-        }
-
-        public IEnumerable<T> GetByRecipeTypes<T>(string inputList)
-        {
-            List<string> inputArray = new List<string>();
-            var result = new List<T>();
-
-            if (!string.IsNullOrEmpty(inputList))
-            {
-                inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                IQueryable<Recipe> recipes = this.recipeRepository.All();
-                recipes = from recipe in recipes
-                         where inputArray.Any(input => recipe.RecipeTypeId.Equals(input))
-                         select recipe;
-
-                result = recipes.To<T>().ToList();
             }
 
             return result;
@@ -93,35 +123,155 @@
 
         public IEnumerable<T> GetByIsInMenu<T>()
         {
+            string currentUserUId = this.httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             List<string> inputArray = new List<string>();
             var result = new List<T>();
 
             var recipes = this.recipeRepository.All();
             recipes = from recipe in recipes
-                          where recipe.IsInMenu == true
-                          select recipe;
+                      where recipe.IsInMenu == true
+                      select new Recipe
+                      {
+                          Id = recipe.Id,
+                          Name = recipe.Name,
+                          Text = recipe.Text,
+                          ImagePath = recipe.ImagePath,
+                          IngredientSetId = recipe.IngredientSetId,
+                          LastCooked = recipe.LastCooked,
+                          DeletedOn = recipe.DeletedOn,
+                          ModifiedOn = recipe.ModifiedOn,
+                          CreatedOn = recipe.CreatedOn,
+                          IsDeleted = recipe.IsDeleted,
+                          IngredientRecipeTypeId = recipe.IngredientRecipeTypeId,
+                          IsInMenu = recipe.IsInMenu,
+                          RecipeTypeId = recipe.RecipeTypeId,
+                          PreparationTime = recipe.PreparationTime,
+                          RecipeType = recipe.RecipeType,
+                          IngredientSet = recipe.IngredientSet,
+                          Votes = recipe.Votes,
 
+                          TasteRate = recipe.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                          && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)recipe.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+
+                          EasyRate = recipe.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                          && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)recipe.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+                      };
             result = recipes.To<T>().ToList();
 
             return result;
         }
 
-        public IEnumerable<T> GetByIngredients<T>(string inputList)
+        public IEnumerable<T> GetFromHomeSearchData<T>(string text, string recipeTypes)
         {
-            List<string> inputArray = new List<string>();
-            var result = new List<T>();
-
-            if (!string.IsNullOrEmpty(inputList))
+            if (!string.IsNullOrEmpty(text))
             {
-                IQueryable<Recipe> recipes = this.recipeRepository.All();
-                recipes = from recipe in recipes
-                          where recipe.IngredientSet.IngredientSetItems.Any(ingrSetItem => inputList.Contains(ingrSetItem.IngredientID))
-                          select recipe;
+                var searchRecipesByNameResultItems = this.GetByName(text);
+                //var searchRecipesByIngredientsResultItems = this.GetByIngredientsNames(text);
 
-                result = recipes.To<T>().ToList();
+                IQueryable<Recipe> result = searchRecipesByNameResultItems;//.Union(searchRecipesByIngredientsResultItems);
+                return result.To<T>().ToList();
+            }
+            else if (!string.IsNullOrEmpty(recipeTypes))
+            {
+                List<T> result = this.GetByRecipeTypeIds<T>(recipeTypes).ToList();
+                return result;
+            }
+            else
+            {
+                List<T> result = this.GetAll<T>().ToList();
+                return result;
+            }
+        }
+
+        public IEnumerable<T> GetByNamesAndRecipeTypeIdsAndIngrIds<T>(string text, string recipeTypes, string ingredients)
+        {
+            string currentUserUId = this.httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            IQueryable<Recipe> varResultItems = this.recipeRepository.All()
+                .OrderBy(x => x.Name)
+               .Select(r => new Recipe
+               {
+                   Id = r.Id,
+                   Name = r.Name,
+                   Text = r.Text,
+                   ImagePath = r.ImagePath,
+                   IngredientSetId = r.IngredientSetId,
+                   LastCooked = r.LastCooked,
+                   DeletedOn = r.DeletedOn,
+                   ModifiedOn = r.ModifiedOn,
+                   CreatedOn = r.CreatedOn,
+                   IsDeleted = r.IsDeleted,
+                   IngredientRecipeTypeId = r.IngredientRecipeTypeId,
+                   IsInMenu = r.IsInMenu,
+                   RecipeTypeId = r.RecipeTypeId,
+                   PreparationTime = r.PreparationTime,
+                   RecipeType = r.RecipeType,
+                   IngredientSet = r.IngredientSet,
+                   Votes = r.Votes,
+
+                   TasteRate = r.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+
+                   EasyRate = r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+               });
+
+            bool isPrevFiltered = false;
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                isPrevFiltered = true;
+                var searchRecipesByNameResultItems = this.GetByNames(text);
+
+                //var searchRecipesByIngredientsResultItems = this.GetByIngredientsNames(text);
+
+                varResultItems = searchRecipesByNameResultItems;//.Union(searchRecipesByIngredientsResultItems);
             }
 
-            return result;
+            if (!string.IsNullOrEmpty(recipeTypes))
+            {
+                var searchRecipesByTypesResultItems = this.GetByRecipeTypeIds(recipeTypes);
+
+                if (isPrevFiltered)
+                {
+                    varResultItems = from objA in varResultItems
+                                     join objB in searchRecipesByTypesResultItems on objA.Id equals objB.Id
+                                     select objA;
+                }
+                else
+                {
+                    varResultItems = searchRecipesByTypesResultItems;
+                }
+
+                isPrevFiltered = true;
+            }
+
+            if (!string.IsNullOrEmpty(ingredients))
+            {
+                var searchRecipesByIngredientsResultItems = this.GetByIngredientsIds(ingredients);
+
+                if (isPrevFiltered)
+                {
+                    varResultItems = from objA in varResultItems
+                                     join objB in searchRecipesByIngredientsResultItems on objA.Id equals objB.Id
+                                     select objA;
+                }
+                else
+                {
+                    varResultItems = searchRecipesByIngredientsResultItems;
+                }
+            }
+
+            return varResultItems.To<T>().ToList();
         }
 
         public async Task<bool> CreateAsync(RecipeDataModel inputRecipe)
@@ -280,6 +430,187 @@
             {
                 return false;
             }
+        }
+
+        private IQueryable<Recipe> GetByRecipeTypeIds(string inputList)
+        {
+            string currentUserUId = this.httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            var recipes = this.recipeRepository.All();
+            recipes = from recipe in recipes
+                      where inputArray.Any(input => recipe.RecipeTypeId.Equals(input))
+                      select new Recipe
+                      {
+                          Id = recipe.Id,
+                          Name = recipe.Name,
+                          Text = recipe.Text,
+                          ImagePath = recipe.ImagePath,
+                          IngredientSetId = recipe.IngredientSetId,
+                          LastCooked = recipe.LastCooked,
+                          DeletedOn = recipe.DeletedOn,
+                          ModifiedOn = recipe.ModifiedOn,
+                          CreatedOn = recipe.CreatedOn,
+                          IsDeleted = recipe.IsDeleted,
+                          IngredientRecipeTypeId = recipe.IngredientRecipeTypeId,
+                          IsInMenu = recipe.IsInMenu,
+                          RecipeTypeId = recipe.RecipeTypeId,
+                          PreparationTime = recipe.PreparationTime,
+                          RecipeType = recipe.RecipeType,
+                          IngredientSet = recipe.IngredientSet,
+                          Votes = recipe.Votes,
+
+                          TasteRate = recipe.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                          && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)recipe.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+
+                          EasyRate = recipe.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                          && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)recipe.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+                      };
+
+            return recipes;
+        }
+
+        private IQueryable<Recipe> GetByIngredientsIds(string inputList)
+        {
+            string currentUserUId = this.httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            IQueryable<Recipe> recipes = this.recipeRepository.All();
+            recipes = from recipe in recipes
+                      where recipe.IngredientSet.IngredientSetItems.Any(ingrSetItem => inputList.Contains(ingrSetItem.IngredientID))
+                      select new Recipe
+                      {
+                          Id = recipe.Id,
+                          Name = recipe.Name,
+                          Text = recipe.Text,
+                          ImagePath = recipe.ImagePath,
+                          IngredientSetId = recipe.IngredientSetId,
+                          LastCooked = recipe.LastCooked,
+                          DeletedOn = recipe.DeletedOn,
+                          ModifiedOn = recipe.ModifiedOn,
+                          CreatedOn = recipe.CreatedOn,
+                          IsDeleted = recipe.IsDeleted,
+                          IngredientRecipeTypeId = recipe.IngredientRecipeTypeId,
+                          IsInMenu = recipe.IsInMenu,
+                          RecipeTypeId = recipe.RecipeTypeId,
+                          PreparationTime = recipe.PreparationTime,
+                          RecipeType = recipe.RecipeType,
+                          IngredientSet = recipe.IngredientSet,
+                          Votes = recipe.Votes,
+
+                          TasteRate = recipe.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                          && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)recipe.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+
+                          EasyRate = recipe.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                          && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)recipe.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+                      };
+            return recipes;
+        }
+
+        private IQueryable<Recipe> GetByName(string input)
+        {
+            string currentUserUId = this.httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return this.recipeRepository.All()
+                            .Where(r => r.Name.ToUpper().Contains(input.ToUpper()))
+                            .OrderBy(x => x.Name)
+                            .Select(r => new Recipe
+                            {
+                                Id = r.Id,
+                                Name = r.Name,
+                                Text = r.Text,
+                                ImagePath = r.ImagePath,
+                                IngredientSetId = r.IngredientSetId,
+                                LastCooked = r.LastCooked,
+                                DeletedOn = r.DeletedOn,
+                                ModifiedOn = r.ModifiedOn,
+                                CreatedOn = r.CreatedOn,
+                                IsDeleted = r.IsDeleted,
+                                IngredientRecipeTypeId = r.IngredientRecipeTypeId,
+                                IsInMenu = r.IsInMenu,
+                                RecipeTypeId = r.RecipeTypeId,
+                                PreparationTime = r.PreparationTime,
+                                RecipeType = r.RecipeType,
+                                IngredientSet = r.IngredientSet,
+                                Votes = r.Votes,
+
+                                TasteRate = r.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                                && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+
+                                EasyRate = r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                                && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+                            });
+        }
+
+        private IQueryable<Recipe> GetByNames(string inputList)
+        {
+            var inputArray = inputList.Split(new char[] { ',', ' ' }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
+            string currentUserUId = this.httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var query = this.recipeRepository.All();
+            foreach (string input in inputArray)
+            {
+                query = query
+                .Where(r => r.Name.ToUpper().Contains(input.ToUpper()))
+                .OrderBy(r => r.Name)
+               .Select(r => new Recipe
+               {
+                   Id = r.Id,
+                   Name = r.Name,
+                   Text = r.Text,
+                   ImagePath = r.ImagePath,
+                   IngredientSetId = r.IngredientSetId,
+                   LastCooked = r.LastCooked,
+                   DeletedOn = r.DeletedOn,
+                   ModifiedOn = r.ModifiedOn,
+                   CreatedOn = r.CreatedOn,
+                   IsDeleted = r.IsDeleted,
+                   IngredientRecipeTypeId = r.IngredientRecipeTypeId,
+                   IsInMenu = r.IsInMenu,
+                   RecipeTypeId = r.RecipeTypeId,
+                   PreparationTime = r.PreparationTime,
+                   RecipeType = r.RecipeType,
+                   IngredientSet = r.IngredientSet,
+                   Votes = r.Votes,
+
+                   TasteRate = r.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+
+                   EasyRate = r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).ToList().Count > 0 ?
+                   (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
+                   && v.UserId == currentUserUId).First<Vote>().Value : 0,
+               });
+            }
+
+            return query;
+        }
+
+        private IEnumerable<T> GetByRecipeTypeIds<T>(string inputList)
+        {
+            List<string> inputArray = new List<string>();
+            var result = new List<T>();
+
+            if (!string.IsNullOrEmpty(inputList))
+            {
+                var recipes = this.GetByRecipeTypeIds(inputList);
+                result = recipes.To<T>().ToList();
+            }
+
+            return result;
         }
     }
 }

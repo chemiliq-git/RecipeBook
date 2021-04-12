@@ -15,7 +15,7 @@
 
         public static IMapper MapperInstance { get; set; }
 
-        public static void RegisterMappings(IHttpContextAccessor httpContextAccessor, params Assembly[] assemblies)
+        public static void RegisterMappings(params Assembly[] assemblies)
         {
             if (initialized)
             {
@@ -46,7 +46,7 @@
                     // IHaveCustomMappings
                     foreach (var map in GetCustomMappings(types))
                     {
-                        map.CreateMappings(configuration, httpContextAccessor);
+                        map.CreateMappings(configuration);
                     }
                 });
             MapperInstance = new Mapper(new MapperConfiguration(config));

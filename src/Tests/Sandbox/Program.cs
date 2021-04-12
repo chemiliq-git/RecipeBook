@@ -3,8 +3,15 @@
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Reflection;
     using System.Threading.Tasks;
 
+    using CommandLine;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using RecipeBook.Data;
     using RecipeBook.Data.Common;
     using RecipeBook.Data.Common.Repositories;
@@ -12,14 +19,9 @@
     using RecipeBook.Data.Repositories;
     using RecipeBook.Data.Seeding;
     using RecipeBook.Services.Data;
+    using RecipeBook.Services.Mapping;
     using RecipeBook.Services.Messaging;
-
-    using CommandLine;
-
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
+    using RecipeBook.Web.ViewModels;
 
     public static class Program
     {
@@ -30,6 +32,10 @@
             ConfigureServices(serviceCollection);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider(true);
 
+            using (var serviceScope = serviceProvider.CreateScope())
+            {
+                AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            }
             // Seed data on application startup
             using (var serviceScope = serviceProvider.CreateScope())
             {

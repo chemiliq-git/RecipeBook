@@ -16,7 +16,7 @@
 
         public string NameAndValue { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration, IHttpContextAccessor httpContextAccessor)
+        public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Setting, SettingViewModel>().ForMember(
                 m => m.NameAndValue,

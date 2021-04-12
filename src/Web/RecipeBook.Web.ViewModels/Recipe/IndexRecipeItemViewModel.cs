@@ -37,20 +37,9 @@
 
         public bool IsInMenu { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration, IHttpContextAccessor httpContextAccessor)
+        public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Recipe, IndexRecipeItemViewModel>()
-                .ForMember(vm => vm.TasteRate, options =>
-                {
-                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Taste && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
-                    (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Taste && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).First<Vote>().Value : 0);
-                })
-                .ForMember(vm => vm.EasyRate, options =>
-                {
-                    options.MapFrom(r => (r.Votes.Where(v => v.Type == VoteTypeEnm.Easy && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Count > 0) ?
-                    (int)r.Votes.Where(v => v.Type == VoteTypeEnm.Easy
-                    && v.UserId == httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).First<Vote>().Value : 0);
-                })
                 .ForMember(vm => vm.LastCookedDays, options =>
                 {
                     options.MapFrom(r => (DateTime.Now - r.LastCooked).Days);

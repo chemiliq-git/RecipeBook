@@ -12,15 +12,13 @@
 
         T GetById<T>(string input);
 
-        IEnumerable<T> GetByName<T>(string input);
-
-        IEnumerable<T> GetByNamesList<T>(string inputList);
-
-        IEnumerable<T> GetByRecipeTypes<T>(string inputList);
-
-        IEnumerable<T> GetByIngredients<T>(string inputList);
+        IEnumerable<T> GetByNames<T>(string inputList);
 
         IEnumerable<T> GetByIsInMenu<T>();
+
+        IEnumerable<T> GetFromHomeSearchData<T>(string text, string recipeTypes);
+
+        IEnumerable<T> GetByNamesAndRecipeTypeIdsAndIngrIds<T>(string text, string recipeTypes, string ingredients);
 
         Task<bool> CreateAsync(RecipeDataModel input);
 

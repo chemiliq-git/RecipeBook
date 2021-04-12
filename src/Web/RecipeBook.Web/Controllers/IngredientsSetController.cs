@@ -254,33 +254,8 @@
 
             data.SearchData = searchData;
 
-            List<IndexIngredientItemViewModel> varResultItems = this.ingredientsService.GetAll<IndexIngredientItemViewModel>().ToList();
-            bool isPrevFiltered = false;
-
-            if (searchData != null && !string.IsNullOrEmpty(searchData.Text))
-            {
-                isPrevFiltered = true;
-                var searchIngredientByNameResultItems = this.ingredientsService.GetByNamesList<IndexIngredientItemViewModel>(searchData.Text);
-
-                varResultItems = searchIngredientByNameResultItems.ToList();
-            }
-
-            if (searchData != null && !string.IsNullOrEmpty(searchData.Ingredients))
-            {
-                var searchIngredientByNameResultItems = this.ingredientsService.GetByIdList<IndexIngredientItemViewModel>(searchData.Ingredients);
-
-                if (isPrevFiltered)
-                {
-                    varResultItems = (from objA in varResultItems
-                                      join objB in searchIngredientByNameResultItems on objA.Id equals objB.Id
-                                      select objA).ToList();
-                }
-                else
-                {
-                    varResultItems = searchIngredientByNameResultItems.ToList();
-                }
-            }
-
+            List<IndexIngredientItemViewModel> varResultItems = this.ingredientsService.GetByNamesAndIds<IndexIngredientItemViewModel>(searchData.Text,
+                searchData.Ingredients).ToList();
 
             data.SearchResultItems = varResultItems;
 

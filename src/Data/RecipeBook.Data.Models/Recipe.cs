@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using RecipeBook.Data.Common.Models;
 
     public class Recipe : BaseDeletableModel<string>
@@ -29,10 +30,16 @@
         public virtual IngredientsSet IngredientSet { get; set; }
 
         public virtual ICollection<Vote> Votes { get; set; }
+
         public DateTime LastCooked { get; set; }
 
         public bool IsInMenu { get; set; }
 
         public TimeSpan PreparationTime { get; set; }
+
+        [NotMapped]
+        public virtual int TasteRate { get; set; }
+        [NotMapped]
+        public virtual int EasyRate { get; set; } 
     }
 }
