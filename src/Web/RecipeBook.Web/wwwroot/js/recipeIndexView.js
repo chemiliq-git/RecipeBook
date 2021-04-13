@@ -15,10 +15,10 @@ class RecipeIndexViewHelper {
                 headers: { 'X-CSRF-TOKEN': token.toString() },
                 success: (result) => {
                     $('#partialView').html(result);
-                    let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                    let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
                     fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                     fTasteStarsVote.startListenToVote();
-                    let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                    let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
                     fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                     fEasyStarsVote.startListenToVote();
                 },
@@ -47,10 +47,10 @@ class RecipeIndexViewHelper {
                 headers: { 'X-CSRF-TOKEN': token.toString() },
                 success: (result) => {
                     $('#partialView').html(result);
-                    let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                    let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
                     fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                     fTasteStarsVote.startListenToVote();
-                    let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                    let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
                     fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                     fEasyStarsVote.startListenToVote();
                 },
@@ -66,10 +66,10 @@ class RecipeIndexViewHelper {
         let searchViewSideBar = new sideBar();
         searchViewSideBar.init("Recipe");
         searchViewSideBar.addEventListener('complete', this.onSideBarComplete);
-        let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+        let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
         fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
         fTasteStarsVote.startListenToVote();
-        let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+        let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
         fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
         fEasyStarsVote.startListenToVote();
     }
@@ -158,10 +158,10 @@ class RecipeIndexViewHelper {
                         headers: { 'X-CSRF-TOKEN': token.toString() },
                         success: (result) => {
                             $('#partialView').html(result);
-                            let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                            let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
                             fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                             fTasteStarsVote.startListenToVote();
-                            let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                            let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
                             fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                             fEasyStarsVote.startListenToVote();
                         }
@@ -206,10 +206,10 @@ class RecipeIndexViewHelper {
                         headers: { 'X-CSRF-TOKEN': token.toString() },
                         success: (result) => {
                             $('#partialView').html(result);
-                            let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                            let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
                             fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                             fTasteStarsVote.startListenToVote();
-                            let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                            let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
                             fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                             fEasyStarsVote.startListenToVote();
                         }

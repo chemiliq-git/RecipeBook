@@ -3,7 +3,7 @@
     name: string;
 }
 
-class autoCompleteSearch {
+class АutoCompleteSearch {
 
     private controlName: string;
     private searchDataMode: string;
@@ -13,8 +13,8 @@ class autoCompleteSearch {
         this.searchDataMode = searchDataMode;
     }
 
-    startListenOnKeyUp(this: autoCompleteSearch) {
-        let context: autoCompleteSearch = this;
+    startListenOnKeyUp(this: АutoCompleteSearch) {
+        let context: АutoCompleteSearch = this;
 
         $(this.controlName).keyup(function (event) {
             let input = $(context.controlName).val().toString();

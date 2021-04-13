@@ -1,4 +1,4 @@
-class dragDropImage {
+class DragDropImage {
     constructor(elementId, handleImageDroped, handleError) {
         this.elementId = elementId;
         this.handleImageDroped = handleImageDroped;

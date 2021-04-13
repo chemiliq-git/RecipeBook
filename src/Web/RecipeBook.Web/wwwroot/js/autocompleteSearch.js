@@ -1,4 +1,4 @@
-class autoCompleteSearch {
+class АutoCompleteSearch {
     constructor(controlName, searchDataMode) {
         this.controlName = controlName;
         this.searchDataMode = searchDataMode;

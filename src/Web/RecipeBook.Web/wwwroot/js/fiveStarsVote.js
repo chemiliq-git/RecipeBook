@@ -1,4 +1,4 @@
-class fiveStarsVote extends EventTarget {
+class FiveStarsVote extends EventTarget {
     constructor(iName) {
         super();
         this.itemName = iName;

@@ -1,10 +1,10 @@
 ﻿$(document).ready(function () {
-    let fTasteStarsVote = new fiveStarsVote("TasteRateStars");   
-    let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+    let fTasteStarsVote = new FiveStarsVote("TasteRateStars");   
+    let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
 
     let crImg = new CropImage(onImageCroped);
 
-    let dragDropImg = new dragDropImage('image_box', onImageDroped, onError);
+    let dragDropImg = new DragDropImage('image_box', onImageDroped, onError);
     dragDropImg.startListen();
 
     

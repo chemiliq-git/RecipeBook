@@ -21,11 +21,11 @@
             headers: { 'X-CSRF-TOKEN': token.toString() },
             success: (result) => {
                 $('#partialView').html(result);
-                let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
                 fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                 fTasteStarsVote.startListenToVote();
 
-                let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
                 fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                 fEasyStarsVote.startListenToVote();
             },
@@ -57,11 +57,11 @@
             headers: { 'X-CSRF-TOKEN': token.toString() },
             success: (result) => {
                 $('#partialView').html(result);
-                let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
                 fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                 fTasteStarsVote.startListenToVote();
 
-                let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
                 fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                 fEasyStarsVote.startListenToVote();
 
@@ -83,11 +83,11 @@
         searchViewSideBar.addEventListener('complete', this.onSideBarComplete);
 
 
-        let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+        let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
         fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
         fTasteStarsVote.startListenToVote();
 
-        let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+        let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
         fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
         fEasyStarsVote.startListenToVote();
     }
@@ -185,11 +185,11 @@
                         headers: { 'X-CSRF-TOKEN': token.toString() },
                         success: (result) => {
                             $('#partialView').html(result);
-                            let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                            let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
                             fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                             fTasteStarsVote.startListenToVote();
 
-                            let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                            let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
                             fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                             fEasyStarsVote.startListenToVote();
                         }
@@ -241,11 +241,11 @@
                         headers: { 'X-CSRF-TOKEN': token.toString() },
                         success: (result) => {
                             $('#partialView').html(result);
-                            let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+                            let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
                             fTasteStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                             fTasteStarsVote.startListenToVote();
 
-                            let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+                            let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
                             fEasyStarsVote.addEventListener('voteSuccess', this.onHomeVoteSuccess);
                             fEasyStarsVote.startListenToVote();
                         }

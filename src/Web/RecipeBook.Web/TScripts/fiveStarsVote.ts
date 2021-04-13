@@ -1,4 +1,4 @@
-﻿class fiveStarsVote extends EventTarget {
+﻿class FiveStarsVote extends EventTarget {
     private itemName: string    
 
     constructor(iName) {
@@ -31,7 +31,7 @@
 
     }
 
-    startListenToVote(this: fiveStarsVote) {
+    startListenToVote(this: FiveStarsVote) {
         let context = this;
         let allElements = $('[id^="' + this.itemName + '"]').toArray();
 

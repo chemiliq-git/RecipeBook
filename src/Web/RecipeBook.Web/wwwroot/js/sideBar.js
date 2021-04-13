@@ -1,7 +1,7 @@
 class sideBar extends EventTarget {
     init(searchDataMode) {
         this.startListenOnSideBarChange();
-        let myAutoCompleteSearch = new autoCompleteSearch("#searchBox", searchDataMode);
+        let myAutoCompleteSearch = new АutoCompleteSearch("#searchBox", searchDataMode);
         myAutoCompleteSearch.startListenOnKeyUp();
     }
     startListenOnSideBarChange() {

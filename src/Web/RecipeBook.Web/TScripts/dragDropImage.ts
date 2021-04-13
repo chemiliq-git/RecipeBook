@@ -1,4 +1,4 @@
-﻿class dragDropImage {
+﻿class DragDropImage {
     private handleImageDroped: (readerResult: string | ArrayBuffer) => void;
     private handleError: (error: string) => void;
     private elementId: string;
@@ -18,15 +18,15 @@
         item.addEventListener('drop', function (event) { context.handleDrop(event, context); }, false);
     }
 
-    private handleEnter(e: DragEvent, context: dragDropImage) {
+    private handleEnter(e: DragEvent, context: DragDropImage) {
         e.preventDefault();
     }
 
-    private handleOver(e: DragEvent, context: dragDropImage) {
+    private handleOver(e: DragEvent, context: DragDropImage) {
         e.preventDefault();
     }
 
-    private handleDrop(e: DragEvent, context: dragDropImage) {
+    private handleDrop(e: DragEvent, context: DragDropImage) {
         e.stopPropagation();
         e.preventDefault();
 

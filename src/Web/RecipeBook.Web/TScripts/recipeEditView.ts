@@ -1,12 +1,12 @@
 ﻿$(document).ready(function () {
-    let fTasteStarsVote = new fiveStarsVote("TasteRateStars");
+    let fTasteStarsVote = new FiveStarsVote("TasteRateStars");
     fTasteStarsVote.startListenToVote();
-    let fEasyStarsVote = new fiveStarsVote("EasyRateStars");
+    let fEasyStarsVote = new FiveStarsVote("EasyRateStars");
     fEasyStarsVote.startListenToVote();
 
     let crImg = new CropImage(onImageCroped);
 
-    let dragDropImg = new dragDropImage('image_box', onImageDroped, onError);
+    let dragDropImg = new DragDropImage('image_box', onImageDroped, onError);
     dragDropImg.startListen();
 
     let linkedId = $('#image_box').data('value');

@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     let crImg = new CropImage(onImageCroped);
 
-    let dragDropImg = new dragDropImage('image_box', onImageDroped, onError);
+    let dragDropImg = new DragDropImage('image_box', onImageDroped, onError);
     dragDropImg.startListen();
 
     let linkedId = $('#image_box').data('value');
