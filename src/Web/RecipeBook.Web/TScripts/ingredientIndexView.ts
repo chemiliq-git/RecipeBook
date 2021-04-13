@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     let searchViewSideBar = new sideBar();
-    searchViewSideBar.init("Ingredient");
+    searchViewSideBar.init(AutoCompleteSearchModeEnum.Ingredient.toString());
     searchViewSideBar.addEventListener('complete', (e: CustomEvent) => {
 
         let token = $("#keyForm input[name=__RequestVerificationToken]").val();

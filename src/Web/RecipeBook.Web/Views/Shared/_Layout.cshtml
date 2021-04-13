@@ -24,25 +24,25 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-					<ul class="navbar-nav flex-grow-1">
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Recipe" asp-action="Index">Recipes</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Recipe" asp-action="Create"><span class="badge rounded-pill badge-secondary p-1">New</span>Recipe</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Ingredients" asp-action="Index">Ingredients</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Ingredients" asp-action="Create"><span class="badge rounded-pill badge-secondary p-1">New</span>Ingredient</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Menu" asp-action="Index">
-								<i class="fas fa-utensils" aria-hidden="true"></i>Menu
-							</a>
-						</li>
-					</ul>
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Recipe" asp-action="Index">Recipes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Recipe" asp-action="Create"><span class="badge rounded-pill badge-secondary p-1">New</span>Recipe</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Ingredients" asp-action="Index">Ingredients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Ingredients" asp-action="Create"><span class="badge rounded-pill badge-secondary p-1">New</span>Ingredient</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Menu" asp-action="Index">
+                                <i class="fas fa-utensils" aria-hidden="true"></i>Menu
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -69,8 +69,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/lib/tinymce/tinymce.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap-toggle/js/bootstrap-toggle.js" asp-append-version="true"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/autoCompleteSearch.js" asp-append-version="true"></script>
+    <script src="~/js/const.js" asp-append-version="true"></script>
     <script src="~/lib/cropperjs/cropper.js" asp-append-version="true"></script>
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>

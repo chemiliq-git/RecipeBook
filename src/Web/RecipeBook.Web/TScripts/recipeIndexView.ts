@@ -79,7 +79,7 @@
         this.searchIngredients = searchIngredients
 
         let searchViewSideBar = new sideBar();
-        searchViewSideBar.init("Recipe");
+        searchViewSideBar.init(AutoCompleteSearchModeEnum.Recipe.toString());
         searchViewSideBar.addEventListener('complete', this.onSideBarComplete);
 
 

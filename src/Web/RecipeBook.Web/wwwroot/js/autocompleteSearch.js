@@ -8,11 +8,11 @@ class АutoCompleteSearch {
         $(this.controlName).keyup(function (event) {
             let input = $(context.controlName).val().toString();
             let formData = new FormData();
-            formData.append("inputText", input);
-            formData.append("searchDataMode", context.searchDataMode);
+            formData.append(Const.AUTOCOMPLETE_SEARCH_INPUT_TEXT, input);
+            formData.append(Const.AUTOCOMPLETE_SEARCH_DATA_MODE, context.searchDataMode);
             let token = $("#keyForm input[name=__RequestVerificationToken]").val();
             $.ajax({
-                url: "/api/AutocompleteSearch",
+                url: Const.AUTOCOMPLETE_SEARCH_URL,
                 data: formData,
                 processData: false,
                 contentType: false,
