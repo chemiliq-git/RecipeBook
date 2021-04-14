@@ -1,6 +1,7 @@
-﻿$(document).ready(
-    function () {
-        let myAutoCompleteSearch = new АutoCompleteSearch("#searchBox", AutoCompleteSearchModeEnum.Recipe.toString());
+﻿$(document).ready(   
+
+    function () {      
+        let myAutoCompleteSearch = new АutoCompleteSearch(Const.AUTOCOMLETE_SEARCH_BOX_ELEMENT_ID, AutoCompleteSearchModeEnum.Recipe.toString());
         myAutoCompleteSearch.startListenOnKeyUp();
 
     });

@@ -1,33 +1,45 @@
-﻿class CropImage { 
-    $modal = $('#modal');
-    private image = <HTMLImageElement>document.getElementById('sample_image');
+﻿class CropImage {    
+    private static readonly HIDE = 'hide';
+    private static readonly SHOW = 'show';
+    private static readonly SRC = 'src';
+    private static readonly PREVIEW = '.preview';
+    private static readonly SHOW_BS_MODAL = 'shown.bs.modal';
+    private static readonly HIDDEN_BS_MODAL = 'hidden.bs.modal';    
+    private static readonly CROP = 'crop';
+
+    private static readonly SAMPLE_IMAGE_ID = 'sample_image';
+    private static readonly UPLOADED_IMAGE_ID = '#uploaded_image';
+    private static readonly IMAGE_PATH_ID = "image_Path";
+
+    private $modal = $('#modal');
+    private image = <HTMLImageElement>document.getElementById(CropImage.SAMPLE_IMAGE_ID);
     private cr: Cropper;
-    private onImgCroped: (FileReader) => void ;
+    private onImgCroped: (FileReader) => void;
 
     constructor(onImageCroped: (FileReader) => void) {
         let context = this;
         this.onImgCroped = onImageCroped;
-        this.$modal.on('shown.bs.modal', function (event) { context.initCropper(); });
-        this.$modal.on('hidden.bs.modal', function (event) { context.destroyCropper(); });
-        $('#crop').click(function (event) { context.done(); });
+        this.$modal.on(CropImage.SHOW_BS_MODAL, function (event) { context.initCropper(); });
+        this.$modal.on(CropImage.HIDDEN_BS_MODAL, function (event) { context.destroyCropper(); });
+        $('#' + CropImage.CROP).click(function (event) { context.done(); });
     }
 
     start(data: string) {
         this.image.src = data;
-        (<any>this.$modal).modal('show')
+        (<any>this.$modal).modal(CropImage.SHOW)
     }
 
-    stop(data: string) {        
-        (<any>this.$modal).modal('hide');
-        $('#uploaded_image').attr('src', data);
-        document.getElementById("image_Path").setAttribute("value", data);
+    stop(data: string) {
+        (<any>this.$modal).modal(CropImage.HIDE);
+        $(CropImage.UPLOADED_IMAGE_ID).attr(CropImage.SRC, data);
+        document.getElementById(CropImage.IMAGE_PATH_ID).setAttribute(Const.HTML_ATTRIBUTE_VALUE_KEY, data);
     }
 
     private initCropper(this: CropImage) {
         this.cr = new Cropper(this.image, {
             aspectRatio: 1,
             viewMode: 0,
-            preview: '.preview'
+            preview: CropImage.PREVIEW
         });
        
     }

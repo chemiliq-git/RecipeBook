@@ -4,34 +4,37 @@
 }
 
 class АutoCompleteSearch {
+    private static readonly AUTOCOMPLETE_SEARCH_INPUT_TEXT: string = "inputText";
+    private static readonly AUTOCOMPLETE_SEARCH_DATA_MODE: string = "searchDataMode";
+    private static readonly AUTOCOMPLETE_SEARCH_URL: string = "/api/AutocompleteSearch";
 
-    private controlName: string;
+    private controlId: string;
     private searchDataMode: string;
 
-    constructor(controlName: string, searchDataMode: string) {        
-        this.controlName = controlName;
+    constructor(controlId: string, searchDataMode: string) {        
+        this.controlId = controlId;
         this.searchDataMode = searchDataMode;
     }
 
     startListenOnKeyUp(this: АutoCompleteSearch) {
         let context: АutoCompleteSearch = this;
 
-        $(this.controlName).keyup(function (event) {
-            let input = $(context.controlName).val().toString();
+        $('#'+ this.controlId).keyup(function (event) {
+            let input = $('#' + context.controlId).val().toString();
 
             let formData = new FormData();
-            formData.append(Const.AUTOCOMPLETE_SEARCH_INPUT_TEXT, input);
-            formData.append(Const.AUTOCOMPLETE_SEARCH_DATA_MODE, context.searchDataMode);
+            formData.append(АutoCompleteSearch.AUTOCOMPLETE_SEARCH_INPUT_TEXT, input);
+            formData.append(АutoCompleteSearch.AUTOCOMPLETE_SEARCH_DATA_MODE, context.searchDataMode);
             let token = $("#keyForm input[name=__RequestVerificationToken]").val();
-
+            
             $.ajax(
                 {
-                    url: Const.AUTOCOMPLETE_SEARCH_URL,
+                    url: АutoCompleteSearch.AUTOCOMPLETE_SEARCH_URL,
                     data: formData,
                     processData: false,
                     contentType: false,
-                    type: "POST",
-                    headers: { 'X-CSRF-TOKEN': token.toString() },
+                    type: Const.POST,
+                    headers: { 'X-CSRF-TOKEN' : token.toString() },
 
                     success: function (data: Array<ResultData>) {
                         var availableData = [];
@@ -39,7 +42,7 @@ class АutoCompleteSearch {
                             availableData.push({ id: element.id, label: element.name });
                         });
 
-                        $(context.controlName).autocomplete({
+                        $('#' + context.controlId).autocomplete({
                             source: availableData,
                             minLength: 2,
                             select: function (event, ui) {

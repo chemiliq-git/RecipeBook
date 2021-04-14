@@ -1,8 +1,11 @@
-﻿class sideBar extends EventTarget {
-   
+﻿class SideBar extends EventTarget {
+    private static readonly INGR_CHECKBOX_NAME = 'Ingr_Checkbox';
+    private static readonly INGR_TYPE_CHECKBOX_NAME = 'Ingr_Type_Checkbox_';
+    private static readonly RECIPE_TYPE_CHECKBOX_NAME = 'Recipe_Type_Checkbox_';
+
     init(searchDataMode: string) {
         this.startListenOnSideBarChange();
-        let myAutoCompleteSearch = new АutoCompleteSearch("#searchBox", searchDataMode);
+        let myAutoCompleteSearch = new АutoCompleteSearch(Const.AUTOCOMLETE_SEARCH_BOX_ELEMENT_ID, searchDataMode);
         myAutoCompleteSearch.startListenOnKeyUp();
     }
 
@@ -14,9 +17,9 @@
     search(e: JQuery.ChangeEvent): any {
         let currentElement = <HTMLInputElement>e.target
         let ingrs = $(currentElement).parent().attr('aria-controls');  
-        let allInpuCheckBoxes = $("input[name^='Ingr_Checkbox']").toArray();
+        let allInpuCheckBoxes = $("input[name^=" + SideBar.INGR_CHECKBOX_NAME + "]").toArray();
 
-        if (currentElement.name.indexOf('Ingr_Type_Checkbox_') == 0 && currentElement.checked) {              
+        if (currentElement.name.indexOf(SideBar.INGR_TYPE_CHECKBOX_NAME) == 0 && currentElement.checked) {              
             
             allInpuCheckBoxes.forEach(function (Element) {
                 let element = <HTMLInputElement>Element
@@ -27,7 +30,7 @@
             
             //$("input[name^='Ingr_Checkbox']").prop("checked", true)
         }
-        else if (currentElement.name.indexOf('Ingr_Type_Checkbox_') == 0 && !currentElement.checked) {
+        else if (currentElement.name.indexOf(SideBar.INGR_TYPE_CHECKBOX_NAME) == 0 && !currentElement.checked) {
             //$("input[name^='Ingr_Checkbox']").prop("checked", false)
             allInpuCheckBoxes.forEach(function (Element) {
                 let element = <HTMLInputElement>Element
@@ -41,9 +44,9 @@
         let formData = new FormData();
 
         let text = $('input[type="text"]').prop("value");
-        formData.append("Text", text);
+        formData.append(SideBarSearchFieldEnum.Text, text);
 
-        let checkedElements = $("input[name^='Recipe_Type_Checkbox']:checked")
+        let checkedElements = $("input[name^=" + SideBar.RECIPE_TYPE_CHECKBOX_NAME +"]:checked")
         let checkedElementsIds = '';
         if (checkedElements.length > 0) {
 
@@ -54,10 +57,10 @@
 
             checkedElementsIds = checkedElementsIds.substr(0, checkedElementsIds.length - 1);
         }
-        formData.append("RecipeTypes", checkedElementsIds);
+        formData.append(SideBarSearchFieldEnum.RecipeTypes, checkedElementsIds);
 
 
-        checkedElements = $("input[name^='Ingr_Checkbox']:checked")
+        checkedElements = $("input[name^=" + SideBar.INGR_CHECKBOX_NAME + "]:checked")
         checkedElementsIds = '';
         if (checkedElements.length > 0) {
 
@@ -68,8 +71,8 @@
 
             checkedElementsIds = checkedElementsIds.substr(0, checkedElementsIds.length - 1);
         }
-        formData.append("Ingredients", checkedElementsIds);
+        formData.append(SideBarSearchFieldEnum.Ingredients, checkedElementsIds);
 
-        this.dispatchEvent(new CustomEvent('complete', { detail: { formData: formData } }));
+        this.dispatchEvent(new CustomEvent(Const.SIDE_BAR_COMPLETE_EVENT_NAME, { detail: { formData: formData } }));
     };
 }

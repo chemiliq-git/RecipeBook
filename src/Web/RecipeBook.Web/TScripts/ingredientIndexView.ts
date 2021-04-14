@@ -1,20 +1,22 @@
 ﻿$(document).ready(function () {
-    let searchViewSideBar = new sideBar();
+    const INGREDIENTS_SIDEBAR_SEARCH_URL = "/Ingredients/SideBarSearch";
+
+    let searchViewSideBar = new SideBar();
     searchViewSideBar.init(AutoCompleteSearchModeEnum.Ingredient.toString());
-    searchViewSideBar.addEventListener('complete', (e: CustomEvent) => {
+    searchViewSideBar.addEventListener(Const.SIDE_BAR_COMPLETE_EVENT_NAME, (e: CustomEvent) => {
 
         let token = $("#keyForm input[name=__RequestVerificationToken]").val();
         let data = e.detail.formData as FormData;
 
         $.ajax({
-            url: "/Ingredients/SideBarSearch",
+            url: INGREDIENTS_SIDEBAR_SEARCH_URL,
             data: data,
             processData: false,
             contentType: false,
-            type: "POST",
+            type: Const.POST,
             headers: { 'X-CSRF-TOKEN': token.toString() },
             success: (result) => {
-                $('#partialView').html(result);
+                $('#' + Const.PARTIAL_VIEW_ID).html(result);
             },
             error: function (result) {
                 //TODO 

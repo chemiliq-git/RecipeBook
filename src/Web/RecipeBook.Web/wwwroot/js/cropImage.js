@@ -1,27 +1,27 @@
 class CropImage {
     constructor(onImageCroped) {
         this.$modal = $('#modal');
-        this.image = document.getElementById('sample_image');
+        this.image = document.getElementById(CropImage.SAMPLE_IMAGE_ID);
         let context = this;
         this.onImgCroped = onImageCroped;
-        this.$modal.on('shown.bs.modal', function (event) { context.initCropper(); });
-        this.$modal.on('hidden.bs.modal', function (event) { context.destroyCropper(); });
-        $('#crop').click(function (event) { context.done(); });
+        this.$modal.on(CropImage.SHOW_BS_MODAL, function (event) { context.initCropper(); });
+        this.$modal.on(CropImage.HIDDEN_BS_MODAL, function (event) { context.destroyCropper(); });
+        $('#' + CropImage.CROP).click(function (event) { context.done(); });
     }
     start(data) {
         this.image.src = data;
-        this.$modal.modal('show');
+        this.$modal.modal(CropImage.SHOW);
     }
     stop(data) {
-        this.$modal.modal('hide');
-        $('#uploaded_image').attr('src', data);
-        document.getElementById("image_Path").setAttribute("value", data);
+        this.$modal.modal(CropImage.HIDE);
+        $(CropImage.UPLOADED_IMAGE_ID).attr(CropImage.SRC, data);
+        document.getElementById(CropImage.IMAGE_PATH_ID).setAttribute(Const.HTML_ATTRIBUTE_VALUE_KEY, data);
     }
     initCropper() {
         this.cr = new Cropper(this.image, {
             aspectRatio: 1,
             viewMode: 0,
-            preview: '.preview'
+            preview: CropImage.PREVIEW
         });
     }
     destroyCropper() {
@@ -48,4 +48,14 @@ class CropImage {
     }
     ;
 }
+CropImage.HIDE = 'hide';
+CropImage.SHOW = 'show';
+CropImage.SRC = 'src';
+CropImage.PREVIEW = '.preview';
+CropImage.SHOW_BS_MODAL = 'shown.bs.modal';
+CropImage.HIDDEN_BS_MODAL = 'hidden.bs.modal';
+CropImage.CROP = 'crop';
+CropImage.SAMPLE_IMAGE_ID = 'sample_image';
+CropImage.UPLOADED_IMAGE_ID = '#uploaded_image';
+CropImage.IMAGE_PATH_ID = "image_Path";
 //# sourceMappingURL=cropImage.js.map
