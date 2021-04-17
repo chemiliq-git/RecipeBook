@@ -38,7 +38,7 @@ class АutoCompleteSearch {
 
                     success: function (data: Array<ResultData>) {
                         var availableData = [];
-                        data.forEach((element) => {
+                        data?.forEach((element) => {
                             availableData.push({ id: element.id, label: element.name });
                         });
 

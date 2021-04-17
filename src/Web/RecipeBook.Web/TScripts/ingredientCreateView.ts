@@ -27,8 +27,8 @@
             processData: false,
             contentType: false,
             headers: { 'X-CSRF-TOKEN': token.toString() },
-            success: function (data) {
-                crImg.stop(data);
+            success: function (result) {
+                crImg.stop(result);
             },
             error: function (error) {
                 if (error.status == Const.NO_AUTHENTICATION_ERROR_NUMBER) {

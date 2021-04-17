@@ -8,7 +8,7 @@
     private static readonly CROP = 'crop';
 
     private static readonly SAMPLE_IMAGE_ID = 'sample_image';
-    private static readonly UPLOADED_IMAGE_ID = '#uploaded_image';
+    private static readonly UPLOADED_IMAGE_ID = 'uploaded_image';
     private static readonly IMAGE_PATH_ID = "image_Path";
 
     private $modal = $('#modal');
@@ -31,7 +31,7 @@
 
     stop(data: string) {
         (<any>this.$modal).modal(CropImage.HIDE);
-        $(CropImage.UPLOADED_IMAGE_ID).attr(CropImage.SRC, data);
+        $("#" + CropImage.UPLOADED_IMAGE_ID).attr(CropImage.SRC, data);
         document.getElementById(CropImage.IMAGE_PATH_ID).setAttribute(Const.HTML_ATTRIBUTE_VALUE_KEY, data);
     }
 
