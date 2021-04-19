@@ -4,7 +4,7 @@ const INGREDIENTS_SET_ADD_URL = "/IngredientsSet/Add";
 const INGREDIENTS_SET_ITEMS_LIST_PARTIAL_VIEW_ID = 'IngredientsSetItemsListPartialView';
 const INGREDIENTS_ITEM_SELECTED_ID_KEY = 'selectedId';
 const INGREDIENTS_SET_ITEM_MODEL_DATA_KEY = 'modelData';
-const MODEL_DATA_ELEMENET_ID = 'modelData';
+const MODEL_DATA_ELEMENET_ID = 'model_data';
 
 $(document).ready(function () {   
     const INGREDIENTS_SET_SIDE_BAR_SEARCH_URL = "/IngredientsSet/SideBarSearch";

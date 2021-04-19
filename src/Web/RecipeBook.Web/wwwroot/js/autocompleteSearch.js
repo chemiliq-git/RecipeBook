@@ -20,7 +20,7 @@ class АutoCompleteSearch {
                 headers: { 'X-CSRF-TOKEN': token.toString() },
                 success: function (data) {
                     var availableData = [];
-                    data.forEach((element) => {
+                    data?.forEach((element) => {
                         availableData.push({ id: element.id, label: element.name });
                     });
                     $('#' + context.controlId).autocomplete({
