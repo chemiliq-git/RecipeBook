@@ -21,7 +21,7 @@ class DragDropImage {
         e.stopPropagation();
         e.preventDefault();
         let files = e.dataTransfer.files;
-        if (files && files.length == 1 && files[0][DragDropImage.TYPE].split('/')[0] === DragDropImage.IMAGE) {
+        if (files && files.length == 1 && files[0][Const.FILE_MEDIA_TYPE_KEY].split('/')[0] === Const.FILE_IMAGE_TYPE_KEY) {
             let reader = new FileReader();
             reader.onload = function (event) {
                 context.handleImageDroped(reader.result);
@@ -37,6 +37,4 @@ DragDropImage.DRAG_ENTER_EVENT_NAME = 'dragenter';
 DragDropImage.DRAG_OVER_EVENT_NAME = 'dragover';
 DragDropImage.DRAG_DROP_EVENT_NAME = 'drop';
 DragDropImage.ERROR_MSG = 'error';
-DragDropImage.IMAGE = "image";
-DragDropImage.TYPE = "type";
 //# sourceMappingURL=dragDropImage.js.map

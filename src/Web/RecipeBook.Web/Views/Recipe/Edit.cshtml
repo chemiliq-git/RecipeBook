@@ -17,13 +17,31 @@
                     @{ if (string.IsNullOrEmpty(Model.ImagePath))
                         {
                             <img id="uploaded_image" class="img-fluid" src="~/images/PlaceHolder680x680.jpg" alt="No image here" width="680" height="680" draggable="true">
+                            <div class="row">
+                                <div class="col-12 pl-4 pr-4 pt-4">
+                                    <label>Change image: DRAG and DROP OR </label>
+                                </div>
+                                <div class="col-12 pl-4 pr-4 pb-4">
+                                    <input id="file-selector" accept="image/*" style="text-align-last:left" type="file">
+                                </div>
+                            </div>
                         }
                         else
                         {
                             <img id="uploaded_image" class="img-fluid" src="@Model.ImagePath" alt="No image here" width="680" height="680" draggable="true">
+                            
+                                <div class="row">
+                                    <div class="col-12 pl-4 pr-4 pt-4">
+                                        <label>Change image: DRAG and DROP OR </label>
+                                    </div>
+                                    <div class="col-12 pl-4 pr-4 pb-4">
+                                        <input id="file-selector" accept="image/*" style="text-align-last:left" type="file">
+                                    </div>
+                                </div>
+                            
+                            }
                         }
-                    }
-                </div>
+                            </div>
             </div>
             <div class="col-md-4 col-lg-5">
                 <div class="row h-100">
@@ -216,4 +234,5 @@
     <script src="~/js/fiveStarsVote.js" asp-append-version="true"></script>
     <script src="~/js/imageDataKeyEnum.js" asp-append-version="true"></script>
     <script src="~/js/imageTypeEnum.js" asp-append-version="true"></script>
+    <script src="~/js/imagefileSelector.js" asp-append-version="true"></script>
 }

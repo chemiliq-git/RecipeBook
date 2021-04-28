@@ -3,14 +3,13 @@
     private static readonly DRAG_OVER_EVENT_NAME = 'dragover';
     private static readonly DRAG_DROP_EVENT_NAME = 'drop';
     private static readonly ERROR_MSG = 'error';
-    private static readonly IMAGE: string = "image";
-    private static readonly TYPE: string = "type";
+    
 
     private handleImageDroped: (readerResult: string | ArrayBuffer) => void;
     private handleError: (error: string) => void;
     private elementId: string;
 
-    constructor(elementId: string, handleImageDroped, handleError) {
+    constructor(elementId: string, handleImageDroped: (readerResult: string | ArrayBuffer) => void, handleError: (error: string) => void) {
         this.elementId = elementId;
         this.handleImageDroped = handleImageDroped;
         this.handleError = handleError;
@@ -39,7 +38,7 @@
 
         let files = e.dataTransfer.files;
 
-        if (files && files.length == 1 && files[0][DragDropImage.TYPE].split('/')[0] === DragDropImage.IMAGE) {
+        if (files && files.length == 1 && files[0][Const.FILE_MEDIA_TYPE_KEY].split('/')[0] === Const.FILE_IMAGE_TYPE_KEY) {
 
             let reader = new FileReader();
             reader.onload = function (event) {

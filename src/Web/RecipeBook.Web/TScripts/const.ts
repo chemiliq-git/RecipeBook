@@ -21,4 +21,7 @@
     static readonly FORM_KEY_FORM_ID = "";
 
     static readonly DRAG_DROP_IMAGE_BOX_ID = 'image_box';
+
+    static readonly FILE_MEDIA_TYPE_KEY = "type";
+    static readonly FILE_IMAGE_TYPE_KEY = "image";
 }

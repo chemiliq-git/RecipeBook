@@ -4,6 +4,9 @@
     let dragDropImg = new DragDropImage(Const.DRAG_DROP_IMAGE_BOX_ID, onImageDroped, onError);
     dragDropImg.startListen();
 
+    let imageFileSelector = new ImageFileSelector(Const.DRAG_DROP_IMAGE_BOX_ID, onImageDroped, onError);
+    imageFileSelector.startListen();
+
     let linkedId = $('#' + Const.DRAG_DROP_IMAGE_BOX_ID).data(Const.HTML_ATTRIBUTE_VALUE_KEY);
     let token = $("#keyForm input[name=__RequestVerificationToken]").val();
 

@@ -13,7 +13,33 @@
         <div class="row">
             <div class="col-md-8 col-lg-7 pb-4">
                 <div class="card card-inverse card-primary" id="image_box" data-value="@Model.Id">
-                    <img id="uploaded_image" class="img-fluid text-center" src="@Model.ImagePath" alt="Image" width="680" height="680" draggable="true">
+                    @{ if (string.IsNullOrEmpty(Model.ImagePath))
+                        {
+                            <img id="uploaded_image" class="img-fluid" src="~/images/PlaceHolder680x680.jpg" alt="No image here" width="680" height="680" draggable="true">
+                            <div class="row">
+                                <div class="col-12 pl-4 pr-4 pt-4">
+                                    <label>Change image: DRAG and DROP OR </label>
+                                </div>
+                                <div class="col-12 pl-4 pr-4 pb-4">
+                                    <input id="file-selector" accept="image/*" style="text-align-last:left" type="file">
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <img id="uploaded_image" class="img-fluid" src="@Model.ImagePath" alt="No image here" width="680" height="680" draggable="true">
+
+                            <div class="row">
+                                <div class="col-12 pl-4 pr-4 pt-4">
+                                    <label>Change image: DRAG and DROP OR </label>
+                                </div>
+                                <div class="col-12 pl-4 pr-4 pb-4">
+                                    <input id="file-selector" accept="image/*" style="text-align-last:left" type="file">
+                                </div>
+                            </div>
+
+                        }
+                    }
                 </div>
             </div>
             <div class="col-md-4 col-lg-5">
@@ -102,5 +128,6 @@
     <script src="~/js/dragDropImage.js" asp-append-version="true"></script>
     <script src="~/js/imageDataKeyEnum.js" asp-append-version="true"></script>
     <script src="~/js/imageTypeEnum.js" asp-append-version="true"></script>
+    <script src="~/js/imagefileSelector.js" asp-append-version="true"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

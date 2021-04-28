@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+    
+
     let fTasteStarsVote = new FiveStarsVote(Const.FIVE_STARS_VOTE_TASTE_RATE_ELEMENT_ID);
     let fEasyStarsVote = new FiveStarsVote(Const.FIVE_STARS_VOTE_EASY_RATE_ELEMENT_ID);
 
@@ -7,7 +9,8 @@
     let dragDropImg = new DragDropImage(Const.DRAG_DROP_IMAGE_BOX_ID, onImageDroped, onError);
     dragDropImg.startListen();
 
-    
+    let imageFileSelector = new ImageFileSelector(Const.DRAG_DROP_IMAGE_BOX_ID, onImageDroped, onError);
+    imageFileSelector.startListen();
 
     let linkedId = $('#' + Const.DRAG_DROP_IMAGE_BOX_ID).data(Const.HTML_ATTRIBUTE_VALUE_KEY);
     let token = $("#keyForm input[name=__RequestVerificationToken]").val();
