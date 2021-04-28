@@ -447,7 +447,7 @@
             var service = new RecipeService(mockRecipeRepository.Object, mockHttpContextAccessor.Object);
             AutoMapperConfig.RegisterMappings(typeof(TestRecipe).GetTypeInfo().Assembly);
 
-            var result = service.GetByNamesAndRecipeTypeIdsAndIngrIds<TestRecipe>(FIRST_TEST_RECIPE_NAME_BEAN_SOUP, RECIPE_TYPE_UID_DESSERTS,
+            var result = service.GetByNamesAndRecipeTypeIdsAndIngrIds<TestRecipe>(FIRST_TEST_RECIPE_NAME_BEAN_SOUP, RECIPE_TYPE_UID_MAINDISHES,
                 "568,54");
             Assert.Equal(FIRST_TEST_RECIPE_UID, result.ToList()[0].Id);
             mockRecipeRepository.Verify();
