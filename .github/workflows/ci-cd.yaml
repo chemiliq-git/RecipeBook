@@ -3,7 +3,7 @@ name: Continupus Integration and Continupus  Delpoy
 on:
   push:
     branches:
-      -main
+      - main
 
 jobs:
   build: 
@@ -15,7 +15,7 @@ jobs:
       
 
       - name: Setup .Net 5
-       - uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.x'
 
