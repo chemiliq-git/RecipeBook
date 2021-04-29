@@ -31,7 +31,7 @@ jobs:
       #   run: npm install cropperjs
 
       - name: npm cropperjs install
-        run: npm install @types/cropperjs
+        run: npm install cropperjs -g
 
       - name: npm jqueryui install
         run: npm i --save-dev @types/jqueryui@1.12.13
