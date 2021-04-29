@@ -27,5 +27,8 @@ jobs:
       - name: npm jquery install
         run: npm i --save-dev @types/jquery
 
+      - name: npm cropperjs install
+        run: npm install cropperjs
+
       - name: Build app
         run: dotnet build ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj -c Release --no-restore
