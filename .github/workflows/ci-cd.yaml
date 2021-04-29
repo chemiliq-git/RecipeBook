@@ -1,4 +1,4 @@
-name: Continupus Integration and Delpoy
+name: Continupus Integration and Continupus Delpoy
 
 on:
   push:
