@@ -21,5 +21,11 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj
 
+      - name: npm install
+        uses: jaid/action-npm-install@v1.2.1
+
+      - name: npm jquery install
+        run: npm i --save-dev @types/jquery
+
       - name: Build app
         run: dotnet build ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj -c Release --no-restore
