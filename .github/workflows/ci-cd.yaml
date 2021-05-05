@@ -37,7 +37,8 @@ jobs:
         run: npm install cropperjs
 
       - name: move cropperjs
-        run: cp /home/runner/work/RecipeBook/RecipeBook/src/Web/RecipeBook.Web/node_modules/cropperjs /home/runner/work/RecipeBook/RecipeBook/src/Web/RecipeBook.Web/node_modules/@types/cropperjs
-
+        # run: cp /home/runner/work/RecipeBook/RecipeBook/src/Web/RecipeBook.Web/node_modules/cropperjs /home/runner/work/RecipeBook/RecipeBook/src/Web/RecipeBook.Web/node_modules/@types/cropperjs
+        run: ls /home/runner/work/RecipeBook
+        
       - name: Build app
         run: dotnet build ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj -c Release --no-restore
