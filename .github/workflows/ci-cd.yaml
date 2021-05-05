@@ -33,10 +33,10 @@ jobs:
       - name: npm jqueryui install
         run: npm i --save-dev @types/jqueryui@1.12.13
 
-        - name: npm cropperjs install
+      - name: npm cropperjs install
         run: npm install cropperjs
 
-        -name: move cropperjs
+      - name: move cropperjs
         run: cp ./src/Web/RecipeBook.Web/node_modules/cropperjs ./src/Web/RecipeBook.Web/node_modules/@types/cropperjs
 
       - name: Build app
