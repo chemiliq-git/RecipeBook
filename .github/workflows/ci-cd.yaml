@@ -43,4 +43,4 @@ jobs:
         run: dotnet build ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj -c Release --no-restore
 
       - name: Automated tests
-        run: dotnet test ./src/Tests/RecipeBook.Services.Data.Tests
+        run: dotnet test ./src/Tests/RecipeBook.Services.Data.Tests/RecipeBook.Servies.Data.Tests.csproj -c Release --no-build
