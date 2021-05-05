@@ -50,8 +50,8 @@ jobs:
 
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v2
-        wiht: 
+        with: 
           app-name: MyRecipeScheduler
           publish-profile: ${{secrets.AZURE_MYRECIPESCHEDULER_PUBLISH_SECRET}}
           package: ./out
-          
+
