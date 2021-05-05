@@ -44,3 +44,14 @@ jobs:
 
       - name: Automated tests
         run: dotnet test ./src/Tests/RecipeBook.Services.Data.Tests/RecipeBook.Servies.Data.Tests.csproj -c Release --no-build
+
+      - name: Publish app
+        run: dotnet publish ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj -c Release -o ./out
+
+      - name: Deploy to Azure WebApp
+        uses: azure/webapps-deploy@v2
+        wiht: 
+          app-name: MyRecipeScheduler
+          publish-profile: ${{secrets.AZURE_MYRECIPESCHEDULER_PUBLISH_SECRET}}
+          package: ./out
+          
