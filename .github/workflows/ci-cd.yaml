@@ -32,7 +32,7 @@ jobs:
 
       - name: npm jqueryui install
         run: npm i --save-dev @types/jqueryui@1.12.13
-        
+
 
       - name: npm cropperjs install
         run: npm install cropperjs
@@ -45,7 +45,6 @@ jobs:
 
       - name: Automated tests
         run: dotnet test ./src/Tests/RecipeBook.Services.Data.Tests/RecipeBook.Services.Data.Tests.csproj -c Release --no-build
-
 
       - name: Publish app
         run: dotnet publish ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj -c Release -o ./out
