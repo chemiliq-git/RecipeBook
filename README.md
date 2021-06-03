@@ -9,7 +9,7 @@ Web application based on [ASP.Net Core template](https://github.com/NikolayIT/AS
 * **.Net 5**(MVC architecture)
 * **Repository pattern** for data accessing
 * **Entity Framework Core 5** for object-database mapper
-* **Automapper** for view model to data model mapping
+* **Automapper** for view model-data model mapping
 * Unity testing with **xUnit** and **Moq**
 * **Bootstrap**, **jQuery**
 
