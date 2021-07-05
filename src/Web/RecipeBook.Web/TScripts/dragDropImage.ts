@@ -16,23 +16,22 @@
     }
 
     startListen() {
-        let context = this;
-        let item = document.getElementById(context.elementId);
+        let item = document.getElementById(this.elementId);
 
-        item.addEventListener(DragDropImage.DRAG_ENTER_EVENT_NAME, function (event) { context.handleEnter(event, context); }, false);
-        item.addEventListener(DragDropImage.DRAG_OVER_EVENT_NAME, function (event) { context.handleOver(event, context); }, false);
-        item.addEventListener(DragDropImage.DRAG_DROP_EVENT_NAME, function (event) { context.handleDrop(event, context); }, false);
+        item.addEventListener(DragDropImage.DRAG_ENTER_EVENT_NAME, (e) => { this.handleEnter(e) }, false);
+        item.addEventListener(DragDropImage.DRAG_OVER_EVENT_NAME, (e) => { this.handleOver(e) }, false);
+        item.addEventListener(DragDropImage.DRAG_DROP_EVENT_NAME, (e) => { this.handleDrop(e) }, false);
     }
 
-    private handleEnter(e: DragEvent, context: DragDropImage) {
+    private handleEnter(e: DragEvent) {
         e.preventDefault();
     }
 
-    private handleOver(e: DragEvent, context: DragDropImage) {
+    private handleOver(e: DragEvent) {
         e.preventDefault();
     }
 
-    private handleDrop(e: DragEvent, context: DragDropImage) {
+    private handleDrop(e: DragEvent) {
         e.stopPropagation();
         e.preventDefault();
 
@@ -41,13 +40,13 @@
         if (files && files.length == 1 && files[0][Const.FILE_MEDIA_TYPE_KEY].split('/')[0] === Const.FILE_IMAGE_TYPE_KEY) {
 
             let reader = new FileReader();
-            reader.onload = function (event) {
-                context.handleImageDroped(reader.result);
+            reader.onload = (event) => {
+                this.handleImageDroped(reader.result);
             };
             reader.readAsDataURL(files[0]);
         }
         else {
-            context.handleError(DragDropImage.ERROR_MSG);
+            this.handleError(DragDropImage.ERROR_MSG);
         }
     }
 }

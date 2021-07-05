@@ -47,16 +47,15 @@
     }
 
     startListenToVote(this: FiveStarsVote) {
-        let context = this;
         let allElements = $('[id^="' + this.itemId + '"]').toArray();
 
-        allElements.forEach(function (Element) {
+        allElements.forEach((Element) => {
 
             let stars = $(Element).children('li.star');
             for (let i = 0; i < stars.length; i++) {
-                stars[i].addEventListener(FiveStarsVote.MOUSE_OVER_EVENT_NAME, (event) => { context.onStartMouseOver(event.target as HTMLElement); }, false);
-                stars[i].addEventListener(FiveStarsVote.MOUSE_OUT_EVENT_NAME, (event) => { context.onStartMouseOut(event.target as HTMLElement); }, false);
-                stars[i].addEventListener(FiveStarsVote.CLICK_EVENT_NAME, (event) => { context.onStarClick(event.target as HTMLElement); }, false);
+                stars[i].addEventListener(FiveStarsVote.MOUSE_OVER_EVENT_NAME, (event) => { this.onStartMouseOver(event.target as HTMLElement); }, false);
+                stars[i].addEventListener(FiveStarsVote.MOUSE_OUT_EVENT_NAME, (event) => { this.onStartMouseOut(event.target as HTMLElement); }, false);
+                stars[i].addEventListener(FiveStarsVote.CLICK_EVENT_NAME, (event) => { this.onStarClick(event.target as HTMLElement); }, false);
             }
         });
     }

@@ -17,11 +17,10 @@
     private onImgCroped: (FileReader) => void;
 
     constructor(onImageCroped: (FileReader) => void) {
-        let context = this;
         this.onImgCroped = onImageCroped;
-        this.$modal.on(CropImage.SHOW_BS_MODAL, function (event) { context.initCropper(); });
-        this.$modal.on(CropImage.HIDDEN_BS_MODAL, function (event) { context.destroyCropper(); });
-        $('#' + CropImage.CROP).click(function (event) { context.done(); });
+        this.$modal.on(CropImage.SHOW_BS_MODAL, () => { this.initCropper() });
+        this.$modal.on(CropImage.HIDDEN_BS_MODAL, () => { this.destroyCropper() });
+        $('#' + CropImage.CROP).click(() => { this.done() });
     }
 
     start(data: string) {
@@ -41,7 +40,7 @@
             viewMode: 0,
             preview: CropImage.PREVIEW
         });
-       
+
     }
 
     private destroyCropper(this: CropImage) {
@@ -49,21 +48,20 @@
         this.cr = null;
     }
 
-    private done(this: CropImage) {
-        let context = this;
-        let canvas = context.cr.getCroppedCanvas({
+    private done(this: CropImage) {       
+        let canvas = this.cr.getCroppedCanvas({
             width: 680,
             height: 680
         });
 
         if (canvas != null) {
-            canvas.toBlob(function (blob) {
+            canvas.toBlob((blob) => {
                 let url = URL.createObjectURL(blob);
                 let reader = new FileReader();
                 reader.readAsDataURL(blob);
                 reader.onloadend =
                     () => {
-                        context.onImgCroped(reader);
+                        this.onImgCroped(reader);
                     }
 
             });

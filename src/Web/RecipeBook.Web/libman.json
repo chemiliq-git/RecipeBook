@@ -60,12 +60,7 @@
       "provider": "cdnjs",
       "library": "popper.js@1.9.9",
       "destination": "wwwroot/lib/popper.js/"
-    },
-    {
-      "provider": "cdnjs",
-      "library": "cropperjs@1.5.9",
-      "destination": "wwwroot/cropperjs/"
-    },
+    },    
     {
       "provider": "cdnjs",
       "library": "bootstrap-toggle@2.2.2",

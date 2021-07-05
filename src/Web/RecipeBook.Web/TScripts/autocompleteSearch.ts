@@ -17,14 +17,14 @@ class АutoCompleteSearch {
     }
 
     startListenOnKeyUp(this: АutoCompleteSearch) {
-        let context: АutoCompleteSearch = this;
+        
 
-        $('#'+ this.controlId).keyup(function (event) {
-            let input = $('#' + context.controlId).val().toString();
+        $('#'+ this.controlId).keyup((event) => {
+            let input = $('#' + this.controlId).val().toString();
 
             let formData = new FormData();
             formData.append(АutoCompleteSearch.AUTOCOMPLETE_SEARCH_INPUT_TEXT, input);
-            formData.append(АutoCompleteSearch.AUTOCOMPLETE_SEARCH_DATA_MODE, context.searchDataMode);
+            formData.append(АutoCompleteSearch.AUTOCOMPLETE_SEARCH_DATA_MODE, this.searchDataMode);
             let token = $("#keyForm input[name=__RequestVerificationToken]").val();
             
             $.ajax(
@@ -36,13 +36,13 @@ class АutoCompleteSearch {
                     type: Const.POST,
                     headers: { 'X-CSRF-TOKEN' : token.toString() },
 
-                    success: function (data: Array<ResultData>) {
+                    success: (data: Array<ResultData>) => {
                         var availableData = [];
                         data?.forEach((element) => {
                             availableData.push({ id: element.id, label: element.name });
                         });
 
-                        $('#' + context.controlId).autocomplete({
+                        $('#' + this.controlId).autocomplete({
                             source: availableData,
                             minLength: 2,
                             select: function (event, ui) {

@@ -16,23 +16,10 @@
     public class HomeController : Controller
     {
         private readonly IRecipeTypeService recipeTypeService;
-        private readonly IRecipeService recipeService;
-        private readonly IIngredientService ingredientsService;
-        private readonly IIngredientTypeService ingredientTypeService;
-        private readonly IVoteService voteService;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly ICookingHistoryService cookingHistoryService;
 
-        public HomeController(IRecipeTypeService recipeTypeService, IRecipeService recipeService, IIngredientService ingredientsService,
-            IIngredientTypeService ingredientTypeService, IVoteService voteService, UserManager<ApplicationUser> userManager, ICookingHistoryService cookingHistoryService)
+        public HomeController(IRecipeTypeService recipeTypeService)
         {
             this.recipeTypeService = recipeTypeService;
-            this.recipeService = recipeService;
-            this.ingredientsService = ingredientsService;
-            this.ingredientTypeService = ingredientTypeService;
-            this.voteService = voteService;
-            this.userManager = userManager;
-            this.cookingHistoryService = cookingHistoryService;
         }
 
         [Authorize]
