@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@
     using RecipeBook.Data.Seeding;
     using RecipeBook.Services.Data;
     using RecipeBook.Services.Mapping;
-    using RecipeBook.Services.Messaging;
+    //using RecipeBook.Services.Messaging;
     using RecipeBook.Web.ViewModels;
 
     public class Startup
@@ -56,6 +57,9 @@
             {
                 options.HeaderName = "X-CSRF-TOKEN";
             });
+
+            services.Configure<AuthMessageSenderOptions>(this.configuration);
+
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -75,9 +79,9 @@
             services.AddScoped<ICookingHistoryService, CookingHistoryService>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddTransient<ISettingsService, SettingsService>();
-
+            
             // services.Configure<IISOptions>(options =>
             // {
             //    options.AutomaticAuthentication = true;

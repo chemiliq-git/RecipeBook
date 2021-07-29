@@ -22,7 +22,6 @@ class FiveStarsVote extends EventTarget {
         });
     }
     startListenToVote() {
-        //let context = this;
         let allElements = $('[id^="' + this.itemId + '"]').toArray();
         allElements.forEach((Element) => {
             let stars = $(Element).children('li.star');

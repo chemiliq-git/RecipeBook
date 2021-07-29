@@ -1,15 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-RecipeBook-BBB373B5-EF3F-4DBB-B8AA-7152CEC275BF</UserSecretsId>
-    <LangVersion>latest</LangVersion>
+    <TargetFramework>net5.0</TargetFramework>    
+    <UserSecretsId>a7b4325d-b116-4fc8-b378-0bff60228824</UserSecretsId>
+    <LangVersion>latest</LangVersion>    
   </PropertyGroup>
 
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
     <AssemblyName>RecipeBook.Web</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Services\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+    <TypeScriptCompile Remove="Services\**" />
+  </ItemGroup>  
 
   <ItemGroup>
     <Compile Remove="Controllers\SideBarController.cs" />
@@ -45,6 +53,7 @@
     <ProjectReference Include="..\..\RecipeBook.Common\RecipeBook.Common.csproj" />
     <ProjectReference Include="..\..\Data\RecipeBook.Data.Models\RecipeBook.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\RecipeBook.Data\RecipeBook.Data.csproj" />
+    <ProjectReference Include="..\..\RecipeBook.Services.CoreMessaging\RecipeBook.Services.CoreMessaging.csproj" />
     <ProjectReference Include="..\..\Services\RecipeBook.Services.Data\RecipeBook.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\RecipeBook.Services.Mapping\RecipeBook.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\RecipeBook.Services.Messaging\RecipeBook.Services.Messaging.csproj" />
