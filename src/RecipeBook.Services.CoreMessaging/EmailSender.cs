@@ -5,17 +5,19 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace RecipeBook.Services.Data
 {
     public class EmailSender : IEmailSender
     {
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
+        private readonly ILogger<EmailSender> logger;
+        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
+        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor, ILogger<EmailSender> logger)
         {
             Options = optionsAccessor.Value;
+            this.logger = logger;
         }
-
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
@@ -24,7 +26,7 @@ namespace RecipeBook.Services.Data
 
         private async Task Execute(string email, string subject, string htmlMessage)
         {
-            Console.WriteLine($"FromName: {Options.Name}, ToEmail:{email} ");
+            this.logger.LogInformation($"-----------------------------FromName: {Options.Name}, ToEmail:{email} ");
             MailjetClient client = new MailjetClient(Options.APIKey, Options.APISecret)
             {               
             };
