@@ -467,15 +467,5 @@ src/Web/RecipeBook.Web/wwwroot/images/SoupsOld.jpg
 src/Web/RecipeBook.Web/wwwroot/images/Vanilla-Yogurt-Panna-Cotta-with-Warm-Berry-Sauce.jpg
 src/Web/RecipeBook.Web/wwwroot/images/Vegan-Panna-Cotta-11.jpg
 src/Web/RecipeBook.Web/wwwroot/images/yogurt-panna-cotta-nourished-kitchen-post.jpg
-src/Web/RecipeBook.Web/Areas/Identity/Pages/Account/_ViewImports.cshtml
-src/Web/RecipeBook.Web/Areas/Identity/Pages/Account/ConfirmEmail.cshtml
-src/Web/RecipeBook.Web/Areas/Identity/Pages/Account/ConfirmEmail.cshtml.cs
-src/Web/RecipeBook.Web/Areas/Identity/Pages/Account/ForgotPassword.cshtml
-src/Web/RecipeBook.Web/Areas/Identity/Pages/Account/ForgotPassword.cshtml.cs
-src/Web/RecipeBook.Web/Areas/Identity/Pages/Account/Login.cshtml
-src/Web/RecipeBook.Web/Areas/Identity/Pages/Account/Login.cshtml.cs
-src/Web/RecipeBook.Web/Areas/Identity/IdentityHostingStartup.cs
-src/Web/RecipeBook.Web/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml
-src/Web/RecipeBook.Web/Areas/Identity/Pages/_ViewImports.cshtml
 src/Web/RecipeBook.Web/Services/AuthMessageSenderOptions.cs
 src/Web/RecipeBook.Web/Services/EmailSender.cs
