@@ -24,9 +24,9 @@ namespace RecipeBook.Services.Data
 
         private async Task Execute(string email, string subject, string htmlMessage)
         {
+            Console.WriteLine($"FromName: {Options.Name}, ToEmail:{email} ");
             MailjetClient client = new MailjetClient(Options.APIKey, Options.APISecret)
-            {
-                //Version = ApiVersion.V3_1,
+            {               
             };
             MailjetRequest request = new MailjetRequest
             {
