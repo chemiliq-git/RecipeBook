@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using RecipeBook.Data.Models;
+using Microsoft.Extensions.Logging;
 
 namespace RecipeBook.Web.Areas.Identity.Pages.Account
 {
@@ -19,11 +20,13 @@ namespace RecipeBook.Web.Areas.Identity.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly ILogger<ForgotPasswordModel> logger;
 
-        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender, ILogger<ForgotPasswordModel> logger)
         {
-            _userManager = userManager;
-            _emailSender = emailSender;
+            this._userManager = userManager;
+            this._emailSender = emailSender;
+            this.logger = logger;
         }
 
         [BindProperty]
@@ -57,6 +60,7 @@ namespace RecipeBook.Web.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
+                this.logger.LogInformation($"-----------------------------Go to SendEmailAsync");
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
