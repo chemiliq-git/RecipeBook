@@ -53,7 +53,7 @@ jobs:
       - name: App Settings Variable Substitution
         uses: microsoft/variable-substitution@v1
         with:
-          files: ./src/Web/RecipeBook.Web/appsettings.json
+          files: ./src/Web/RecipeBook.Web/appsettings.Release.json
         env:
           Name: "some_name"
           #${{ secrets.MAILJET_SENDER_OPTIONS_NAME }}
