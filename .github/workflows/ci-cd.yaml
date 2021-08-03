@@ -55,7 +55,8 @@ jobs:
         with:
           files: ./src/Web/RecipeBook.Web/appsettings.json
         env:
-          Name: ${{ secrets.MAILJET_SENDER_OPTIONS_NAME }}
+          Name: "some_name"
+          #${{ secrets.MAILJET_SENDER_OPTIONS_NAME }}
           APISecret: ${{ secrets.MAILJET_SENDER_OPTIONS_API_SECRET }}
           APIKey: ${{ secrets.MAILJET_SENDER_OPTIONS_API_KEY }}
           Email: ${{ secrets.MAILJET_SENDER_OPTIONS_EMAIL }}

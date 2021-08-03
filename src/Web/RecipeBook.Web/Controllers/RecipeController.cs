@@ -36,7 +36,6 @@
         [Authorize]
         public ActionResult Index()
         {
-            this.logger.LogInformation($"-----------------------------Test_RecipeController_log");
             var searchViewModel = new IndexViewModel();
             searchViewModel.SearchData = new SearchDataModel();
             searchViewModel.SearchData.Mode = SearchDataModeEnum.Recipe;
