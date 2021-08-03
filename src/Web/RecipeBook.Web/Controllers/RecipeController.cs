@@ -12,6 +12,7 @@
     using RecipeBook.Services.Data;
     using RecipeBook.Web.ViewModels.Recipe;
     using RecipeBook.Web.ViewModels.Common;
+    using Microsoft.Extensions.Logging;
 
     public class RecipeController : Controller
     {
@@ -19,17 +20,23 @@
         private readonly IRecipeTypeService recipeTypeService;
         private readonly ICookingHistoryService cookingHistoryService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<RecipeController> logger;
 
-        public RecipeController(IRecipeService recipeService, IRecipeTypeService recipeTypeService, ICookingHistoryService cookingHistoryService, UserManager<ApplicationUser> userManager)
+        public RecipeController(IRecipeService recipeService, IRecipeTypeService recipeTypeService, 
+            ICookingHistoryService cookingHistoryService, UserManager<ApplicationUser> userManager, 
+            ILogger<RecipeController> logger)
         {
             this.recipeService = recipeService;
             this.recipeTypeService = recipeTypeService;
             this.cookingHistoryService = cookingHistoryService;
             this.userManager = userManager;
+            this.logger = logger;
         }
 
+        [Authorize]
         public ActionResult Index()
         {
+            this.logger.LogInformation($"-----------------------------Test_RecipeController_log");
             var searchViewModel = new IndexViewModel();
             searchViewModel.SearchData = new SearchDataModel();
             searchViewModel.SearchData.Mode = SearchDataModeEnum.Recipe;
