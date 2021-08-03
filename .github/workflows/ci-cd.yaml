@@ -51,6 +51,7 @@ jobs:
         run: dotnet publish ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj -c Release -o ./out
 
       - name: App Settings Variable Substitution
+        uses: actions/checkout@v2
         uses: microsoft/variable-substitution@v1
         with:
           files: './src/Web/RecipeBook.Web/appsettings.Release.json'
