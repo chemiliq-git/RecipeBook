@@ -49,8 +49,8 @@ jobs:
           APISecret: ${{ secrets.MAILJET_SENDER_OPTIONS_API_SECRET }}
           APIKey: ${{ secrets.MAILJET_SENDER_OPTIONS_API_KEY }}
           Email: ${{ secrets.MAILJET_SENDER_OPTIONS_EMAIL }}
-          Authentication: Google: ClientId: ${{ secrets.GOOGLE_OAUT_CLIENT_ID }}
-          Authentication: Google: ClientSecret: ${{ secrets.GOOGLE_OAUT_CLIENT_SECRET }}
+          Authentication.Google.ClientId: ${{ secrets.GOOGLE_OAUT_CLIENT_ID }}
+          Authentication.Google.ClientSecret: ${{ secrets.GOOGLE_OAUT_CLIENT_SECRET }}
 
       - name: Build app
         run: dotnet build ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj -c Release --no-restore
