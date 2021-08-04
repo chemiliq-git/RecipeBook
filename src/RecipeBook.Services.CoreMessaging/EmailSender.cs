@@ -26,7 +26,6 @@ namespace RecipeBook.Services.Data
 
         private async Task Execute(string email, string subject, string htmlMessage)
         {
-            this.logger.LogInformation($"-----------------------------FromName: {Options.Name}, ToEmail:{email} ");
             MailjetClient client = new MailjetClient(Options.APIKey, Options.APISecret)
             {               
             };

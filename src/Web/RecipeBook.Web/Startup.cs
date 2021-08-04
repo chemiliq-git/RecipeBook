@@ -81,7 +81,16 @@
             // Application services
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddTransient<ISettingsService, SettingsService>();
-            
+
+
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection =
+                    this.configuration.GetSection("Authentication:Google");
+
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+            });
             // services.Configure<IISOptions>(options =>
             // {
             //    options.AutomaticAuthentication = true;

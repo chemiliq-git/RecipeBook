@@ -60,7 +60,6 @@ namespace RecipeBook.Web.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                this.logger.LogInformation($"-----------------------------Go to SendEmailAsync");
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
