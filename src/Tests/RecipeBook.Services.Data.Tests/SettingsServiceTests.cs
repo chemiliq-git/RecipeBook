@@ -42,7 +42,8 @@
 
             using var repository = new EfDeletableEntityRepository<Setting>(dbContext);
             var service = new SettingsService(repository);
-            Assert.Equal(3, service.GetCount());
+            //Assert.Equal(3, service.GetCount());
+            Assert.False(true);
         }
     }
 }
