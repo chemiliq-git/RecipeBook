@@ -4,17 +4,11 @@ on:
   push:
     branches:
       - main
-    
-    # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
 jobs:
   build:     
     
     runs-on: ubuntu-latest
-    env:
-      config: 'Release'
-      
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -22,7 +16,7 @@ jobs:
       - name: Setup .Net 5
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.101'
+          dotnet-version: '5.0.x'
 
       - name: Restore dependencies
         run: |
@@ -66,11 +60,12 @@ jobs:
       - name: Automated tests
         run: dotnet test ./src/Tests/RecipeBook.Services.Data.Tests/RecipeBook.Services.Data.Tests.csproj --no-restore
      
-      # run tests with built project
-      - name: Test PR      
-        run: |
-          cd ./src/Tests/RecipeBook.Services.Data.Tests/
-          dotnet test --no-restore
-      
       - name: Publish app
         run: dotnet publish ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj -c Release -o ./out
+
+      - name: Deploy to Azure WebApp
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: MyRecipeScheduler
+          publish-profile: ${{secrets.AZURE_MYRECIPESCHEDULER_PUBLISH_SECRET}}
+          package: ./out
