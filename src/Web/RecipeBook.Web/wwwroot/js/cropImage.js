@@ -17,11 +17,11 @@ class CropImage {
         document.getElementById(CropImage.IMAGE_PATH_ID).setAttribute(Const.HTML_ATTRIBUTE_VALUE_KEY, data);
     }
     initCropper() {
-        this.cr = new Cropper(this.image, {
-            aspectRatio: 1,
-            viewMode: 0,
-            preview: CropImage.PREVIEW
-        });
+        //this.cr = new Cropper(this.image, {
+        //    aspectRatio: 1,
+        //    viewMode: 0,
+        //    preview: CropImage.PREVIEW
+        //});
     }
     destroyCropper() {
         this.cr.destroy();

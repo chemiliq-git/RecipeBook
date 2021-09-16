@@ -13,7 +13,7 @@
 
     private $modal = $('#modal');
     private image = <HTMLImageElement>document.getElementById(CropImage.SAMPLE_IMAGE_ID);
-    private cr: Cropper;
+    private cr: any;
     private onImgCroped: (FileReader) => void;
 
     constructor(onImageCroped: (FileReader) => void) {
@@ -35,11 +35,11 @@
     }
 
     private initCropper(this: CropImage) {
-        this.cr = new Cropper(this.image, {
-            aspectRatio: 1,
-            viewMode: 0,
-            preview: CropImage.PREVIEW
-        });
+        //this.cr = new Cropper(this.image, {
+        //    aspectRatio: 1,
+        //    viewMode: 0,
+        //    preview: CropImage.PREVIEW
+        //});
 
     }
 
