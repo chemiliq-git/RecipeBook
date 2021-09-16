@@ -25,7 +25,9 @@ jobs:
           dotnet-version: '5.0.101'
 
       - name: Restore dependencies
-        run: dotnet restore ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj
+        run: |
+            dotnet restore ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj
+            dotnet restore ./src/Tests/RecipeBook.Services.Data.Tests/RecipeBook.Services.Data.Tests.csproj
 
       - name: npm install
         uses: jaid/action-npm-install@v1.2.1
