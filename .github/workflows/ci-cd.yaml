@@ -66,7 +66,9 @@ jobs:
      
       # run tests with built project
       - name: Test PR      
-        run: dotnet test --no-restore
+        run: |
+          cd ./src/Tests/RecipeBook.Services.Data.Tests/
+          dotnet test --no-restore
       
       - name: Publish app
         run: dotnet publish ./src/Web/RecipeBook.Web/RecipeBook.Web.csproj -c Release -o ./out
